@@ -14,5 +14,7 @@ exclude = '''
   | buck-out
   | build
   | dist
+  | src/cri_api
+  | src/github
 )/
 '''
