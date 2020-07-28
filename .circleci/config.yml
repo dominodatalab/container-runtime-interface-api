@@ -1,0 +1,54 @@
+version: 2.1
+
+cache_key: &cache_key v1-pipfile-{{ checksum "Pipfile.lock" }}
+
+orbs:
+  cri-api:
+    executors:
+      python:
+        docker:
+          - image: circleci/python:3.8
+    jobs:
+      unit-tests:
+        executor: python
+        steps:
+          - checkout
+          - restore_cache:
+              key: *cache_key
+          - run:
+              name: Install pip dependencies
+              command: pipenv install --dev --deploy
+          - save_cache:
+              key: *cache_key
+              paths:
+                - ".venv"
+          - run:
+              name: "Run unit tests"
+              command: pipenv run pytest --junitxml=./tests/reports/junit-test-report.xml
+          - run:
+              name: "Ensure code is correctly formatted"
+              command: pipenv run black --check .
+          - store_test_results:
+              path: tests/reports
+      publish:
+        executor: python
+        steps:
+          - checkout
+          - restore_cache:
+              key: *cache_key
+          - run:
+              name: Install pip dependencies
+              command: pipenv install --dev --deploy
+
+workflows:
+  unit-build-publish:
+    jobs:
+      - cri-api/unit-tests
+      - cri-api/publish:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /.*/
+          requires:
+            - cri-api/unit-tests

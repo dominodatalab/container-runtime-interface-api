@@ -1,0 +1,26 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.1.0
+    hooks:
+      - id: check-ast
+      - id: check-builtin-literals
+      - id: check-docstring-first
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: flake8
+        args: ['--count']
+      - id: forbid-new-submodules
+      - id: mixed-line-ending
+      - id: no-commit-to-branch
+        args: [-b master]
+      - id: requirements-txt-fixer
+      - id: trailing-whitespace
+  - repo: https://github.com/psf/black
+    rev: stable
+    hooks:
+      - id: black
+        language_version: python3.8
+  - repo: https://github.com/timothycrosley/isort
+    rev: v5.2.0
+    hooks:
+      - id: isort
