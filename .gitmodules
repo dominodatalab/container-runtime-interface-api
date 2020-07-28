@@ -1,0 +1,6 @@
+[submodule "vendor/github.com/gogo/protobuf"]
+	path = vendor/github.com/gogo/protobuf
+	url = https://github.com/gogo/protobuf.git
+[submodule "vendor/cri-api"]
+	path = vendor/cri-api
+	url = https://github.com/kubernetes/cri-api.git
