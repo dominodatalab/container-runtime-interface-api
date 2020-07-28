@@ -7,8 +7,6 @@ repos:
       - id: check-docstring-first
       - id: detect-private-key
       - id: end-of-file-fixer
-      - id: flake8
-        args: ['--count']
       - id: forbid-new-submodules
       - id: mixed-line-ending
       - id: no-commit-to-branch
@@ -21,6 +19,10 @@ repos:
       - id: black
         language_version: python3.8
   - repo: https://github.com/timothycrosley/isort
-    rev: v5.2.0
+    rev: 5.2.0
     hooks:
       - id: isort
+  - repo: https://gitlab.com/pycqa/flake8
+    rev: 3.8.3
+    hooks:
+      - id: flake8
