@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import List, Optional
 
+from google.protobuf.json_format import MessageToDict
 from grpc import RpcError, StatusCode
 
 from .channel import Channel
@@ -25,15 +26,15 @@ class Images:
     def list_images(self) -> List[Image]:
         try:
             response = self.stub.ListImages(ListImagesRequest())
-            return response.images
+            return MessageToDict(response).get("images", [])
         except RpcError as e:
             raise ImageServiceException(e.code(), e.details()) from e
 
-    def get_image(self, image_ref: str) -> Image:
+    def get_image(self, image_ref: str) -> Optional[Image]:
         image_spec = ImageSpec(image=image_ref)
         try:
             response = self.stub.ImageStatus(ImageStatusRequest(image=image_spec))
-            return response.image
+            return MessageToDict(response).get("image")
         except RpcError as e:
             raise ImageServiceException(e.code(), e.details()) from e
 

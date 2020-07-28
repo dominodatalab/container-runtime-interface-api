@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import List, Optional
 
+from google.protobuf.json_format import MessageToDict
 from grpc import RpcError, StatusCode
 
 from .channel import Channel
@@ -24,14 +25,14 @@ class Containers:
     def list_containers(self, filter: Optional[ContainerFilter] = None) -> List[Container]:
         try:
             response = self.stub.ListContainers(ListContainersRequest(filter=filter))
-            return response.containers
+            return MessageToDict(response).get("containers", [])
         except RpcError as e:
             raise ContainerServiceException(e.code(), e.details()) from e
 
-    def get_container(self, container_id: str) -> ContainerStatus:
+    def get_container(self, container_id: str) -> Optional[ContainerStatus]:
         try:
             response = self.stub.ContainerStatus(ContainerStatusRequest(container_id=container_id))
-            return response.status
+            return MessageToDict(response).get("status")
         except RpcError as e:
             raise ContainerServiceException(e.code(), e.details()) from e
 
