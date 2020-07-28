@@ -4,9 +4,10 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [packages]
-boto3 = "~=1.9.204"
+container-runtime-interface-api = {editable = true, path = "."}
 
 [dev-packages]
+grpcio-tools = "~=1.30.0"
 black = ">19.10<20.0" # Allows pipenv to install prerelease packages
 pre-commit = "*"
 pytest = "*"

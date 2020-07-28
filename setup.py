@@ -5,8 +5,9 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="container-runtime-interface-api",
-    packages=["container-runtime-interface-api"],
+    packages=["cri_api"],
     package_dir={"": "src"},
+    install_requires=["grpcio~=1.30.0", "protobuf~=3.12.2"],
     version="0.0.1",
     author="Domino Data Lab",
     author_email="steven.davidovitz@dominodatalab.com",
@@ -19,5 +20,5 @@ setuptools.setup(
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
     ],
-    python_requires='>=3.8',
+    python_requires=">=3.8",
 )
