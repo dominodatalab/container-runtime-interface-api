@@ -63,7 +63,7 @@ containers.get_container("9d81052cc027a1fb2ec61b898ea0fd6fc88216ce730ad75f4c52b2
 
 Raw access to the underlying CRI API objects can be done by importing from `cri_api`:
 
-```
+```python
 from os import getenv
 from grpc import insecure_channel
 from cri_api import RuntimeServiceStub, ListContainersRequest
