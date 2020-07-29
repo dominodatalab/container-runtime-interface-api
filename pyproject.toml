@@ -19,3 +19,6 @@ exclude = '''
   | vendor
 )/
 '''
+
+[tool.pytest.ini_options]
+junit_family = 'xunit2'
