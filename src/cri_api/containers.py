@@ -28,14 +28,14 @@ class Containers:
         self.channel = channel
         self.stub = RuntimeServiceStub(channel.channel)
 
-    def list_containers(self, filter: Optional[ContainerFilter] = None) -> List[Container]:
+    def list_containers(self, filter: Optional[ContainerFilter] = None) -> List[dict]:
         try:
             response = self.stub.ListContainers(ListContainersRequest(filter=filter))
             return MessageToDict(response).get("containers", [])
         except RpcError as e:
             raise ContainerServiceException(e.code(), e.details()) from e
 
-    def get_container(self, container_id: str) -> Optional[ContainerStatus]:
+    def get_container(self, container_id: str) -> Optional[dict]:
         try:
             response = self.stub.ContainerStatus(ContainerStatusRequest(container_id=container_id))
             return MessageToDict(response).get("status")
