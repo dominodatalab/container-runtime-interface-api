@@ -6,15 +6,8 @@ from google.protobuf.json_format import MessageToDict
 from grpc import RpcError, StatusCode
 
 from .channel import Channel
-from .pkg.apis.runtime.v1alpha2.api_pb2 import (
-    Container,
-    ContainerFilter,
-    ContainerStatus,
-    ContainerStatusRequest,
-    ListContainersRequest,
-    RemoveContainerRequest,
-)
-from .pkg.apis.runtime.v1alpha2.api_pb2_grpc import RuntimeServiceStub
+from .v1alpha2.api_pb2 import ContainerFilter, ContainerStatusRequest, ListContainersRequest, RemoveContainerRequest
+from .v1alpha2.api_pb2_grpc import RuntimeServiceStub
 
 
 class ContainerServiceException(Exception):
