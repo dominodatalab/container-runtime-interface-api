@@ -15,7 +15,8 @@ exclude = '''
   | build
   | dist
   | src/cri_api/pkg
-  | src/github
+  | src/cri_api/github
+  | src/cri_api/github\.com
   | vendor
 )/
 '''

@@ -3,4 +3,4 @@ max-line-length = 120
 max-complexity = 15
 # Default plus E266
 ignore = E121,E123,E126,E226,E24,E704,W503,W504,E266
-exclude = src/cri_api/pkg, src/github, vendor
+exclude = src/cri_api/pkg, src/cri_api/github, src/cri_api/github.com, vendor
