@@ -6,8 +6,14 @@ from google.protobuf.json_format import MessageToDict
 from grpc import RpcError, StatusCode
 
 from .channel import Channel
-from .pkg.apis.runtime.v1alpha2.api_pb2 import (AuthConfig, ImageSpec, ImageStatusRequest,
-                                                ListImagesRequest, PullImageRequest, RemoveImageRequest)
+from .pkg.apis.runtime.v1alpha2.api_pb2 import (
+    AuthConfig,
+    ImageSpec,
+    ImageStatusRequest,
+    ListImagesRequest,
+    PullImageRequest,
+    RemoveImageRequest,
+)
 from .pkg.apis.runtime.v1alpha2.api_pb2_grpc import ImageServiceStub
 
 
