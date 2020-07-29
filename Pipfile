@@ -13,6 +13,8 @@ pre-commit = "*"
 pytest = "*"
 isort = "*"
 flake8 = "*"
+mypy = "*"
+twine = "*"
 
 [requires]
 python_version = "3.8"

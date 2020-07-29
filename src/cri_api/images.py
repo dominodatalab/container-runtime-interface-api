@@ -6,7 +6,7 @@ from google.protobuf.json_format import MessageToDict
 from grpc import RpcError, StatusCode
 
 from .channel import Channel
-from .pkg.apis.runtime.v1alpha2.api_pb2 import (AuthConfig, Image, ImageSpec, ImageStatusRequest,
+from .pkg.apis.runtime.v1alpha2.api_pb2 import (AuthConfig, ImageSpec, ImageStatusRequest,
                                                 ListImagesRequest, PullImageRequest, RemoveImageRequest)
 from .pkg.apis.runtime.v1alpha2.api_pb2_grpc import ImageServiceStub
 
@@ -23,14 +23,14 @@ class Images:
         self.stub = ImageServiceStub(channel.channel)
 
     # TODO filter?
-    def list_images(self) -> List[Image]:
+    def list_images(self) -> List[dict]:
         try:
             response = self.stub.ListImages(ListImagesRequest())
             return MessageToDict(response).get("images", [])
         except RpcError as e:
             raise ImageServiceException(e.code(), e.details()) from e
 
-    def get_image(self, image_ref: str) -> Optional[Image]:
+    def get_image(self, image_ref: str) -> Optional[dict]:
         image_spec = ImageSpec(image=image_ref)
         try:
             response = self.stub.ImageStatus(ImageStatusRequest(image=image_spec))
