@@ -80,3 +80,17 @@ $ bin/update-protos.sh
 ```
 
 Commit & create a new pull request!
+
+### Development
+
+Interactive development on MacOS can be done by leveraging [minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/):
+
+```shell
+$ minikube start --container-runtime=cri-o
+$ minikube ssh
+$ socat -d -d TCP4-LISTEN:15432,fork UNIX-CONNECT:/var/run/crio/crio.sock
+
+# In another window, you can now connect on $(minikube ip):15432
+$ export RUNTIME_SOCK=$(minikube ip):15432
+...
+```
