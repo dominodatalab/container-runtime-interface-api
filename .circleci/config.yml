@@ -50,7 +50,10 @@ orbs:
 workflows:
   unit-build-publish:
     jobs:
-      - cri-api/unit-tests
+      - cri-api/unit-tests:
+          filters:
+            tags:
+              only: /.*/
       - cri-api/publish:
           filters:
             branches:
