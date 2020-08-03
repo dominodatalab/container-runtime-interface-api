@@ -40,12 +40,12 @@ orbs:
           - run:
               name: Create distributions
               command: |
-                python setup.py sdist
-                python setup.py bdist_wheel
+                pipenv run python setup.py sdist
+                pipenv run python setup.py bdist_wheel
           - run:
               name: Publish distributions
               command: |
-                twine upload dist/*
+                pipenv run twine upload dist/*
 
 workflows:
   unit-build-publish:
