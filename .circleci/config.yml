@@ -1,7 +1,5 @@
 version: 2.1
 
-cache_key: &cache_key v1-pipfile-{{ checksum "Pipfile.lock" }}
-
 orbs:
   cri-api:
     executors:
@@ -14,7 +12,7 @@ orbs:
         steps:
           - checkout
           - restore_cache:
-              key: *cache_key
+              key: &cache_key v1-pipfile-{{ checksum "Pipfile.lock" }}
           - run:
               name: Install pip dependencies
               command: pipenv install --dev --deploy
@@ -39,6 +37,15 @@ orbs:
           - run:
               name: Install pip dependencies
               command: pipenv install --dev --deploy
+          - run:
+              name: Create distributions
+              command: |
+                python setup.py sdist
+                python setup.py bdist_wheel
+          - run:
+              name: Publish distributions
+              command: |
+                twine upload dist/*
 
 workflows:
   unit-build-publish:
