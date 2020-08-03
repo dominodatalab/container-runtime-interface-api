@@ -8,7 +8,7 @@ setuptools.setup(
     packages=["cri_api"],
     package_dir={"": "src"},
     install_requires=["grpcio~=1.30.0", "protobuf~=3.12.2"],
-    version="0.0.1",
+    version="0.0.2",
     author="Domino Data Lab",
     author_email="steven.davidovitz@dominodatalab.com",
     description="Python library for interaction with the Kubernetes container runtime interface API.",  # noqa
