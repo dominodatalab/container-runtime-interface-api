@@ -3,18 +3,18 @@ version: 2.1
 orbs:
   cri-api:
     executors:
-      python-3.8:
+      python_3_8:
         docker:
           - image: circleci/python:3.8
-      python-3.7:
+      python_3_7:
         docker:
-          - image: circleci/python:3.8
-      python-3.6:
+          - image: circleci/python:3.7
+      python_3_6:
         docker:
-          - image: circleci/python:3.8
+          - image: circleci/python:3.6
     jobs:
       unit-tests:
-        executor: python-<< parameters.python-version >>
+        executor: python_<< parameters.python-version >>
         steps:
           - checkout
           - restore_cache:
@@ -35,7 +35,7 @@ orbs:
           - store_test_results:
               path: tests/reports
       publish:
-        executor: python-3.8
+        executor: python_3_8
         steps:
           - checkout
           - restore_cache:
@@ -59,7 +59,7 @@ workflows:
       - cri-api/unit-tests:
           matrix:
             parameters:
-              python-version: ["3.6", "3.7", "3.8"]
+              python-version: ["3_6", "3_7", "3_8"]
           filters:
             tags:
               only: /.*/
