@@ -14,6 +14,10 @@ orbs:
           - image: circleci/python:3.6
     jobs:
       unit-tests:
+        parameters:
+          python-version:
+            type: string
+            default: "3_8"
         executor: python_<< parameters.python-version >>
         steps:
           - checkout
