@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="container-runtime-interface-api",
-    packages=["cri_api"],
+    packages=setuptools.find_namespace_packages(where="src"),
     package_dir={"": "src"},
     install_requires=["grpcio~=1.30.0", "protobuf~=3.12.2"],
     version="0.0.3",
