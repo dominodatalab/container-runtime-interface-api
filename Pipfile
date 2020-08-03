@@ -16,7 +16,6 @@ flake8 = "*"
 mypy = "*"
 twine = "*"
 secretstorage = "*"
-dbus-python = "*"
 
 [requires]
 python_version = "3.8"
