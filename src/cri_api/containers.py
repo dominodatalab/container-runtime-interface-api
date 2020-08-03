@@ -3,17 +3,12 @@ from __future__ import annotations
 from typing import List, Optional
 
 from google.protobuf.json_format import MessageToDict
-from grpc import RpcError, StatusCode
+from grpc import RpcError
 
 from .channel import Channel
+from .exceptions import ContainerServiceException
 from .v1alpha2.api_pb2 import ContainerFilter, ContainerStatusRequest, ListContainersRequest, RemoveContainerRequest
 from .v1alpha2.api_pb2_grpc import RuntimeServiceStub
-
-
-class ContainerServiceException(Exception):
-    def __init__(self, status_code: StatusCode, details: str):
-        super().__init__(details)
-        self.status_code = status_code
 
 
 class Containers:
