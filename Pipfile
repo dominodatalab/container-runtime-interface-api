@@ -16,6 +16,4 @@ flake8 = "*"
 mypy = "*"
 twine = "*"
 secretstorage = "*"
-
-[requires]
-python_version = "3.8"
+importlib_metadata = "*" # Required for Python versions < 3.8
