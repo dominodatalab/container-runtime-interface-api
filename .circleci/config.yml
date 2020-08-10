@@ -19,10 +19,12 @@ orbs:
             type: string
             default: "3_8"
         executor: python_<< parameters.python-version >>
+        environment:
+          PYTHON_VERSION: << parameters.python-version >>
         steps:
           - checkout
           - restore_cache:
-              key: &cache_key v1-pipfile-{{ checksum "Pipfile.lock" }}-{{ parameters.python-version }}
+              key: &cache_key v1-pipfile-{{ checksum "Pipfile.lock" }}-{{ .Environment.PYTHON_VERSION }}
           - run:
               name: Install pip dependencies
               command: pipenv install --dev --deploy
@@ -40,6 +42,8 @@ orbs:
               path: tests/reports
       publish:
         executor: python_3_8
+        environment:
+          PYTHON_VERSION: "3_8"
         steps:
           - checkout
           - restore_cache:
