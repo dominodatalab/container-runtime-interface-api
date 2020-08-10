@@ -22,7 +22,7 @@ orbs:
         steps:
           - checkout
           - restore_cache:
-              key: &cache_key v1-pipfile-{{ checksum "Pipfile.lock" }}
+              key: &cache_key v1-pipfile-{{ checksum "Pipfile.lock" }}-{{ parameters.python-version }}
           - run:
               name: Install pip dependencies
               command: pipenv install --dev --deploy
