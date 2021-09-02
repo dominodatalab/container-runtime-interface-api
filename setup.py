@@ -7,7 +7,7 @@ setuptools.setup(
     name="container-runtime-interface-api",
     packages=setuptools.find_namespace_packages(where="src"),
     package_dir={"": "src"},
-    install_requires=["grpcio~=1.30.0", "protobuf~=3.12.2"],
+    install_requires=["grpcio~=1.39.0", "protobuf~=3.17.3"],
     version="0.0.5",
     author="Domino Data Lab",
     author_email="steven.davidovitz@dominodatalab.com",
@@ -20,5 +20,5 @@ setuptools.setup(
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
     ],
-    python_requires=">=3.6",
+    python_requires=">=3.7",
 )

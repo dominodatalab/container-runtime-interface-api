@@ -3,48 +3,55 @@ version: 2.1
 orbs:
   cri-api:
     executors:
+      python_3_9:
+        docker:
+          - image: cimg/python:3.9
       python_3_8:
         docker:
-          - image: circleci/python:3.8
+          - image: cimg/python:3.8
       python_3_7:
         docker:
-          - image: circleci/python:3.7
-      python_3_6:
-        docker:
-          - image: circleci/python:3.6
+          - image: cimg/python:3.7
     jobs:
+      lint:
+        parameters:
+          python-version:
+            type: string
+        executor: python_<< parameters.python-version >>
+        steps:
+          - checkout
+          - run:
+              name: Install pip dependencies
+              command: pipenv install --dev --deploy --python=$(which python)
+          - run:
+              name: Ensure code is correctly formatted
+              command: pipenv run black --check .
+
       unit-tests:
         parameters:
           python-version:
             type: string
-            default: "3_8"
         executor: python_<< parameters.python-version >>
         steps:
           - checkout
-          - restore_cache:
-              key: &cache_key v1-pipfile-{{ checksum "Pipfile.lock" }}-<< parameters.python-version >>
           - run:
               name: Install pip dependencies
-              command: pipenv install --dev --deploy
-          - save_cache:
-              key: *cache_key
-              paths:
-                - ".venv"
+              command: pipenv install --dev --deploy --python=$(which python)
           - run:
-              name: "Run unit tests"
+              name: Run unit tests
               command: pipenv run pytest --junitxml=./tests/reports/junit-test-report.xml
-          - run:
-              name: "Ensure code is correctly formatted"
-              command: pipenv run black --check .
           - store_test_results:
               path: tests/reports
       publish:
-        executor: python_3_8
+        parameters:
+          python-version:
+            type: string
+        executor: python_<< parameters.python-version >>
         steps:
           - checkout
           - run:
               name: Install pip dependencies
-              command: pipenv install --dev --deploy
+              command: pipenv install --dev --deploy --python=$(which python)
           - run:
               name: Create distributions
               command: |
@@ -54,6 +61,56 @@ orbs:
               name: Publish distributions
               command: |
                 pipenv run twine upload dist/*
+      integration-tests:
+        machine:
+          image: ubuntu-2004:202107-02
+        environment:
+          K8S_VERSION: v1.22.0
+          MINIKUBE_VERSION: v1.22.0
+          CHANGE_MINIKUBE_NONE_USER: true
+          MINIKUBE_WANTREPORTERRORPROMPT: false
+          MINIKUBE_WANTUPDATENOTIFICATION: false
+          RUNTIME_SOCK: unix:/var/run/dockershim.sock
+        steps:
+          - checkout
+          - run:
+              name: Install pip dependencies
+              command: |
+                pip3 install pipenv
+                pipenv install --dev --deploy --python=$(which python3)
+          - run:
+              name: Setup system prereqs
+              command: |
+                sudo apt-get update
+                sudo apt-get install -y conntrack
+          - run:
+              name: System info
+              command: |
+                uname -a
+                cat /etc/os-release
+                lscpu
+                free -mt
+          - run:
+              name: Install minikube
+              command: |
+                curl -sSfLo minikube https://storage.googleapis.com/minikube/releases/${MINIKUBE_VERSION}/minikube-linux-amd64
+                chmod +x minikube
+                sudo mv minikube /usr/local/bin/
+          - run:
+              name: Launch minikube
+              command: |
+                sudo -E minikube start \
+                  --vm-driver=none \
+                  --kubernetes-version=${K8S_VERSION} \
+                  --wait=true
+
+                # Allow `circleci` user access
+                sudo -E chmod 777 "${RUNTIME_SOCK/unix:/}"
+          - run:
+              name: Run tests
+              command: pipenv run pytest --junitxml=./tests/reports/junit-test-report.xml
+          - store_test_results:
+              path: tests/reports
 
 workflows:
   unit-build-publish:
@@ -61,15 +118,29 @@ workflows:
       - cri-api/unit-tests:
           matrix:
             parameters:
-              python-version: ["3_6", "3_7", "3_8"]
+              python-version: ["3_7", "3_8", "3_9"]
           filters:
             tags:
               only: /.*/
+      - cri-api/lint:
+          python-version: &default_python "3_8"
+          filters:
+            tags:
+              only: /.*/
+          requires:
+            - cri-api/unit-tests
+      - cri-api/integration-tests:
+          filters:
+            tags:
+              only: /.*/
+          requires:
+            - cri-api/lint
       - cri-api/publish:
+          python-version: *default_python
           filters:
             branches:
               ignore: /.*/
             tags:
               only: /.*/
           requires:
-            - cri-api/unit-tests
+            - cri-api/integration-tests
