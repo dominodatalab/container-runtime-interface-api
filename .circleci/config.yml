@@ -26,7 +26,6 @@ orbs:
           - run:
               name: Ensure code is correctly formatted
               command: pipenv run black --check .
-
       unit-tests:
         parameters:
           python-version:
