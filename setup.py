@@ -7,7 +7,7 @@ setuptools.setup(
     name="container-runtime-interface-api",
     packages=setuptools.find_namespace_packages(where="src"),
     package_dir={"": "src"},
-    install_requires=["grpcio~=1.39.0", "protobuf~=3.17.3"],
+    install_requires=["grpcio~=1.39", "protobuf~=3.17"],
     version="0.1.0",
     author="Domino Data Lab",
     author_email="steven.davidovitz@dominodatalab.com",
