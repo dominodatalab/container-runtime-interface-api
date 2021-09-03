@@ -7,8 +7,8 @@ setuptools.setup(
     name="container-runtime-interface-api",
     packages=setuptools.find_namespace_packages(where="src"),
     package_dir={"": "src"},
-    install_requires=["grpcio~=1.30.0", "protobuf~=3.12.2"],
-    version="0.0.5",
+    install_requires=["grpcio~=1.39", "protobuf~=3.17"],
+    version="0.1.0",
     author="Domino Data Lab",
     author_email="steven.davidovitz@dominodatalab.com",
     description="Python library for interaction with the Kubernetes container runtime interface API.",  # noqa
@@ -20,5 +20,5 @@ setuptools.setup(
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
     ],
-    python_requires=">=3.6",
+    python_requires=">=3.7",
 )

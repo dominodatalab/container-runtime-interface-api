@@ -115,6 +115,16 @@ class RuntimeServiceStub(object):
                 request_serializer=v1alpha2_dot_api__pb2.ListContainerStatsRequest.SerializeToString,
                 response_deserializer=v1alpha2_dot_api__pb2.ListContainerStatsResponse.FromString,
                 )
+        self.PodSandboxStats = channel.unary_unary(
+                '/runtime.v1alpha2.RuntimeService/PodSandboxStats',
+                request_serializer=v1alpha2_dot_api__pb2.PodSandboxStatsRequest.SerializeToString,
+                response_deserializer=v1alpha2_dot_api__pb2.PodSandboxStatsResponse.FromString,
+                )
+        self.ListPodSandboxStats = channel.unary_unary(
+                '/runtime.v1alpha2.RuntimeService/ListPodSandboxStats',
+                request_serializer=v1alpha2_dot_api__pb2.ListPodSandboxStatsRequest.SerializeToString,
+                response_deserializer=v1alpha2_dot_api__pb2.ListPodSandboxStatsResponse.FromString,
+                )
         self.UpdateRuntimeConfig = channel.unary_unary(
                 '/runtime.v1alpha2.RuntimeService/UpdateRuntimeConfig',
                 request_serializer=v1alpha2_dot_api__pb2.UpdateRuntimeConfigRequest.SerializeToString,
@@ -296,6 +306,21 @@ class RuntimeServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def PodSandboxStats(self, request, context):
+        """PodSandboxStats returns stats of the pod sandbox. If the pod sandbox does not
+        exist, the call returns an error.
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def ListPodSandboxStats(self, request, context):
+        """ListPodSandboxStats returns stats of the pod sandboxes matching a filter.
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def UpdateRuntimeConfig(self, request, context):
         """UpdateRuntimeConfig updates the runtime configuration based on the given request.
         """
@@ -413,6 +438,16 @@ def add_RuntimeServiceServicer_to_server(servicer, server):
                     request_deserializer=v1alpha2_dot_api__pb2.ListContainerStatsRequest.FromString,
                     response_serializer=v1alpha2_dot_api__pb2.ListContainerStatsResponse.SerializeToString,
             ),
+            'PodSandboxStats': grpc.unary_unary_rpc_method_handler(
+                    servicer.PodSandboxStats,
+                    request_deserializer=v1alpha2_dot_api__pb2.PodSandboxStatsRequest.FromString,
+                    response_serializer=v1alpha2_dot_api__pb2.PodSandboxStatsResponse.SerializeToString,
+            ),
+            'ListPodSandboxStats': grpc.unary_unary_rpc_method_handler(
+                    servicer.ListPodSandboxStats,
+                    request_deserializer=v1alpha2_dot_api__pb2.ListPodSandboxStatsRequest.FromString,
+                    response_serializer=v1alpha2_dot_api__pb2.ListPodSandboxStatsResponse.SerializeToString,
+            ),
             'UpdateRuntimeConfig': grpc.unary_unary_rpc_method_handler(
                     servicer.UpdateRuntimeConfig,
                     request_deserializer=v1alpha2_dot_api__pb2.UpdateRuntimeConfigRequest.FromString,
@@ -440,6 +475,7 @@ class RuntimeService(object):
             options=(),
             channel_credentials=None,
             call_credentials=None,
+            insecure=False,
             compression=None,
             wait_for_ready=None,
             timeout=None,
@@ -448,7 +484,7 @@ class RuntimeService(object):
             v1alpha2_dot_api__pb2.VersionRequest.SerializeToString,
             v1alpha2_dot_api__pb2.VersionResponse.FromString,
             options, channel_credentials,
-            call_credentials, compression, wait_for_ready, timeout, metadata)
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def RunPodSandbox(request,
@@ -456,6 +492,7 @@ class RuntimeService(object):
             options=(),
             channel_credentials=None,
             call_credentials=None,
+            insecure=False,
             compression=None,
             wait_for_ready=None,
             timeout=None,
@@ -464,7 +501,7 @@ class RuntimeService(object):
             v1alpha2_dot_api__pb2.RunPodSandboxRequest.SerializeToString,
             v1alpha2_dot_api__pb2.RunPodSandboxResponse.FromString,
             options, channel_credentials,
-            call_credentials, compression, wait_for_ready, timeout, metadata)
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def StopPodSandbox(request,
@@ -472,6 +509,7 @@ class RuntimeService(object):
             options=(),
             channel_credentials=None,
             call_credentials=None,
+            insecure=False,
             compression=None,
             wait_for_ready=None,
             timeout=None,
@@ -480,7 +518,7 @@ class RuntimeService(object):
             v1alpha2_dot_api__pb2.StopPodSandboxRequest.SerializeToString,
             v1alpha2_dot_api__pb2.StopPodSandboxResponse.FromString,
             options, channel_credentials,
-            call_credentials, compression, wait_for_ready, timeout, metadata)
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def RemovePodSandbox(request,
@@ -488,6 +526,7 @@ class RuntimeService(object):
             options=(),
             channel_credentials=None,
             call_credentials=None,
+            insecure=False,
             compression=None,
             wait_for_ready=None,
             timeout=None,
@@ -496,7 +535,7 @@ class RuntimeService(object):
             v1alpha2_dot_api__pb2.RemovePodSandboxRequest.SerializeToString,
             v1alpha2_dot_api__pb2.RemovePodSandboxResponse.FromString,
             options, channel_credentials,
-            call_credentials, compression, wait_for_ready, timeout, metadata)
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def PodSandboxStatus(request,
@@ -504,6 +543,7 @@ class RuntimeService(object):
             options=(),
             channel_credentials=None,
             call_credentials=None,
+            insecure=False,
             compression=None,
             wait_for_ready=None,
             timeout=None,
@@ -512,7 +552,7 @@ class RuntimeService(object):
             v1alpha2_dot_api__pb2.PodSandboxStatusRequest.SerializeToString,
             v1alpha2_dot_api__pb2.PodSandboxStatusResponse.FromString,
             options, channel_credentials,
-            call_credentials, compression, wait_for_ready, timeout, metadata)
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def ListPodSandbox(request,
@@ -520,6 +560,7 @@ class RuntimeService(object):
             options=(),
             channel_credentials=None,
             call_credentials=None,
+            insecure=False,
             compression=None,
             wait_for_ready=None,
             timeout=None,
@@ -528,7 +569,7 @@ class RuntimeService(object):
             v1alpha2_dot_api__pb2.ListPodSandboxRequest.SerializeToString,
             v1alpha2_dot_api__pb2.ListPodSandboxResponse.FromString,
             options, channel_credentials,
-            call_credentials, compression, wait_for_ready, timeout, metadata)
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def CreateContainer(request,
@@ -536,6 +577,7 @@ class RuntimeService(object):
             options=(),
             channel_credentials=None,
             call_credentials=None,
+            insecure=False,
             compression=None,
             wait_for_ready=None,
             timeout=None,
@@ -544,7 +586,7 @@ class RuntimeService(object):
             v1alpha2_dot_api__pb2.CreateContainerRequest.SerializeToString,
             v1alpha2_dot_api__pb2.CreateContainerResponse.FromString,
             options, channel_credentials,
-            call_credentials, compression, wait_for_ready, timeout, metadata)
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def StartContainer(request,
@@ -552,6 +594,7 @@ class RuntimeService(object):
             options=(),
             channel_credentials=None,
             call_credentials=None,
+            insecure=False,
             compression=None,
             wait_for_ready=None,
             timeout=None,
@@ -560,7 +603,7 @@ class RuntimeService(object):
             v1alpha2_dot_api__pb2.StartContainerRequest.SerializeToString,
             v1alpha2_dot_api__pb2.StartContainerResponse.FromString,
             options, channel_credentials,
-            call_credentials, compression, wait_for_ready, timeout, metadata)
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def StopContainer(request,
@@ -568,6 +611,7 @@ class RuntimeService(object):
             options=(),
             channel_credentials=None,
             call_credentials=None,
+            insecure=False,
             compression=None,
             wait_for_ready=None,
             timeout=None,
@@ -576,7 +620,7 @@ class RuntimeService(object):
             v1alpha2_dot_api__pb2.StopContainerRequest.SerializeToString,
             v1alpha2_dot_api__pb2.StopContainerResponse.FromString,
             options, channel_credentials,
-            call_credentials, compression, wait_for_ready, timeout, metadata)
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def RemoveContainer(request,
@@ -584,6 +628,7 @@ class RuntimeService(object):
             options=(),
             channel_credentials=None,
             call_credentials=None,
+            insecure=False,
             compression=None,
             wait_for_ready=None,
             timeout=None,
@@ -592,7 +637,7 @@ class RuntimeService(object):
             v1alpha2_dot_api__pb2.RemoveContainerRequest.SerializeToString,
             v1alpha2_dot_api__pb2.RemoveContainerResponse.FromString,
             options, channel_credentials,
-            call_credentials, compression, wait_for_ready, timeout, metadata)
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def ListContainers(request,
@@ -600,6 +645,7 @@ class RuntimeService(object):
             options=(),
             channel_credentials=None,
             call_credentials=None,
+            insecure=False,
             compression=None,
             wait_for_ready=None,
             timeout=None,
@@ -608,7 +654,7 @@ class RuntimeService(object):
             v1alpha2_dot_api__pb2.ListContainersRequest.SerializeToString,
             v1alpha2_dot_api__pb2.ListContainersResponse.FromString,
             options, channel_credentials,
-            call_credentials, compression, wait_for_ready, timeout, metadata)
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def ContainerStatus(request,
@@ -616,6 +662,7 @@ class RuntimeService(object):
             options=(),
             channel_credentials=None,
             call_credentials=None,
+            insecure=False,
             compression=None,
             wait_for_ready=None,
             timeout=None,
@@ -624,7 +671,7 @@ class RuntimeService(object):
             v1alpha2_dot_api__pb2.ContainerStatusRequest.SerializeToString,
             v1alpha2_dot_api__pb2.ContainerStatusResponse.FromString,
             options, channel_credentials,
-            call_credentials, compression, wait_for_ready, timeout, metadata)
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def UpdateContainerResources(request,
@@ -632,6 +679,7 @@ class RuntimeService(object):
             options=(),
             channel_credentials=None,
             call_credentials=None,
+            insecure=False,
             compression=None,
             wait_for_ready=None,
             timeout=None,
@@ -640,7 +688,7 @@ class RuntimeService(object):
             v1alpha2_dot_api__pb2.UpdateContainerResourcesRequest.SerializeToString,
             v1alpha2_dot_api__pb2.UpdateContainerResourcesResponse.FromString,
             options, channel_credentials,
-            call_credentials, compression, wait_for_ready, timeout, metadata)
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def ReopenContainerLog(request,
@@ -648,6 +696,7 @@ class RuntimeService(object):
             options=(),
             channel_credentials=None,
             call_credentials=None,
+            insecure=False,
             compression=None,
             wait_for_ready=None,
             timeout=None,
@@ -656,7 +705,7 @@ class RuntimeService(object):
             v1alpha2_dot_api__pb2.ReopenContainerLogRequest.SerializeToString,
             v1alpha2_dot_api__pb2.ReopenContainerLogResponse.FromString,
             options, channel_credentials,
-            call_credentials, compression, wait_for_ready, timeout, metadata)
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def ExecSync(request,
@@ -664,6 +713,7 @@ class RuntimeService(object):
             options=(),
             channel_credentials=None,
             call_credentials=None,
+            insecure=False,
             compression=None,
             wait_for_ready=None,
             timeout=None,
@@ -672,7 +722,7 @@ class RuntimeService(object):
             v1alpha2_dot_api__pb2.ExecSyncRequest.SerializeToString,
             v1alpha2_dot_api__pb2.ExecSyncResponse.FromString,
             options, channel_credentials,
-            call_credentials, compression, wait_for_ready, timeout, metadata)
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def Exec(request,
@@ -680,6 +730,7 @@ class RuntimeService(object):
             options=(),
             channel_credentials=None,
             call_credentials=None,
+            insecure=False,
             compression=None,
             wait_for_ready=None,
             timeout=None,
@@ -688,7 +739,7 @@ class RuntimeService(object):
             v1alpha2_dot_api__pb2.ExecRequest.SerializeToString,
             v1alpha2_dot_api__pb2.ExecResponse.FromString,
             options, channel_credentials,
-            call_credentials, compression, wait_for_ready, timeout, metadata)
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def Attach(request,
@@ -696,6 +747,7 @@ class RuntimeService(object):
             options=(),
             channel_credentials=None,
             call_credentials=None,
+            insecure=False,
             compression=None,
             wait_for_ready=None,
             timeout=None,
@@ -704,7 +756,7 @@ class RuntimeService(object):
             v1alpha2_dot_api__pb2.AttachRequest.SerializeToString,
             v1alpha2_dot_api__pb2.AttachResponse.FromString,
             options, channel_credentials,
-            call_credentials, compression, wait_for_ready, timeout, metadata)
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def PortForward(request,
@@ -712,6 +764,7 @@ class RuntimeService(object):
             options=(),
             channel_credentials=None,
             call_credentials=None,
+            insecure=False,
             compression=None,
             wait_for_ready=None,
             timeout=None,
@@ -720,7 +773,7 @@ class RuntimeService(object):
             v1alpha2_dot_api__pb2.PortForwardRequest.SerializeToString,
             v1alpha2_dot_api__pb2.PortForwardResponse.FromString,
             options, channel_credentials,
-            call_credentials, compression, wait_for_ready, timeout, metadata)
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def ContainerStats(request,
@@ -728,6 +781,7 @@ class RuntimeService(object):
             options=(),
             channel_credentials=None,
             call_credentials=None,
+            insecure=False,
             compression=None,
             wait_for_ready=None,
             timeout=None,
@@ -736,7 +790,7 @@ class RuntimeService(object):
             v1alpha2_dot_api__pb2.ContainerStatsRequest.SerializeToString,
             v1alpha2_dot_api__pb2.ContainerStatsResponse.FromString,
             options, channel_credentials,
-            call_credentials, compression, wait_for_ready, timeout, metadata)
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def ListContainerStats(request,
@@ -744,6 +798,7 @@ class RuntimeService(object):
             options=(),
             channel_credentials=None,
             call_credentials=None,
+            insecure=False,
             compression=None,
             wait_for_ready=None,
             timeout=None,
@@ -752,7 +807,41 @@ class RuntimeService(object):
             v1alpha2_dot_api__pb2.ListContainerStatsRequest.SerializeToString,
             v1alpha2_dot_api__pb2.ListContainerStatsResponse.FromString,
             options, channel_credentials,
-            call_credentials, compression, wait_for_ready, timeout, metadata)
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def PodSandboxStats(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/runtime.v1alpha2.RuntimeService/PodSandboxStats',
+            v1alpha2_dot_api__pb2.PodSandboxStatsRequest.SerializeToString,
+            v1alpha2_dot_api__pb2.PodSandboxStatsResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def ListPodSandboxStats(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/runtime.v1alpha2.RuntimeService/ListPodSandboxStats',
+            v1alpha2_dot_api__pb2.ListPodSandboxStatsRequest.SerializeToString,
+            v1alpha2_dot_api__pb2.ListPodSandboxStatsResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def UpdateRuntimeConfig(request,
@@ -760,6 +849,7 @@ class RuntimeService(object):
             options=(),
             channel_credentials=None,
             call_credentials=None,
+            insecure=False,
             compression=None,
             wait_for_ready=None,
             timeout=None,
@@ -768,7 +858,7 @@ class RuntimeService(object):
             v1alpha2_dot_api__pb2.UpdateRuntimeConfigRequest.SerializeToString,
             v1alpha2_dot_api__pb2.UpdateRuntimeConfigResponse.FromString,
             options, channel_credentials,
-            call_credentials, compression, wait_for_ready, timeout, metadata)
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def Status(request,
@@ -776,6 +866,7 @@ class RuntimeService(object):
             options=(),
             channel_credentials=None,
             call_credentials=None,
+            insecure=False,
             compression=None,
             wait_for_ready=None,
             timeout=None,
@@ -784,7 +875,7 @@ class RuntimeService(object):
             v1alpha2_dot_api__pb2.StatusRequest.SerializeToString,
             v1alpha2_dot_api__pb2.StatusResponse.FromString,
             options, channel_credentials,
-            call_credentials, compression, wait_for_ready, timeout, metadata)
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
 
 class ImageServiceStub(object):
@@ -912,6 +1003,7 @@ class ImageService(object):
             options=(),
             channel_credentials=None,
             call_credentials=None,
+            insecure=False,
             compression=None,
             wait_for_ready=None,
             timeout=None,
@@ -920,7 +1012,7 @@ class ImageService(object):
             v1alpha2_dot_api__pb2.ListImagesRequest.SerializeToString,
             v1alpha2_dot_api__pb2.ListImagesResponse.FromString,
             options, channel_credentials,
-            call_credentials, compression, wait_for_ready, timeout, metadata)
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def ImageStatus(request,
@@ -928,6 +1020,7 @@ class ImageService(object):
             options=(),
             channel_credentials=None,
             call_credentials=None,
+            insecure=False,
             compression=None,
             wait_for_ready=None,
             timeout=None,
@@ -936,7 +1029,7 @@ class ImageService(object):
             v1alpha2_dot_api__pb2.ImageStatusRequest.SerializeToString,
             v1alpha2_dot_api__pb2.ImageStatusResponse.FromString,
             options, channel_credentials,
-            call_credentials, compression, wait_for_ready, timeout, metadata)
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def PullImage(request,
@@ -944,6 +1037,7 @@ class ImageService(object):
             options=(),
             channel_credentials=None,
             call_credentials=None,
+            insecure=False,
             compression=None,
             wait_for_ready=None,
             timeout=None,
@@ -952,7 +1046,7 @@ class ImageService(object):
             v1alpha2_dot_api__pb2.PullImageRequest.SerializeToString,
             v1alpha2_dot_api__pb2.PullImageResponse.FromString,
             options, channel_credentials,
-            call_credentials, compression, wait_for_ready, timeout, metadata)
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def RemoveImage(request,
@@ -960,6 +1054,7 @@ class ImageService(object):
             options=(),
             channel_credentials=None,
             call_credentials=None,
+            insecure=False,
             compression=None,
             wait_for_ready=None,
             timeout=None,
@@ -968,7 +1063,7 @@ class ImageService(object):
             v1alpha2_dot_api__pb2.RemoveImageRequest.SerializeToString,
             v1alpha2_dot_api__pb2.RemoveImageResponse.FromString,
             options, channel_credentials,
-            call_credentials, compression, wait_for_ready, timeout, metadata)
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def ImageFsInfo(request,
@@ -976,6 +1071,7 @@ class ImageService(object):
             options=(),
             channel_credentials=None,
             call_credentials=None,
+            insecure=False,
             compression=None,
             wait_for_ready=None,
             timeout=None,
@@ -984,4 +1080,4 @@ class ImageService(object):
             v1alpha2_dot_api__pb2.ImageFsInfoRequest.SerializeToString,
             v1alpha2_dot_api__pb2.ImageFsInfoResponse.FromString,
             options, channel_credentials,
-            call_credentials, compression, wait_for_ready, timeout, metadata)
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

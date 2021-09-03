@@ -1,12 +1,19 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v3.1.0
+    rev: v4.0.1
     hooks:
       - id: check-ast
       - id: check-builtin-literals
       - id: check-docstring-first
       - id: detect-private-key
       - id: end-of-file-fixer
+        exclude: &exclude |
+          (?x)(
+              ^src/cri_api/v1alpha2/|
+              ^src/cri_api/github/|
+              ^src/cri_api/github.com/|
+              ^vendor/|
+          )
       - id: forbid-new-submodules
       - id: mixed-line-ending
       - id: no-commit-to-branch
@@ -14,20 +21,14 @@ repos:
       - id: requirements-txt-fixer
       - id: trailing-whitespace
   - repo: https://github.com/psf/black
-    rev: stable
+    rev: 21.8b0
     hooks:
       - id: black
-        language_version: python3.8
+        language_version: python3.9
+        exclude: *exclude
   - repo: https://gitlab.com/pycqa/flake8
-    rev: 3.8.3
+    rev: 3.9.2
     hooks:
       - id: flake8
-        language_version: python3.8
-
-        #exclude: |
-        #  (?x)(
-        #      ^src/cri_api/v1alpha2/|
-        #      ^src/cri_api/github/|
-        #      ^src/cri_api/github.com/|
-        #      ^vendor/|
-        #  )
+        language_version: python3.9
+        exclude: *exclude
