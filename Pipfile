@@ -17,3 +17,4 @@ mypy = "*"
 twine = "*"
 secretstorage = "*"
 importlib_metadata = "*" # Required for Python versions < 3.8
+typing-extensions = "*" # Required for Python versions < 3.8

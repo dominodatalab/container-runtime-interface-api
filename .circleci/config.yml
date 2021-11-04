@@ -3,6 +3,9 @@ version: 2.1
 orbs:
   cri-api:
     executors:
+      python_3_10:
+        docker:
+          - image: cimg/python:3.10
       python_3_9:
         docker:
           - image: cimg/python:3.9
@@ -117,12 +120,12 @@ workflows:
       - cri-api/unit-tests:
           matrix:
             parameters:
-              python-version: ["3_7", "3_8", "3_9"]
+              python-version: ["3_7", "3_8", "3_9", "3_10"]
           filters:
             tags:
               only: /.*/
       - cri-api/lint:
-          python-version: &default_python "3_8"
+          python-version: &default_python "3_9"
           filters:
             tags:
               only: /.*/
