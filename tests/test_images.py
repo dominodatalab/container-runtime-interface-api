@@ -1,16 +1,16 @@
 from unittest import TestCase
 from unittest.mock import MagicMock, Mock
 
-from grpc import RpcError, StatusCode
-
-from cri_api import Image, ListImagesRequest, ListImagesResponse
-from cri_api.channel import Channel
+from cri_api.channel import V1, Channel
 from cri_api.images import Images, ImageServiceException
+from cri_api.v1.api_pb2 import Image, ListImagesRequest, ListImagesResponse
+from grpc import RpcError, StatusCode
 
 
 class TestImages(TestCase):
     def setUp(self):
         self.channel = Mock(Channel)
+        self.channel.version = V1
         self.channel.channel = MagicMock()
 
         self.images = Images(self.channel)
