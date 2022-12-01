@@ -12,9 +12,6 @@ orbs:
       python_3_8:
         docker:
           - image: cimg/python:3.8
-      python_3_7:
-        docker:
-          - image: cimg/python:3.7
     jobs:
       lint:
         parameters:
@@ -120,7 +117,7 @@ workflows:
       - cri-api/unit-tests:
           matrix:
             parameters:
-              python-version: ["3_7", "3_8", "3_9", "3_10"]
+              python-version: ["3_8", "3_9", "3_10"]
           filters:
             tags:
               only: /.*/
