@@ -214,7 +214,8 @@ class RuntimeServiceServicer(object):
         """StopContainer stops a running container with a grace period (i.e., timeout).
         This call is idempotent, and must not return an error if the container has
         already been stopped.
-        TODO: what must the runtime do after the grace period is reached?
+        The runtime must forcibly kill the container after the grace period is
+        reached.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -246,7 +247,8 @@ class RuntimeServiceServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def UpdateContainerResources(self, request, context):
-        """UpdateContainerResources updates ContainerConfig of the container.
+        """UpdateContainerResources updates ContainerConfig of the container synchronously.
+        If runtime fails to transactionally update the requested resources, an error is returned.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')

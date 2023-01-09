@@ -26,6 +26,9 @@ orbs:
           - run:
               name: Ensure code is correctly formatted
               command: pipenv run black --check .
+          - run:
+              name: Ensure code is correctly typed
+              command: pipenv run mypy .
       unit-tests:
         parameters:
           python-version:
@@ -62,14 +65,11 @@ orbs:
                 pipenv run twine upload dist/*
       integration-tests:
         machine:
-          image: ubuntu-2004:202107-02
+          image: ubuntu-2004:2022.10.1
         environment:
-          K8S_VERSION: v1.22.0
-          MINIKUBE_VERSION: v1.22.0
-          CHANGE_MINIKUBE_NONE_USER: true
-          MINIKUBE_WANTREPORTERRORPROMPT: false
-          MINIKUBE_WANTUPDATENOTIFICATION: false
-          RUNTIME_SOCK: unix:/var/run/dockershim.sock
+          K8S_VERSION: v1.25.5
+          CRI_DOCKERD_VERSION: 0.2.6
+          CRICTL_VERSION: v1.25.0
         steps:
           - checkout
           - run:
@@ -80,34 +80,42 @@ orbs:
           - run:
               name: Setup system prereqs
               command: |
-                sudo apt-get update
-                sudo apt-get install -y conntrack
-          - run:
-              name: System info
-              command: |
-                uname -a
-                cat /etc/os-release
-                lscpu
-                free -mt
-          - run:
-              name: Install minikube
-              command: |
-                curl -sSfLo minikube https://storage.googleapis.com/minikube/releases/${MINIKUBE_VERSION}/minikube-linux-amd64
-                chmod +x minikube
-                sudo mv minikube /usr/local/bin/
-          - run:
-              name: Launch minikube
-              command: |
-                sudo -E minikube start \
-                  --vm-driver=none \
-                  --kubernetes-version=${K8S_VERSION} \
-                  --wait=true
+                curl -sSfL https://github.com/kubernetes-sigs/cri-tools/releases/download/$CRICTL_VERSION/crictl-$CRICTL_VERSION-linux-amd64.tar.gz | sudo tar -C /usr/bin -xz
+                chmod +x /usr/bin/crictl
 
-                # Allow `circleci` user access
-                sudo -E chmod 777 "${RUNTIME_SOCK/unix:/}"
+                curl -sSfL -O https://github.com/Mirantis/cri-dockerd/releases/download/v$CRI_DOCKERD_VERSION/cri-dockerd_$CRI_DOCKERD_VERSION.3-0.ubuntu-focal_amd64.deb
+                sudo dpkg -i cri*
           - run:
-              name: Run tests
-              command: pipenv run pytest --junitxml=./tests/reports/junit-test-report.xml
+              name: Run tests against cri-dockerd
+              command: |
+                # Allow `circleci` user access
+                sudo chmod 777 /var/run/cri-dockerd.sock
+
+                # Naming convention to match K8s so that cri-dockerd parses it correctly (naming.go)
+                sudo docker run -l io.kubernetes.docker.type=container --name k8s_podname_containername_namespace_uid_0 busybox echo Hi
+
+                export RUNTIME_SOCK=unix:/var/run/cri-dockerd.sock
+                pipenv run pytest --junitxml=./tests/reports/junit-test-report.xml
+          - run:
+              name: Run tests against containerd
+              command: |
+                # Reset containerd config to default. Docker disables `cri` plugin by default.
+                sudo truncate -s0 /etc/containerd/config.toml
+                sudo systemctl restart containerd
+                # Allow `circleci` user access
+                sudo chmod 777 /var/run/containerd/containerd.sock
+
+                # Setup CNI
+                containerd_version=$(containerd --version | cut -d ' ' -f 3,3)
+                curl -sSfL https://github.com/containerd/containerd/releases/download/v$containerd_version/cri-containerd-cni-$containerd_version-linux-amd64.tar.gz | \
+                  sudo tar -C / -xz etc/cni/ etc/crictl.yaml opt/cni/
+
+                # Create a CRI pod & container
+                sudo crictl pull busybox
+                sudo crictl create $(sudo crictl runp tests/fixtures/sandbox-config.json) tests/fixtures/container-config.json tests/fixtures/sandbox-config.json
+
+                export RUNTIME_SOCK=unix:/var/run/containerd/containerd.sock
+                pipenv run pytest --junitxml=./tests/reports/junit-test-report.xml
           - store_test_results:
               path: tests/reports
 
@@ -126,13 +134,12 @@ workflows:
           filters:
             tags:
               only: /.*/
-          requires:
-            - cri-api/unit-tests
       - cri-api/integration-tests:
           filters:
             tags:
               only: /.*/
           requires:
+            - cri-api/unit-tests
             - cri-api/lint
       - cri-api/publish:
           python-version: *default_python

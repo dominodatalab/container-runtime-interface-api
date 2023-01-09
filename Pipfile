@@ -14,8 +14,10 @@ grpcio-tools = "~=1.47"
 importlib_metadata = "*" # Required for Python versions < 3.8
 isort = "*"
 mypy = "*"
+mypy-protobuf = "*"
 pre-commit = "*"
 pytest = "*"
 secretstorage = "*"
 twine = "*"
+types-protobuf = "*"
 typing-extensions = "*" # Required for Python versions < 3.8

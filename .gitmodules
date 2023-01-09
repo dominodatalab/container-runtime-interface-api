@@ -4,3 +4,5 @@
 [submodule "vendor/cri-api"]
 	path = vendor/cri-api
 	url = https://github.com/kubernetes/cri-api.git
+[submodule "vendor/cri-api/"]
+	branch = release-1.25

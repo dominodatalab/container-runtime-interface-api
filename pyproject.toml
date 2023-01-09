@@ -21,5 +21,24 @@ exclude = '''
 )/
 '''
 
+[tool.isort]
+profile = "black"
+
 [tool.pytest.ini_options]
 junit_family = 'xunit2'
+
+[tool.mypy]
+warn_no_return = false
+namespace_packages = true
+explicit_package_bases = true
+ignore_missing_imports = true
+pretty = false
+show_error_context = false
+no_error_summary = true
+mypy_path = ["./src/"]
+exclude = [
+  'build/',
+  'src/cri_api/v1alpha2',
+  'src/cri_api/v1',
+  'src/cri_api/github',
+]
