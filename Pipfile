@@ -10,12 +10,13 @@ container-runtime-interface-api = {editable = true, path = "."}
 black = "*"
 exceptiongroup = "*" # Required for Python versions < 3.11
 flake8 = "*"
-grpcio-tools = "~=1.47"
+grpcio-tools = "*"
 importlib_metadata = "*" # Required for Python versions < 3.8
 isort = "*"
 mypy = "*"
 mypy-protobuf = "*"
 pre-commit = "*"
+protobuf = "*"
 pytest = "*"
 secretstorage = "*"
 twine = "*"
