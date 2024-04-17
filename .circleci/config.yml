@@ -3,6 +3,12 @@ version: 2.1
 orbs:
   cri-api:
     executors:
+      python_3_12:
+        docker:
+          - image: cimg/python:3.12
+      python_3_11:
+        docker:
+          - image: cimg/python:3.11
       python_3_10:
         docker:
           - image: cimg/python:3.10
@@ -65,11 +71,11 @@ orbs:
                 pipenv run twine upload dist/*
       integration-tests:
         machine:
-          image: ubuntu-2004:2022.10.1
+          image: ubuntu-2204:current
         environment:
-          K8S_VERSION: v1.25.5
-          CRI_DOCKERD_VERSION: 0.2.6
-          CRICTL_VERSION: v1.25.0
+          K8S_VERSION: v1.29.4
+          CRI_DOCKERD_VERSION: 0.3.12
+          CRICTL_VERSION: v1.29.0
         steps:
           - checkout
           - run:
@@ -83,7 +89,7 @@ orbs:
                 curl -sSfL https://github.com/kubernetes-sigs/cri-tools/releases/download/$CRICTL_VERSION/crictl-$CRICTL_VERSION-linux-amd64.tar.gz | sudo tar -C /usr/bin -xz
                 chmod +x /usr/bin/crictl
 
-                curl -sSfL -O https://github.com/Mirantis/cri-dockerd/releases/download/v$CRI_DOCKERD_VERSION/cri-dockerd_$CRI_DOCKERD_VERSION.3-0.ubuntu-focal_amd64.deb
+                curl -sSfL -O https://github.com/Mirantis/cri-dockerd/releases/download/v$CRI_DOCKERD_VERSION/cri-dockerd_$CRI_DOCKERD_VERSION.3-0.ubuntu-jammy_amd64.deb
                 sudo dpkg -i cri*
           - run:
               name: Run tests against cri-dockerd
@@ -125,12 +131,12 @@ workflows:
       - cri-api/unit-tests:
           matrix:
             parameters:
-              python-version: ["3_8", "3_9", "3_10"]
+              python-version: ["3_8", "3_9", "3_10", "3_11", "3_12"]
           filters:
             tags:
               only: /.*/
       - cri-api/lint:
-          python-version: &default_python "3_9"
+          python-version: &default_python "3_12"
           filters:
             tags:
               only: /.*/
