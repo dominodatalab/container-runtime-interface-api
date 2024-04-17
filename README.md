@@ -13,7 +13,7 @@ Adding container-runtime-interface-api to Pipfile's [packages]…
 ...
 ```
 
-This project currently supports Python 3.7+.
+This project currently supports Python 3.8+.
 
 #### Connection
 
@@ -97,7 +97,7 @@ $ export RUNTIME_SOCK=$(minikube ip):15432
 
 ### Testing
 
-Unit tests are run against all supported Python versions: 3.7, 3.8, and 3.9.
+Unit tests are run against all supported Python versions: 3.8, 3.9, 3.10, 3.11 and 3.12.
 
 A basic set of integration tests is included alongside the unit tests, but are only run if the `RUNTIME_SOCK` environment variable is set correctly.
 They are verified in CI against a minikube installation running Docker and `dockershim`.
