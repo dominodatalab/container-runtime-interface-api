@@ -16,8 +16,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-To regenerate api.pb.go run hack/update-generated-runtime.sh
+To regenerate api.pb.go run `hack/update-codegen.sh protobindings`
 """
+
 import builtins
 import collections.abc
 import google.protobuf.descriptor
@@ -62,7 +63,7 @@ class _MountPropagationEnumTypeWrapper(
 ):
     DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
     PROPAGATION_PRIVATE: _MountPropagation.ValueType  # 0
-    """No mount propagation ("private" in Linux terminology)."""
+    """No mount propagation ("rprivate" in Linux terminology)."""
     PROPAGATION_HOST_TO_CONTAINER: _MountPropagation.ValueType  # 1
     """Mounts get propagated from the host to the container ("rslave" in Linux)."""
     PROPAGATION_BIDIRECTIONAL: _MountPropagation.ValueType  # 2
@@ -73,7 +74,7 @@ class _MountPropagationEnumTypeWrapper(
 class MountPropagation(_MountPropagation, metaclass=_MountPropagationEnumTypeWrapper): ...
 
 PROPAGATION_PRIVATE: MountPropagation.ValueType  # 0
-"""No mount propagation ("private" in Linux terminology)."""
+"""No mount propagation ("rprivate" in Linux terminology)."""
 PROPAGATION_HOST_TO_CONTAINER: MountPropagation.ValueType  # 1
 """Mounts get propagated from the host to the container ("rslave" in Linux)."""
 PROPAGATION_BIDIRECTIONAL: MountPropagation.ValueType  # 2
@@ -212,7 +213,41 @@ CONTAINER_DELETED_EVENT: ContainerEventType.ValueType  # 3
 """Container deleted"""
 global___ContainerEventType = ContainerEventType
 
-@typing_extensions.final
+class _MetricType:
+    ValueType = typing.NewType("ValueType", builtins.int)
+    V: typing_extensions.TypeAlias = ValueType
+
+class _MetricTypeEnumTypeWrapper(
+    google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_MetricType.ValueType], builtins.type
+):
+    DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+    COUNTER: _MetricType.ValueType  # 0
+    GAUGE: _MetricType.ValueType  # 1
+
+class MetricType(_MetricType, metaclass=_MetricTypeEnumTypeWrapper): ...
+
+COUNTER: MetricType.ValueType  # 0
+GAUGE: MetricType.ValueType  # 1
+global___MetricType = MetricType
+
+class _CgroupDriver:
+    ValueType = typing.NewType("ValueType", builtins.int)
+    V: typing_extensions.TypeAlias = ValueType
+
+class _CgroupDriverEnumTypeWrapper(
+    google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_CgroupDriver.ValueType], builtins.type
+):
+    DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+    SYSTEMD: _CgroupDriver.ValueType  # 0
+    CGROUPFS: _CgroupDriver.ValueType  # 1
+
+class CgroupDriver(_CgroupDriver, metaclass=_CgroupDriverEnumTypeWrapper): ...
+
+SYSTEMD: CgroupDriver.ValueType  # 0
+CGROUPFS: CgroupDriver.ValueType  # 1
+global___CgroupDriver = CgroupDriver
+
+@typing.final
 class VersionRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -224,11 +259,11 @@ class VersionRequest(google.protobuf.message.Message):
         *,
         version: builtins.str = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["version", b"version"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["version", b"version"]) -> None: ...
 
 global___VersionRequest = VersionRequest
 
-@typing_extensions.final
+@typing.final
 class VersionResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -258,7 +293,7 @@ class VersionResponse(google.protobuf.message.Message):
     ) -> None: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "runtime_api_version",
             b"runtime_api_version",
             "runtime_name",
@@ -272,7 +307,7 @@ class VersionResponse(google.protobuf.message.Message):
 
 global___VersionResponse = VersionResponse
 
-@typing_extensions.final
+@typing.final
 class DNSConfig(google.protobuf.message.Message):
     """DNSConfig specifies the DNS servers and search domains of a sandbox."""
 
@@ -284,14 +319,17 @@ class DNSConfig(google.protobuf.message.Message):
     @property
     def servers(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
         """List of DNS servers of the cluster."""
+
     @property
     def searches(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
         """List of DNS search domains of the cluster."""
+
     @property
     def options(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
         """List of DNS options. See https://linux.die.net/man/5/resolv.conf
         for all available options.
         """
+
     def __init__(
         self,
         *,
@@ -300,13 +338,12 @@ class DNSConfig(google.protobuf.message.Message):
         options: collections.abc.Iterable[builtins.str] | None = ...,
     ) -> None: ...
     def ClearField(
-        self,
-        field_name: typing_extensions.Literal["options", b"options", "searches", b"searches", "servers", b"servers"],
+        self, field_name: typing.Literal["options", b"options", "searches", b"searches", "servers", b"servers"]
     ) -> None: ...
 
 global___DNSConfig = DNSConfig
 
-@typing_extensions.final
+@typing.final
 class PortMapping(google.protobuf.message.Message):
     """PortMapping specifies the port mapping configurations of a sandbox."""
 
@@ -334,7 +371,7 @@ class PortMapping(google.protobuf.message.Message):
     ) -> None: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "container_port",
             b"container_port",
             "host_ip",
@@ -348,7 +385,7 @@ class PortMapping(google.protobuf.message.Message):
 
 global___PortMapping = PortMapping
 
-@typing_extensions.final
+@typing.final
 class Mount(google.protobuf.message.Message):
     """Mount specifies a host volume to mount into a container."""
 
@@ -359,6 +396,9 @@ class Mount(google.protobuf.message.Message):
     READONLY_FIELD_NUMBER: builtins.int
     SELINUX_RELABEL_FIELD_NUMBER: builtins.int
     PROPAGATION_FIELD_NUMBER: builtins.int
+    UIDMAPPINGS_FIELD_NUMBER: builtins.int
+    GIDMAPPINGS_FIELD_NUMBER: builtins.int
+    RECURSIVE_READ_ONLY_FIELD_NUMBER: builtins.int
     container_path: builtins.str
     """Path of the mount within the container."""
     host_path: builtins.str
@@ -372,6 +412,24 @@ class Mount(google.protobuf.message.Message):
     """If set, the mount needs SELinux relabeling."""
     propagation: global___MountPropagation.ValueType
     """Requested propagation mode."""
+    recursive_read_only: builtins.bool
+    """If set to true, the mount is made recursive read-only.
+    In this CRI API, recursive_read_only is a plain true/false boolean, although its equivalent
+    in the Kubernetes core API is a quaternary that can be nil, "Enabled", "IfPossible", or "Disabled".
+    kubelet translates that quaternary value in the core API into a boolean in this CRI API.
+    Remarks:
+    - nil is just treated as false
+    - when set to true, readonly must be explicitly set to true, and propagation must be PRIVATE (0).
+    - (readonly == false && recursive_read_only == false) does not make the mount read-only.
+    """
+    @property
+    def uidMappings(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___IDMapping]:
+        """UidMappings specifies the runtime UID mappings for the mount."""
+
+    @property
+    def gidMappings(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___IDMapping]:
+        """GidMappings specifies the runtime GID mappings for the mount."""
+
     def __init__(
         self,
         *,
@@ -380,26 +438,35 @@ class Mount(google.protobuf.message.Message):
         readonly: builtins.bool = ...,
         selinux_relabel: builtins.bool = ...,
         propagation: global___MountPropagation.ValueType = ...,
+        uidMappings: collections.abc.Iterable[global___IDMapping] | None = ...,
+        gidMappings: collections.abc.Iterable[global___IDMapping] | None = ...,
+        recursive_read_only: builtins.bool = ...,
     ) -> None: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "container_path",
             b"container_path",
+            "gidMappings",
+            b"gidMappings",
             "host_path",
             b"host_path",
             "propagation",
             b"propagation",
             "readonly",
             b"readonly",
+            "recursive_read_only",
+            b"recursive_read_only",
             "selinux_relabel",
             b"selinux_relabel",
+            "uidMappings",
+            b"uidMappings",
         ],
     ) -> None: ...
 
 global___Mount = Mount
 
-@typing_extensions.final
+@typing.final
 class IDMapping(google.protobuf.message.Message):
     """IDMapping describes host to container ID mappings for a pod sandbox."""
 
@@ -422,15 +489,12 @@ class IDMapping(google.protobuf.message.Message):
         length: builtins.int = ...,
     ) -> None: ...
     def ClearField(
-        self,
-        field_name: typing_extensions.Literal[
-            "container_id", b"container_id", "host_id", b"host_id", "length", b"length"
-        ],
+        self, field_name: typing.Literal["container_id", b"container_id", "host_id", b"host_id", "length", b"length"]
     ) -> None: ...
 
 global___IDMapping = IDMapping
 
-@typing_extensions.final
+@typing.final
 class UserNamespace(google.protobuf.message.Message):
     """UserNamespace describes the intended user namespace configuration for a pod sandbox."""
 
@@ -446,9 +510,11 @@ class UserNamespace(google.protobuf.message.Message):
     @property
     def uids(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___IDMapping]:
         """Uids specifies the UID mappings for the user namespace."""
+
     @property
     def gids(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___IDMapping]:
         """Gids specifies the GID mappings for the user namespace."""
+
     def __init__(
         self,
         *,
@@ -456,13 +522,11 @@ class UserNamespace(google.protobuf.message.Message):
         uids: collections.abc.Iterable[global___IDMapping] | None = ...,
         gids: collections.abc.Iterable[global___IDMapping] | None = ...,
     ) -> None: ...
-    def ClearField(
-        self, field_name: typing_extensions.Literal["gids", b"gids", "mode", b"mode", "uids", b"uids"]
-    ) -> None: ...
+    def ClearField(self, field_name: typing.Literal["gids", b"gids", "mode", b"mode", "uids", b"uids"]) -> None: ...
 
 global___UserNamespace = UserNamespace
 
-@typing_extensions.final
+@typing.final
 class NamespaceOption(google.protobuf.message.Message):
     """NamespaceOption provides options for Linux namespaces."""
 
@@ -502,6 +566,7 @@ class NamespaceOption(google.protobuf.message.Message):
         must be assumed.  This is done for backward compatibility with older Kubelet versions that
         do not set a user namespace.
         """
+
     def __init__(
         self,
         *,
@@ -511,10 +576,10 @@ class NamespaceOption(google.protobuf.message.Message):
         target_id: builtins.str = ...,
         userns_options: global___UserNamespace | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["userns_options", b"userns_options"]) -> builtins.bool: ...
+    def HasField(self, field_name: typing.Literal["userns_options", b"userns_options"]) -> builtins.bool: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "ipc",
             b"ipc",
             "network",
@@ -530,7 +595,7 @@ class NamespaceOption(google.protobuf.message.Message):
 
 global___NamespaceOption = NamespaceOption
 
-@typing_extensions.final
+@typing.final
 class Int64Value(google.protobuf.message.Message):
     """Int64Value is the wrapper of int64."""
 
@@ -544,11 +609,11 @@ class Int64Value(google.protobuf.message.Message):
         *,
         value: builtins.int = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["value", b"value"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["value", b"value"]) -> None: ...
 
 global___Int64Value = Int64Value
 
-@typing_extensions.final
+@typing.final
 class LinuxSandboxSecurityContext(google.protobuf.message.Message):
     """LinuxSandboxSecurityContext holds linux security configuration that will be
     applied to a sandbox. Note that:
@@ -569,29 +634,8 @@ class LinuxSandboxSecurityContext(google.protobuf.message.Message):
     SECCOMP_FIELD_NUMBER: builtins.int
     APPARMOR_FIELD_NUMBER: builtins.int
     SECCOMP_PROFILE_PATH_FIELD_NUMBER: builtins.int
-    @property
-    def namespace_options(self) -> global___NamespaceOption:
-        """Configurations for the sandbox's namespaces.
-        This will be used only if the PodSandbox uses namespace for isolation.
-        """
-    @property
-    def selinux_options(self) -> global___SELinuxOption:
-        """Optional SELinux context to be applied."""
-    @property
-    def run_as_user(self) -> global___Int64Value:
-        """UID to run sandbox processes as, when applicable."""
-    @property
-    def run_as_group(self) -> global___Int64Value:
-        """GID to run sandbox processes as, when applicable. run_as_group should only
-        be specified when run_as_user is specified; otherwise, the runtime MUST error.
-        """
     readonly_rootfs: builtins.bool
     """If set, the root filesystem of the sandbox is read-only."""
-    @property
-    def supplemental_groups(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.int]:
-        """List of groups applied to the first process run in the sandbox, in
-        addition to the sandbox's primary GID.
-        """
     privileged: builtins.bool
     """Indicates whether the sandbox will be asked to run a privileged
     container. If a privileged container is to be executed within it, this
@@ -599,12 +643,6 @@ class LinuxSandboxSecurityContext(google.protobuf.message.Message):
     This allows a sandbox to take additional security precautions if no
     privileged containers are expected to be run.
     """
-    @property
-    def seccomp(self) -> global___SecurityProfile:
-        """Seccomp profile for the sandbox."""
-    @property
-    def apparmor(self) -> global___SecurityProfile:
-        """AppArmor profile for the sandbox."""
     seccomp_profile_path: builtins.str
     """Seccomp profile for the sandbox, candidate values are:
     * runtime/default: the default profile for the container runtime
@@ -613,6 +651,44 @@ class LinuxSandboxSecurityContext(google.protobuf.message.Message):
       <full-path-to-profile> is the full path of the profile.
     Default: "", which is identical with unconfined.
     """
+    @property
+    def namespace_options(self) -> global___NamespaceOption:
+        """Configurations for the sandbox's namespaces.
+        This will be used only if the PodSandbox uses namespace for isolation.
+        """
+
+    @property
+    def selinux_options(self) -> global___SELinuxOption:
+        """Optional SELinux context to be applied."""
+
+    @property
+    def run_as_user(self) -> global___Int64Value:
+        """UID to run sandbox processes as, when applicable."""
+
+    @property
+    def run_as_group(self) -> global___Int64Value:
+        """GID to run sandbox processes as, when applicable. run_as_group should only
+        be specified when run_as_user is specified; otherwise, the runtime MUST error.
+        """
+
+    @property
+    def supplemental_groups(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.int]:
+        """List of groups applied to the first process run in the sandbox, in
+        addition to the sandbox's primary GID, and group memberships defined
+        in the container image for the sandbox's primary UID of the container process.
+        If the list is empty, no additional groups are added to any container.
+        Note that group memberships defined in the container image for the sandbox's primary UID
+        of the container process are still effective, even if they are not included in this list.
+        """
+
+    @property
+    def seccomp(self) -> global___SecurityProfile:
+        """Seccomp profile for the sandbox."""
+
+    @property
+    def apparmor(self) -> global___SecurityProfile:
+        """AppArmor profile for the sandbox."""
+
     def __init__(
         self,
         *,
@@ -629,7 +705,7 @@ class LinuxSandboxSecurityContext(google.protobuf.message.Message):
     ) -> None: ...
     def HasField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "apparmor",
             b"apparmor",
             "namespace_options",
@@ -646,7 +722,7 @@ class LinuxSandboxSecurityContext(google.protobuf.message.Message):
     ) -> builtins.bool: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "apparmor",
             b"apparmor",
             "namespace_options",
@@ -672,7 +748,7 @@ class LinuxSandboxSecurityContext(google.protobuf.message.Message):
 
 global___LinuxSandboxSecurityContext = LinuxSandboxSecurityContext
 
-@typing_extensions.final
+@typing.final
 class SecurityProfile(google.protobuf.message.Message):
     """A security profile which can be used for sandboxes and containers."""
 
@@ -685,7 +761,7 @@ class SecurityProfile(google.protobuf.message.Message):
     class _ProfileTypeEnumTypeWrapper(
         google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[SecurityProfile._ProfileType.ValueType],
         builtins.type,
-    ):  # noqa: F821
+    ):
         DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
         RuntimeDefault: SecurityProfile._ProfileType.ValueType  # 0
         """The container runtime default profile should be used."""
@@ -721,12 +797,12 @@ class SecurityProfile(google.protobuf.message.Message):
         localhost_ref: builtins.str = ...,
     ) -> None: ...
     def ClearField(
-        self, field_name: typing_extensions.Literal["localhost_ref", b"localhost_ref", "profile_type", b"profile_type"]
+        self, field_name: typing.Literal["localhost_ref", b"localhost_ref", "profile_type", b"profile_type"]
     ) -> None: ...
 
 global___SecurityProfile = SecurityProfile
 
-@typing_extensions.final
+@typing.final
 class LinuxPodSandboxConfig(google.protobuf.message.Message):
     """LinuxPodSandboxConfig holds platform-specific configurations for Linux
     host platforms and Linux-based containers.
@@ -734,7 +810,7 @@ class LinuxPodSandboxConfig(google.protobuf.message.Message):
 
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
-    @typing_extensions.final
+    @typing.final
     class SysctlsEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -748,7 +824,7 @@ class LinuxPodSandboxConfig(google.protobuf.message.Message):
             key: builtins.str = ...,
             value: builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
+        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     CGROUP_PARENT_FIELD_NUMBER: builtins.int
     SECURITY_CONTEXT_FIELD_NUMBER: builtins.int
@@ -763,15 +839,19 @@ class LinuxPodSandboxConfig(google.protobuf.message.Message):
     @property
     def security_context(self) -> global___LinuxSandboxSecurityContext:
         """LinuxSandboxSecurityContext holds sandbox security attributes."""
+
     @property
     def sysctls(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
         """Sysctls holds linux sysctls config for the sandbox."""
+
     @property
     def overhead(self) -> global___LinuxContainerResources:
         """Optional overhead represents the overheads associated with this sandbox"""
+
     @property
     def resources(self) -> global___LinuxContainerResources:
         """Optional resources represents the sum of container resources for this sandbox"""
+
     def __init__(
         self,
         *,
@@ -783,13 +863,13 @@ class LinuxPodSandboxConfig(google.protobuf.message.Message):
     ) -> None: ...
     def HasField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "overhead", b"overhead", "resources", b"resources", "security_context", b"security_context"
         ],
     ) -> builtins.bool: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "cgroup_parent",
             b"cgroup_parent",
             "overhead",
@@ -805,7 +885,7 @@ class LinuxPodSandboxConfig(google.protobuf.message.Message):
 
 global___LinuxPodSandboxConfig = LinuxPodSandboxConfig
 
-@typing_extensions.final
+@typing.final
 class PodSandboxMetadata(google.protobuf.message.Message):
     """PodSandboxMetadata holds all necessary information for building the sandbox name.
     The container runtime is encouraged to expose the metadata associated with the
@@ -837,14 +917,12 @@ class PodSandboxMetadata(google.protobuf.message.Message):
     ) -> None: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
-            "attempt", b"attempt", "name", b"name", "namespace", b"namespace", "uid", b"uid"
-        ],
+        field_name: typing.Literal["attempt", b"attempt", "name", b"name", "namespace", b"namespace", "uid", b"uid"],
     ) -> None: ...
 
 global___PodSandboxMetadata = PodSandboxMetadata
 
-@typing_extensions.final
+@typing.final
 class PodSandboxConfig(google.protobuf.message.Message):
     """PodSandboxConfig holds all the required and optional fields for creating a
     sandbox.
@@ -852,7 +930,7 @@ class PodSandboxConfig(google.protobuf.message.Message):
 
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
-    @typing_extensions.final
+    @typing.final
     class LabelsEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -866,9 +944,9 @@ class PodSandboxConfig(google.protobuf.message.Message):
             key: builtins.str = ...,
             value: builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
+        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
 
-    @typing_extensions.final
+    @typing.final
     class AnnotationsEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -882,7 +960,7 @@ class PodSandboxConfig(google.protobuf.message.Message):
             key: builtins.str = ...,
             value: builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
+        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     METADATA_FIELD_NUMBER: builtins.int
     HOSTNAME_FIELD_NUMBER: builtins.int
@@ -893,13 +971,6 @@ class PodSandboxConfig(google.protobuf.message.Message):
     ANNOTATIONS_FIELD_NUMBER: builtins.int
     LINUX_FIELD_NUMBER: builtins.int
     WINDOWS_FIELD_NUMBER: builtins.int
-    @property
-    def metadata(self) -> global___PodSandboxMetadata:
-        """Metadata of the sandbox. This information will uniquely identify the
-        sandbox, and the runtime should leverage this to ensure correct
-        operation. The runtime may also use this information to improve UX, such
-        as by constructing a readable name.
-        """
     hostname: builtins.str
     """Hostname of the sandbox. Hostname could only be empty when the pod
     network namespace is NODE.
@@ -913,20 +984,31 @@ class PodSandboxConfig(google.protobuf.message.Message):
     containers. For example, the files might be newline separated JSON
     structured logs, systemd-journald journal files, gRPC trace files, etc.
     E.g.,
-        PodSandboxConfig.LogDirectory = `/var/log/pods/<podUID>/`
+        PodSandboxConfig.LogDirectory = `/var/log/pods/<NAMESPACE>_<NAME>_<UID>/`
         ContainerConfig.LogPath = `containerName/Instance#.log`
     """
     @property
+    def metadata(self) -> global___PodSandboxMetadata:
+        """Metadata of the sandbox. This information will uniquely identify the
+        sandbox, and the runtime should leverage this to ensure correct
+        operation. The runtime may also use this information to improve UX, such
+        as by constructing a readable name.
+        """
+
+    @property
     def dns_config(self) -> global___DNSConfig:
         """DNS config for the sandbox."""
+
     @property
     def port_mappings(
         self,
     ) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___PortMapping]:
         """Port mappings for the sandbox."""
+
     @property
     def labels(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
         """Key-value pairs that may be used to scope and select individual resources."""
+
     @property
     def annotations(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
         """Unstructured key-value map that may be set by the kubelet to store and
@@ -946,12 +1028,15 @@ class PodSandboxConfig(google.protobuf.message.Message):
         and the CRI). Whenever possible, however, runtime authors SHOULD
         consider proposing new typed fields for any new features instead.
         """
+
     @property
     def linux(self) -> global___LinuxPodSandboxConfig:
         """Optional configurations specific to Linux hosts."""
+
     @property
     def windows(self) -> global___WindowsPodSandboxConfig:
         """Optional configurations specific to Windows hosts."""
+
     def __init__(
         self,
         *,
@@ -967,13 +1052,13 @@ class PodSandboxConfig(google.protobuf.message.Message):
     ) -> None: ...
     def HasField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "dns_config", b"dns_config", "linux", b"linux", "metadata", b"metadata", "windows", b"windows"
         ],
     ) -> builtins.bool: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "annotations",
             b"annotations",
             "dns_config",
@@ -997,15 +1082,12 @@ class PodSandboxConfig(google.protobuf.message.Message):
 
 global___PodSandboxConfig = PodSandboxConfig
 
-@typing_extensions.final
+@typing.final
 class RunPodSandboxRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
     CONFIG_FIELD_NUMBER: builtins.int
     RUNTIME_HANDLER_FIELD_NUMBER: builtins.int
-    @property
-    def config(self) -> global___PodSandboxConfig:
-        """Configuration for creating a PodSandbox."""
     runtime_handler: builtins.str
     """Named runtime configuration to use for this PodSandbox.
     If the runtime handler is unknown, this request should be rejected.  An
@@ -1013,20 +1095,24 @@ class RunPodSandboxRequest(google.protobuf.message.Message):
     behavior before this feature was added.
     See https://git.k8s.io/enhancements/keps/sig-node/585-runtime-class
     """
+    @property
+    def config(self) -> global___PodSandboxConfig:
+        """Configuration for creating a PodSandbox."""
+
     def __init__(
         self,
         *,
         config: global___PodSandboxConfig | None = ...,
         runtime_handler: builtins.str = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["config", b"config"]) -> builtins.bool: ...
+    def HasField(self, field_name: typing.Literal["config", b"config"]) -> builtins.bool: ...
     def ClearField(
-        self, field_name: typing_extensions.Literal["config", b"config", "runtime_handler", b"runtime_handler"]
+        self, field_name: typing.Literal["config", b"config", "runtime_handler", b"runtime_handler"]
     ) -> None: ...
 
 global___RunPodSandboxRequest = RunPodSandboxRequest
 
-@typing_extensions.final
+@typing.final
 class RunPodSandboxResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -1038,11 +1124,11 @@ class RunPodSandboxResponse(google.protobuf.message.Message):
         *,
         pod_sandbox_id: builtins.str = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["pod_sandbox_id", b"pod_sandbox_id"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["pod_sandbox_id", b"pod_sandbox_id"]) -> None: ...
 
 global___RunPodSandboxResponse = RunPodSandboxResponse
 
-@typing_extensions.final
+@typing.final
 class StopPodSandboxRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -1054,11 +1140,11 @@ class StopPodSandboxRequest(google.protobuf.message.Message):
         *,
         pod_sandbox_id: builtins.str = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["pod_sandbox_id", b"pod_sandbox_id"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["pod_sandbox_id", b"pod_sandbox_id"]) -> None: ...
 
 global___StopPodSandboxRequest = StopPodSandboxRequest
 
-@typing_extensions.final
+@typing.final
 class StopPodSandboxResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -1068,7 +1154,7 @@ class StopPodSandboxResponse(google.protobuf.message.Message):
 
 global___StopPodSandboxResponse = StopPodSandboxResponse
 
-@typing_extensions.final
+@typing.final
 class RemovePodSandboxRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -1080,11 +1166,11 @@ class RemovePodSandboxRequest(google.protobuf.message.Message):
         *,
         pod_sandbox_id: builtins.str = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["pod_sandbox_id", b"pod_sandbox_id"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["pod_sandbox_id", b"pod_sandbox_id"]) -> None: ...
 
 global___RemovePodSandboxRequest = RemovePodSandboxRequest
 
-@typing_extensions.final
+@typing.final
 class RemovePodSandboxResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -1094,7 +1180,7 @@ class RemovePodSandboxResponse(google.protobuf.message.Message):
 
 global___RemovePodSandboxResponse = RemovePodSandboxResponse
 
-@typing_extensions.final
+@typing.final
 class PodSandboxStatusRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -1111,12 +1197,12 @@ class PodSandboxStatusRequest(google.protobuf.message.Message):
         verbose: builtins.bool = ...,
     ) -> None: ...
     def ClearField(
-        self, field_name: typing_extensions.Literal["pod_sandbox_id", b"pod_sandbox_id", "verbose", b"verbose"]
+        self, field_name: typing.Literal["pod_sandbox_id", b"pod_sandbox_id", "verbose", b"verbose"]
     ) -> None: ...
 
 global___PodSandboxStatusRequest = PodSandboxStatusRequest
 
-@typing_extensions.final
+@typing.final
 class PodIP(google.protobuf.message.Message):
     """PodIP represents an ip of a Pod"""
 
@@ -1130,11 +1216,11 @@ class PodIP(google.protobuf.message.Message):
         *,
         ip: builtins.str = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["ip", b"ip"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["ip", b"ip"]) -> None: ...
 
 global___PodIP = PodIP
 
-@typing_extensions.final
+@typing.final
 class PodSandboxNetworkStatus(google.protobuf.message.Message):
     """PodSandboxNetworkStatus is the status of the network for a PodSandbox.
     Currently ignored for pods sharing the host networking namespace.
@@ -1149,19 +1235,18 @@ class PodSandboxNetworkStatus(google.protobuf.message.Message):
     @property
     def additional_ips(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___PodIP]:
         """list of additional ips (not inclusive of PodSandboxNetworkStatus.Ip) of the PodSandBoxNetworkStatus"""
+
     def __init__(
         self,
         *,
         ip: builtins.str = ...,
         additional_ips: collections.abc.Iterable[global___PodIP] | None = ...,
     ) -> None: ...
-    def ClearField(
-        self, field_name: typing_extensions.Literal["additional_ips", b"additional_ips", "ip", b"ip"]
-    ) -> None: ...
+    def ClearField(self, field_name: typing.Literal["additional_ips", b"additional_ips", "ip", b"ip"]) -> None: ...
 
 global___PodSandboxNetworkStatus = PodSandboxNetworkStatus
 
-@typing_extensions.final
+@typing.final
 class Namespace(google.protobuf.message.Message):
     """Namespace contains paths to the namespaces."""
 
@@ -1171,17 +1256,18 @@ class Namespace(google.protobuf.message.Message):
     @property
     def options(self) -> global___NamespaceOption:
         """Namespace options for Linux namespaces."""
+
     def __init__(
         self,
         *,
         options: global___NamespaceOption | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["options", b"options"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["options", b"options"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["options", b"options"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["options", b"options"]) -> None: ...
 
 global___Namespace = Namespace
 
-@typing_extensions.final
+@typing.final
 class LinuxPodSandboxStatus(google.protobuf.message.Message):
     """LinuxSandboxStatus contains status specific to Linux sandboxes."""
 
@@ -1191,23 +1277,24 @@ class LinuxPodSandboxStatus(google.protobuf.message.Message):
     @property
     def namespaces(self) -> global___Namespace:
         """Paths to the sandbox's namespaces."""
+
     def __init__(
         self,
         *,
         namespaces: global___Namespace | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["namespaces", b"namespaces"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["namespaces", b"namespaces"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["namespaces", b"namespaces"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["namespaces", b"namespaces"]) -> None: ...
 
 global___LinuxPodSandboxStatus = LinuxPodSandboxStatus
 
-@typing_extensions.final
+@typing.final
 class PodSandboxStatus(google.protobuf.message.Message):
     """PodSandboxStatus contains the status of the PodSandbox."""
 
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
-    @typing_extensions.final
+    @typing.final
     class LabelsEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -1221,9 +1308,9 @@ class PodSandboxStatus(google.protobuf.message.Message):
             key: builtins.str = ...,
             value: builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
+        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
 
-    @typing_extensions.final
+    @typing.final
     class AnnotationsEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -1237,7 +1324,7 @@ class PodSandboxStatus(google.protobuf.message.Message):
             key: builtins.str = ...,
             value: builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
+        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     ID_FIELD_NUMBER: builtins.int
     METADATA_FIELD_NUMBER: builtins.int
@@ -1250,22 +1337,28 @@ class PodSandboxStatus(google.protobuf.message.Message):
     RUNTIME_HANDLER_FIELD_NUMBER: builtins.int
     id: builtins.str
     """ID of the sandbox."""
-    @property
-    def metadata(self) -> global___PodSandboxMetadata:
-        """Metadata of the sandbox."""
     state: global___PodSandboxState.ValueType
     """State of the sandbox."""
     created_at: builtins.int
     """Creation timestamp of the sandbox in nanoseconds. Must be > 0."""
+    runtime_handler: builtins.str
+    """runtime configuration used for this PodSandbox."""
+    @property
+    def metadata(self) -> global___PodSandboxMetadata:
+        """Metadata of the sandbox."""
+
     @property
     def network(self) -> global___PodSandboxNetworkStatus:
         """Network contains network status if network is handled by the runtime."""
+
     @property
     def linux(self) -> global___LinuxPodSandboxStatus:
         """Linux-specific status to a pod sandbox."""
+
     @property
     def labels(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
         """Labels are key-value pairs that may be used to scope and select individual resources."""
+
     @property
     def annotations(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
         """Unstructured key-value map holding arbitrary metadata.
@@ -1273,8 +1366,7 @@ class PodSandboxStatus(google.protobuf.message.Message):
         MUST be identical to that of the corresponding PodSandboxConfig used to
         instantiate the pod sandbox this status represents.
         """
-    runtime_handler: builtins.str
-    """runtime configuration used for this PodSandbox."""
+
     def __init__(
         self,
         *,
@@ -1289,11 +1381,11 @@ class PodSandboxStatus(google.protobuf.message.Message):
         runtime_handler: builtins.str = ...,
     ) -> None: ...
     def HasField(
-        self, field_name: typing_extensions.Literal["linux", b"linux", "metadata", b"metadata", "network", b"network"]
+        self, field_name: typing.Literal["linux", b"linux", "metadata", b"metadata", "network", b"network"]
     ) -> builtins.bool: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "annotations",
             b"annotations",
             "created_at",
@@ -1317,11 +1409,11 @@ class PodSandboxStatus(google.protobuf.message.Message):
 
 global___PodSandboxStatus = PodSandboxStatus
 
-@typing_extensions.final
+@typing.final
 class PodSandboxStatusResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
-    @typing_extensions.final
+    @typing.final
     class InfoEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -1335,13 +1427,18 @@ class PodSandboxStatusResponse(google.protobuf.message.Message):
             key: builtins.str = ...,
             value: builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
+        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     STATUS_FIELD_NUMBER: builtins.int
     INFO_FIELD_NUMBER: builtins.int
+    CONTAINERS_STATUSES_FIELD_NUMBER: builtins.int
+    TIMESTAMP_FIELD_NUMBER: builtins.int
+    timestamp: builtins.int
+    """Timestamp at which container and pod statuses were recorded"""
     @property
     def status(self) -> global___PodSandboxStatus:
         """Status of the PodSandbox."""
+
     @property
     def info(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
         """Info is extra information of the PodSandbox. The key could be arbitrary string, and
@@ -1349,18 +1446,39 @@ class PodSandboxStatusResponse(google.protobuf.message.Message):
         debug, e.g. network namespace for linux container based container runtime.
         It should only be returned non-empty when Verbose is true.
         """
+
+    @property
+    def containers_statuses(
+        self,
+    ) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___ContainerStatus]:
+        """Container statuses"""
+
     def __init__(
         self,
         *,
         status: global___PodSandboxStatus | None = ...,
         info: collections.abc.Mapping[builtins.str, builtins.str] | None = ...,
+        containers_statuses: collections.abc.Iterable[global___ContainerStatus] | None = ...,
+        timestamp: builtins.int = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["status", b"status"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["info", b"info", "status", b"status"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["status", b"status"]) -> builtins.bool: ...
+    def ClearField(
+        self,
+        field_name: typing.Literal[
+            "containers_statuses",
+            b"containers_statuses",
+            "info",
+            b"info",
+            "status",
+            b"status",
+            "timestamp",
+            b"timestamp",
+        ],
+    ) -> None: ...
 
 global___PodSandboxStatusResponse = PodSandboxStatusResponse
 
-@typing_extensions.final
+@typing.final
 class PodSandboxStateValue(google.protobuf.message.Message):
     """PodSandboxStateValue is the wrapper of PodSandboxState."""
 
@@ -1374,11 +1492,11 @@ class PodSandboxStateValue(google.protobuf.message.Message):
         *,
         state: global___PodSandboxState.ValueType = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["state", b"state"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["state", b"state"]) -> None: ...
 
 global___PodSandboxStateValue = PodSandboxStateValue
 
-@typing_extensions.final
+@typing.final
 class PodSandboxFilter(google.protobuf.message.Message):
     """PodSandboxFilter is used to filter a list of PodSandboxes.
     All those fields are combined with 'AND'
@@ -1386,7 +1504,7 @@ class PodSandboxFilter(google.protobuf.message.Message):
 
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
-    @typing_extensions.final
+    @typing.final
     class LabelSelectorEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -1400,7 +1518,7 @@ class PodSandboxFilter(google.protobuf.message.Message):
             key: builtins.str = ...,
             value: builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
+        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     ID_FIELD_NUMBER: builtins.int
     STATE_FIELD_NUMBER: builtins.int
@@ -1410,12 +1528,14 @@ class PodSandboxFilter(google.protobuf.message.Message):
     @property
     def state(self) -> global___PodSandboxStateValue:
         """State of the sandbox."""
+
     @property
     def label_selector(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
         """LabelSelector to select matches.
         Only api.MatchLabels is supported for now and the requirements
         are ANDed. MatchExpressions is not supported yet.
         """
+
     def __init__(
         self,
         *,
@@ -1423,14 +1543,14 @@ class PodSandboxFilter(google.protobuf.message.Message):
         state: global___PodSandboxStateValue | None = ...,
         label_selector: collections.abc.Mapping[builtins.str, builtins.str] | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["state", b"state"]) -> builtins.bool: ...
+    def HasField(self, field_name: typing.Literal["state", b"state"]) -> builtins.bool: ...
     def ClearField(
-        self, field_name: typing_extensions.Literal["id", b"id", "label_selector", b"label_selector", "state", b"state"]
+        self, field_name: typing.Literal["id", b"id", "label_selector", b"label_selector", "state", b"state"]
     ) -> None: ...
 
 global___PodSandboxFilter = PodSandboxFilter
 
-@typing_extensions.final
+@typing.final
 class ListPodSandboxRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -1438,23 +1558,24 @@ class ListPodSandboxRequest(google.protobuf.message.Message):
     @property
     def filter(self) -> global___PodSandboxFilter:
         """PodSandboxFilter to filter a list of PodSandboxes."""
+
     def __init__(
         self,
         *,
         filter: global___PodSandboxFilter | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["filter", b"filter"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["filter", b"filter"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["filter", b"filter"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["filter", b"filter"]) -> None: ...
 
 global___ListPodSandboxRequest = ListPodSandboxRequest
 
-@typing_extensions.final
+@typing.final
 class PodSandbox(google.protobuf.message.Message):
     """PodSandbox contains minimal information about a sandbox."""
 
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
-    @typing_extensions.final
+    @typing.final
     class LabelsEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -1468,9 +1589,9 @@ class PodSandbox(google.protobuf.message.Message):
             key: builtins.str = ...,
             value: builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
+        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
 
-    @typing_extensions.final
+    @typing.final
     class AnnotationsEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -1484,7 +1605,7 @@ class PodSandbox(google.protobuf.message.Message):
             key: builtins.str = ...,
             value: builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
+        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     ID_FIELD_NUMBER: builtins.int
     METADATA_FIELD_NUMBER: builtins.int
@@ -1495,16 +1616,20 @@ class PodSandbox(google.protobuf.message.Message):
     RUNTIME_HANDLER_FIELD_NUMBER: builtins.int
     id: builtins.str
     """ID of the PodSandbox."""
-    @property
-    def metadata(self) -> global___PodSandboxMetadata:
-        """Metadata of the PodSandbox."""
     state: global___PodSandboxState.ValueType
     """State of the PodSandbox."""
     created_at: builtins.int
     """Creation timestamps of the PodSandbox in nanoseconds. Must be > 0."""
+    runtime_handler: builtins.str
+    """runtime configuration used for this PodSandbox."""
+    @property
+    def metadata(self) -> global___PodSandboxMetadata:
+        """Metadata of the PodSandbox."""
+
     @property
     def labels(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
         """Labels of the PodSandbox."""
+
     @property
     def annotations(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
         """Unstructured key-value map holding arbitrary metadata.
@@ -1512,8 +1637,7 @@ class PodSandbox(google.protobuf.message.Message):
         MUST be identical to that of the corresponding PodSandboxConfig used to
         instantiate this PodSandbox.
         """
-    runtime_handler: builtins.str
-    """runtime configuration used for this PodSandbox."""
+
     def __init__(
         self,
         *,
@@ -1525,10 +1649,10 @@ class PodSandbox(google.protobuf.message.Message):
         annotations: collections.abc.Mapping[builtins.str, builtins.str] | None = ...,
         runtime_handler: builtins.str = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["metadata", b"metadata"]) -> builtins.bool: ...
+    def HasField(self, field_name: typing.Literal["metadata", b"metadata"]) -> builtins.bool: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "annotations",
             b"annotations",
             "created_at",
@@ -1548,7 +1672,7 @@ class PodSandbox(google.protobuf.message.Message):
 
 global___PodSandbox = PodSandbox
 
-@typing_extensions.final
+@typing.final
 class ListPodSandboxResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -1556,16 +1680,17 @@ class ListPodSandboxResponse(google.protobuf.message.Message):
     @property
     def items(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___PodSandbox]:
         """List of PodSandboxes."""
+
     def __init__(
         self,
         *,
         items: collections.abc.Iterable[global___PodSandbox] | None = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["items", b"items"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["items", b"items"]) -> None: ...
 
 global___ListPodSandboxResponse = ListPodSandboxResponse
 
-@typing_extensions.final
+@typing.final
 class PodSandboxStatsRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -1577,11 +1702,11 @@ class PodSandboxStatsRequest(google.protobuf.message.Message):
         *,
         pod_sandbox_id: builtins.str = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["pod_sandbox_id", b"pod_sandbox_id"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["pod_sandbox_id", b"pod_sandbox_id"]) -> None: ...
 
 global___PodSandboxStatsRequest = PodSandboxStatsRequest
 
-@typing_extensions.final
+@typing.final
 class PodSandboxStatsResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -1593,12 +1718,12 @@ class PodSandboxStatsResponse(google.protobuf.message.Message):
         *,
         stats: global___PodSandboxStats | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["stats", b"stats"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["stats", b"stats"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["stats", b"stats"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["stats", b"stats"]) -> None: ...
 
 global___PodSandboxStatsResponse = PodSandboxStatsResponse
 
-@typing_extensions.final
+@typing.final
 class PodSandboxStatsFilter(google.protobuf.message.Message):
     """PodSandboxStatsFilter is used to filter the list of pod sandboxes to retrieve stats for.
     All those fields are combined with 'AND'.
@@ -1606,7 +1731,7 @@ class PodSandboxStatsFilter(google.protobuf.message.Message):
 
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
-    @typing_extensions.final
+    @typing.final
     class LabelSelectorEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -1620,7 +1745,7 @@ class PodSandboxStatsFilter(google.protobuf.message.Message):
             key: builtins.str = ...,
             value: builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
+        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     ID_FIELD_NUMBER: builtins.int
     LABEL_SELECTOR_FIELD_NUMBER: builtins.int
@@ -1632,19 +1757,18 @@ class PodSandboxStatsFilter(google.protobuf.message.Message):
         Only api.MatchLabels is supported for now and the requirements
         are ANDed. MatchExpressions is not supported yet.
         """
+
     def __init__(
         self,
         *,
         id: builtins.str = ...,
         label_selector: collections.abc.Mapping[builtins.str, builtins.str] | None = ...,
     ) -> None: ...
-    def ClearField(
-        self, field_name: typing_extensions.Literal["id", b"id", "label_selector", b"label_selector"]
-    ) -> None: ...
+    def ClearField(self, field_name: typing.Literal["id", b"id", "label_selector", b"label_selector"]) -> None: ...
 
 global___PodSandboxStatsFilter = PodSandboxStatsFilter
 
-@typing_extensions.final
+@typing.final
 class ListPodSandboxStatsRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -1652,17 +1776,18 @@ class ListPodSandboxStatsRequest(google.protobuf.message.Message):
     @property
     def filter(self) -> global___PodSandboxStatsFilter:
         """Filter for the list request."""
+
     def __init__(
         self,
         *,
         filter: global___PodSandboxStatsFilter | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["filter", b"filter"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["filter", b"filter"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["filter", b"filter"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["filter", b"filter"]) -> None: ...
 
 global___ListPodSandboxStatsRequest = ListPodSandboxStatsRequest
 
-@typing_extensions.final
+@typing.final
 class ListPodSandboxStatsResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -1670,22 +1795,23 @@ class ListPodSandboxStatsResponse(google.protobuf.message.Message):
     @property
     def stats(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___PodSandboxStats]:
         """Stats of the pod sandbox."""
+
     def __init__(
         self,
         *,
         stats: collections.abc.Iterable[global___PodSandboxStats] | None = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["stats", b"stats"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["stats", b"stats"]) -> None: ...
 
 global___ListPodSandboxStatsResponse = ListPodSandboxStatsResponse
 
-@typing_extensions.final
+@typing.final
 class PodSandboxAttributes(google.protobuf.message.Message):
     """PodSandboxAttributes provides basic information of the pod sandbox."""
 
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
-    @typing_extensions.final
+    @typing.final
     class LabelsEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -1699,9 +1825,9 @@ class PodSandboxAttributes(google.protobuf.message.Message):
             key: builtins.str = ...,
             value: builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
+        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
 
-    @typing_extensions.final
+    @typing.final
     class AnnotationsEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -1715,7 +1841,7 @@ class PodSandboxAttributes(google.protobuf.message.Message):
             key: builtins.str = ...,
             value: builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
+        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     ID_FIELD_NUMBER: builtins.int
     METADATA_FIELD_NUMBER: builtins.int
@@ -1726,9 +1852,11 @@ class PodSandboxAttributes(google.protobuf.message.Message):
     @property
     def metadata(self) -> global___PodSandboxMetadata:
         """Metadata of the pod sandbox."""
+
     @property
     def labels(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
         """Key-value pairs that may be used to scope and select individual resources."""
+
     @property
     def annotations(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
         """Unstructured key-value map holding arbitrary metadata.
@@ -1736,6 +1864,7 @@ class PodSandboxAttributes(google.protobuf.message.Message):
         MUST be identical to that of the corresponding PodSandboxStatus used to
         instantiate the PodSandbox this status represents.
         """
+
     def __init__(
         self,
         *,
@@ -1744,17 +1873,17 @@ class PodSandboxAttributes(google.protobuf.message.Message):
         labels: collections.abc.Mapping[builtins.str, builtins.str] | None = ...,
         annotations: collections.abc.Mapping[builtins.str, builtins.str] | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["metadata", b"metadata"]) -> builtins.bool: ...
+    def HasField(self, field_name: typing.Literal["metadata", b"metadata"]) -> builtins.bool: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "annotations", b"annotations", "id", b"id", "labels", b"labels", "metadata", b"metadata"
         ],
     ) -> None: ...
 
 global___PodSandboxAttributes = PodSandboxAttributes
 
-@typing_extensions.final
+@typing.final
 class PodSandboxStats(google.protobuf.message.Message):
     """PodSandboxStats provides the resource usage statistics for a pod.
     The linux or windows field will be populated depending on the platform.
@@ -1768,12 +1897,15 @@ class PodSandboxStats(google.protobuf.message.Message):
     @property
     def attributes(self) -> global___PodSandboxAttributes:
         """Information of the pod."""
+
     @property
     def linux(self) -> global___LinuxPodSandboxStats:
         """Stats from linux."""
+
     @property
     def windows(self) -> global___WindowsPodSandboxStats:
         """Stats from windows."""
+
     def __init__(
         self,
         *,
@@ -1782,17 +1914,15 @@ class PodSandboxStats(google.protobuf.message.Message):
         windows: global___WindowsPodSandboxStats | None = ...,
     ) -> None: ...
     def HasField(
-        self,
-        field_name: typing_extensions.Literal["attributes", b"attributes", "linux", b"linux", "windows", b"windows"],
+        self, field_name: typing.Literal["attributes", b"attributes", "linux", b"linux", "windows", b"windows"]
     ) -> builtins.bool: ...
     def ClearField(
-        self,
-        field_name: typing_extensions.Literal["attributes", b"attributes", "linux", b"linux", "windows", b"windows"],
+        self, field_name: typing.Literal["attributes", b"attributes", "linux", b"linux", "windows", b"windows"]
     ) -> None: ...
 
 global___PodSandboxStats = PodSandboxStats
 
-@typing_extensions.final
+@typing.final
 class LinuxPodSandboxStats(google.protobuf.message.Message):
     """LinuxPodSandboxStats provides the resource usage statistics for a pod sandbox on linux."""
 
@@ -1806,20 +1936,25 @@ class LinuxPodSandboxStats(google.protobuf.message.Message):
     @property
     def cpu(self) -> global___CpuUsage:
         """CPU usage gathered for the pod sandbox."""
+
     @property
     def memory(self) -> global___MemoryUsage:
         """Memory usage gathered for the pod sandbox."""
+
     @property
     def network(self) -> global___NetworkUsage:
         """Network usage gathered for the pod sandbox"""
+
     @property
     def process(self) -> global___ProcessUsage:
         """Stats pertaining to processes in the pod sandbox."""
+
     @property
     def containers(
         self,
     ) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___ContainerStats]:
         """Stats of containers in the measured pod sandbox."""
+
     def __init__(
         self,
         *,
@@ -1831,13 +1966,11 @@ class LinuxPodSandboxStats(google.protobuf.message.Message):
     ) -> None: ...
     def HasField(
         self,
-        field_name: typing_extensions.Literal[
-            "cpu", b"cpu", "memory", b"memory", "network", b"network", "process", b"process"
-        ],
+        field_name: typing.Literal["cpu", b"cpu", "memory", b"memory", "network", b"network", "process", b"process"],
     ) -> builtins.bool: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "containers",
             b"containers",
             "cpu",
@@ -1853,21 +1986,71 @@ class LinuxPodSandboxStats(google.protobuf.message.Message):
 
 global___LinuxPodSandboxStats = LinuxPodSandboxStats
 
-@typing_extensions.final
+@typing.final
 class WindowsPodSandboxStats(google.protobuf.message.Message):
-    """WindowsPodSandboxStats provides the resource usage statistics for a pod sandbox on windows
-    TODO: Add stats relevant to windows.
-    """
+    """WindowsPodSandboxStats provides the resource usage statistics for a pod sandbox on windows"""
 
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
+    CPU_FIELD_NUMBER: builtins.int
+    MEMORY_FIELD_NUMBER: builtins.int
+    NETWORK_FIELD_NUMBER: builtins.int
+    PROCESS_FIELD_NUMBER: builtins.int
+    CONTAINERS_FIELD_NUMBER: builtins.int
+    @property
+    def cpu(self) -> global___WindowsCpuUsage:
+        """CPU usage gathered for the pod sandbox."""
+
+    @property
+    def memory(self) -> global___WindowsMemoryUsage:
+        """Memory usage gathered for the pod sandbox."""
+
+    @property
+    def network(self) -> global___WindowsNetworkUsage:
+        """Network usage gathered for the pod sandbox"""
+
+    @property
+    def process(self) -> global___WindowsProcessUsage:
+        """Stats pertaining to processes in the pod sandbox."""
+
+    @property
+    def containers(
+        self,
+    ) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___WindowsContainerStats]:
+        """Stats of containers in the measured pod sandbox."""
+
     def __init__(
         self,
+        *,
+        cpu: global___WindowsCpuUsage | None = ...,
+        memory: global___WindowsMemoryUsage | None = ...,
+        network: global___WindowsNetworkUsage | None = ...,
+        process: global___WindowsProcessUsage | None = ...,
+        containers: collections.abc.Iterable[global___WindowsContainerStats] | None = ...,
+    ) -> None: ...
+    def HasField(
+        self,
+        field_name: typing.Literal["cpu", b"cpu", "memory", b"memory", "network", b"network", "process", b"process"],
+    ) -> builtins.bool: ...
+    def ClearField(
+        self,
+        field_name: typing.Literal[
+            "containers",
+            b"containers",
+            "cpu",
+            b"cpu",
+            "memory",
+            b"memory",
+            "network",
+            b"network",
+            "process",
+            b"process",
+        ],
     ) -> None: ...
 
 global___WindowsPodSandboxStats = WindowsPodSandboxStats
 
-@typing_extensions.final
+@typing.final
 class NetworkUsage(google.protobuf.message.Message):
     """NetworkUsage contains data about network resources."""
 
@@ -1877,15 +2060,17 @@ class NetworkUsage(google.protobuf.message.Message):
     DEFAULT_INTERFACE_FIELD_NUMBER: builtins.int
     INTERFACES_FIELD_NUMBER: builtins.int
     timestamp: builtins.int
-    """The time at which these stats were updated."""
+    """Timestamp in nanoseconds at which the information were collected. Must be > 0."""
     @property
     def default_interface(self) -> global___NetworkInterfaceUsage:
         """Stats for the default network interface."""
+
     @property
     def interfaces(
         self,
     ) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___NetworkInterfaceUsage]:
         """Stats for all found network interfaces, excluding the default."""
+
     def __init__(
         self,
         *,
@@ -1893,19 +2078,55 @@ class NetworkUsage(google.protobuf.message.Message):
         default_interface: global___NetworkInterfaceUsage | None = ...,
         interfaces: collections.abc.Iterable[global___NetworkInterfaceUsage] | None = ...,
     ) -> None: ...
-    def HasField(
-        self, field_name: typing_extensions.Literal["default_interface", b"default_interface"]
-    ) -> builtins.bool: ...
+    def HasField(self, field_name: typing.Literal["default_interface", b"default_interface"]) -> builtins.bool: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "default_interface", b"default_interface", "interfaces", b"interfaces", "timestamp", b"timestamp"
         ],
     ) -> None: ...
 
 global___NetworkUsage = NetworkUsage
 
-@typing_extensions.final
+@typing.final
+class WindowsNetworkUsage(google.protobuf.message.Message):
+    """WindowsNetworkUsage contains data about network resources specific to Windows."""
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    TIMESTAMP_FIELD_NUMBER: builtins.int
+    DEFAULT_INTERFACE_FIELD_NUMBER: builtins.int
+    INTERFACES_FIELD_NUMBER: builtins.int
+    timestamp: builtins.int
+    """Timestamp in nanoseconds at which the information were collected. Must be > 0."""
+    @property
+    def default_interface(self) -> global___WindowsNetworkInterfaceUsage:
+        """Stats for the default network interface."""
+
+    @property
+    def interfaces(
+        self,
+    ) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___WindowsNetworkInterfaceUsage]:
+        """Stats for all found network interfaces, excluding the default."""
+
+    def __init__(
+        self,
+        *,
+        timestamp: builtins.int = ...,
+        default_interface: global___WindowsNetworkInterfaceUsage | None = ...,
+        interfaces: collections.abc.Iterable[global___WindowsNetworkInterfaceUsage] | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing.Literal["default_interface", b"default_interface"]) -> builtins.bool: ...
+    def ClearField(
+        self,
+        field_name: typing.Literal[
+            "default_interface", b"default_interface", "interfaces", b"interfaces", "timestamp", b"timestamp"
+        ],
+    ) -> None: ...
+
+global___WindowsNetworkUsage = WindowsNetworkUsage
+
+@typing.final
 class NetworkInterfaceUsage(google.protobuf.message.Message):
     """NetworkInterfaceUsage contains resource value data about a network interface."""
 
@@ -1921,15 +2142,19 @@ class NetworkInterfaceUsage(google.protobuf.message.Message):
     @property
     def rx_bytes(self) -> global___UInt64Value:
         """Cumulative count of bytes received."""
+
     @property
     def rx_errors(self) -> global___UInt64Value:
         """Cumulative count of receive errors encountered."""
+
     @property
     def tx_bytes(self) -> global___UInt64Value:
         """Cumulative count of bytes transmitted."""
+
     @property
     def tx_errors(self) -> global___UInt64Value:
         """Cumulative count of transmit errors encountered."""
+
     def __init__(
         self,
         *,
@@ -1941,13 +2166,13 @@ class NetworkInterfaceUsage(google.protobuf.message.Message):
     ) -> None: ...
     def HasField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "rx_bytes", b"rx_bytes", "rx_errors", b"rx_errors", "tx_bytes", b"tx_bytes", "tx_errors", b"tx_errors"
         ],
     ) -> builtins.bool: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "name",
             b"name",
             "rx_bytes",
@@ -1963,7 +2188,76 @@ class NetworkInterfaceUsage(google.protobuf.message.Message):
 
 global___NetworkInterfaceUsage = NetworkInterfaceUsage
 
-@typing_extensions.final
+@typing.final
+class WindowsNetworkInterfaceUsage(google.protobuf.message.Message):
+    """WindowsNetworkInterfaceUsage contains resource value data about a network interface specific for Windows."""
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    NAME_FIELD_NUMBER: builtins.int
+    RX_BYTES_FIELD_NUMBER: builtins.int
+    RX_PACKETS_DROPPED_FIELD_NUMBER: builtins.int
+    TX_BYTES_FIELD_NUMBER: builtins.int
+    TX_PACKETS_DROPPED_FIELD_NUMBER: builtins.int
+    name: builtins.str
+    """The name of the network interface."""
+    @property
+    def rx_bytes(self) -> global___UInt64Value:
+        """Cumulative count of bytes received."""
+
+    @property
+    def rx_packets_dropped(self) -> global___UInt64Value:
+        """Cumulative count of receive errors encountered."""
+
+    @property
+    def tx_bytes(self) -> global___UInt64Value:
+        """Cumulative count of bytes transmitted."""
+
+    @property
+    def tx_packets_dropped(self) -> global___UInt64Value:
+        """Cumulative count of transmit errors encountered."""
+
+    def __init__(
+        self,
+        *,
+        name: builtins.str = ...,
+        rx_bytes: global___UInt64Value | None = ...,
+        rx_packets_dropped: global___UInt64Value | None = ...,
+        tx_bytes: global___UInt64Value | None = ...,
+        tx_packets_dropped: global___UInt64Value | None = ...,
+    ) -> None: ...
+    def HasField(
+        self,
+        field_name: typing.Literal[
+            "rx_bytes",
+            b"rx_bytes",
+            "rx_packets_dropped",
+            b"rx_packets_dropped",
+            "tx_bytes",
+            b"tx_bytes",
+            "tx_packets_dropped",
+            b"tx_packets_dropped",
+        ],
+    ) -> builtins.bool: ...
+    def ClearField(
+        self,
+        field_name: typing.Literal[
+            "name",
+            b"name",
+            "rx_bytes",
+            b"rx_bytes",
+            "rx_packets_dropped",
+            b"rx_packets_dropped",
+            "tx_bytes",
+            b"tx_bytes",
+            "tx_packets_dropped",
+            b"tx_packets_dropped",
+        ],
+    ) -> None: ...
+
+global___WindowsNetworkInterfaceUsage = WindowsNetworkInterfaceUsage
+
+@typing.final
 class ProcessUsage(google.protobuf.message.Message):
     """ProcessUsage are stats pertaining to processes."""
 
@@ -1972,30 +2266,58 @@ class ProcessUsage(google.protobuf.message.Message):
     TIMESTAMP_FIELD_NUMBER: builtins.int
     PROCESS_COUNT_FIELD_NUMBER: builtins.int
     timestamp: builtins.int
-    """The time at which these stats were updated."""
+    """Timestamp in nanoseconds at which the information were collected. Must be > 0."""
     @property
     def process_count(self) -> global___UInt64Value:
         """Number of processes."""
+
     def __init__(
         self,
         *,
         timestamp: builtins.int = ...,
         process_count: global___UInt64Value | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["process_count", b"process_count"]) -> builtins.bool: ...
+    def HasField(self, field_name: typing.Literal["process_count", b"process_count"]) -> builtins.bool: ...
     def ClearField(
-        self, field_name: typing_extensions.Literal["process_count", b"process_count", "timestamp", b"timestamp"]
+        self, field_name: typing.Literal["process_count", b"process_count", "timestamp", b"timestamp"]
     ) -> None: ...
 
 global___ProcessUsage = ProcessUsage
 
-@typing_extensions.final
+@typing.final
+class WindowsProcessUsage(google.protobuf.message.Message):
+    """WindowsProcessUsage are stats pertaining to processes specific to Windows."""
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    TIMESTAMP_FIELD_NUMBER: builtins.int
+    PROCESS_COUNT_FIELD_NUMBER: builtins.int
+    timestamp: builtins.int
+    """Timestamp in nanoseconds at which the information were collected. Must be > 0."""
+    @property
+    def process_count(self) -> global___UInt64Value:
+        """Number of processes."""
+
+    def __init__(
+        self,
+        *,
+        timestamp: builtins.int = ...,
+        process_count: global___UInt64Value | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing.Literal["process_count", b"process_count"]) -> builtins.bool: ...
+    def ClearField(
+        self, field_name: typing.Literal["process_count", b"process_count", "timestamp", b"timestamp"]
+    ) -> None: ...
+
+global___WindowsProcessUsage = WindowsProcessUsage
+
+@typing.final
 class ImageSpec(google.protobuf.message.Message):
     """ImageSpec is an internal representation of an image."""
 
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
-    @typing_extensions.final
+    @typing.final
     class AnnotationsEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -2009,31 +2331,55 @@ class ImageSpec(google.protobuf.message.Message):
             key: builtins.str = ...,
             value: builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
+        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     IMAGE_FIELD_NUMBER: builtins.int
     ANNOTATIONS_FIELD_NUMBER: builtins.int
+    USER_SPECIFIED_IMAGE_FIELD_NUMBER: builtins.int
+    RUNTIME_HANDLER_FIELD_NUMBER: builtins.int
     image: builtins.str
     """Container's Image field (e.g. imageID or imageDigest)."""
+    user_specified_image: builtins.str
+    """The container image reference specified by the user (e.g. image[:tag] or digest).
+    Only set if available within the RPC context.
+    """
+    runtime_handler: builtins.str
+    """Runtime handler to use for pulling the image.
+    If the runtime handler is unknown, the request should be rejected.
+    An empty string would select the default runtime handler.
+    """
     @property
     def annotations(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
         """Unstructured key-value map holding arbitrary metadata.
         ImageSpec Annotations can be used to help the runtime target specific
         images in multi-arch images.
         """
+
     def __init__(
         self,
         *,
         image: builtins.str = ...,
         annotations: collections.abc.Mapping[builtins.str, builtins.str] | None = ...,
+        user_specified_image: builtins.str = ...,
+        runtime_handler: builtins.str = ...,
     ) -> None: ...
     def ClearField(
-        self, field_name: typing_extensions.Literal["annotations", b"annotations", "image", b"image"]
+        self,
+        field_name: typing.Literal[
+            "annotations",
+            b"annotations",
+            "image",
+            b"image",
+            "runtime_handler",
+            b"runtime_handler",
+            "user_specified_image",
+            b"user_specified_image",
+        ],
     ) -> None: ...
 
 global___ImageSpec = ImageSpec
 
-@typing_extensions.final
+@typing.final
 class KeyValue(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -2047,11 +2393,11 @@ class KeyValue(google.protobuf.message.Message):
         key: builtins.str = ...,
         value: builtins.str = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
 
 global___KeyValue = KeyValue
 
-@typing_extensions.final
+@typing.final
 class LinuxContainerResources(google.protobuf.message.Message):
     """LinuxContainerResources specifies Linux specific configuration for
     resources.
@@ -2059,7 +2405,7 @@ class LinuxContainerResources(google.protobuf.message.Message):
 
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
-    @typing_extensions.final
+    @typing.final
     class UnifiedEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -2073,7 +2419,7 @@ class LinuxContainerResources(google.protobuf.message.Message):
             key: builtins.str = ...,
             value: builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
+        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     CPU_PERIOD_FIELD_NUMBER: builtins.int
     CPU_QUOTA_FIELD_NUMBER: builtins.int
@@ -2099,19 +2445,21 @@ class LinuxContainerResources(google.protobuf.message.Message):
     """CpusetCpus constrains the allowed set of logical CPUs. Default: "" (not specified)."""
     cpuset_mems: builtins.str
     """CpusetMems constrains the allowed set of memory nodes. Default: "" (not specified)."""
+    memory_swap_limit_in_bytes: builtins.int
+    """Memory swap limit in bytes. Default 0 (not specified)."""
     @property
     def hugepage_limits(
         self,
     ) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___HugepageLimit]:
         """List of HugepageLimits to limit the HugeTLB usage of container per page size. Default: nil (not specified)."""
+
     @property
     def unified(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
         """Unified resources for cgroup v2. Default: nil (not specified).
         Each key/value in the map refers to the cgroup v2.
         e.g. "memory.max": "6937202688" or "io.weight": "default 100".
         """
-    memory_swap_limit_in_bytes: builtins.int
-    """Memory swap limit in bytes. Default 0 (not specified)."""
+
     def __init__(
         self,
         *,
@@ -2128,7 +2476,7 @@ class LinuxContainerResources(google.protobuf.message.Message):
     ) -> None: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "cpu_period",
             b"cpu_period",
             "cpu_quota",
@@ -2154,7 +2502,7 @@ class LinuxContainerResources(google.protobuf.message.Message):
 
 global___LinuxContainerResources = LinuxContainerResources
 
-@typing_extensions.final
+@typing.final
 class HugepageLimit(google.protobuf.message.Message):
     """HugepageLimit corresponds to the file`hugetlb.<hugepagesize>.limit_in_byte` in container level cgroup.
     For example, `PageSize=1GB`, `Limit=1073741824` means setting `1073741824` bytes to hugetlb.1GB.limit_in_bytes.
@@ -2177,13 +2525,11 @@ class HugepageLimit(google.protobuf.message.Message):
         page_size: builtins.str = ...,
         limit: builtins.int = ...,
     ) -> None: ...
-    def ClearField(
-        self, field_name: typing_extensions.Literal["limit", b"limit", "page_size", b"page_size"]
-    ) -> None: ...
+    def ClearField(self, field_name: typing.Literal["limit", b"limit", "page_size", b"page_size"]) -> None: ...
 
 global___HugepageLimit = HugepageLimit
 
-@typing_extensions.final
+@typing.final
 class SELinuxOption(google.protobuf.message.Message):
     """SELinuxOption are the labels to be applied to the container."""
 
@@ -2206,13 +2552,12 @@ class SELinuxOption(google.protobuf.message.Message):
         level: builtins.str = ...,
     ) -> None: ...
     def ClearField(
-        self,
-        field_name: typing_extensions.Literal["level", b"level", "role", b"role", "type", b"type", "user", b"user"],
+        self, field_name: typing.Literal["level", b"level", "role", b"role", "type", b"type", "user", b"user"]
     ) -> None: ...
 
 global___SELinuxOption = SELinuxOption
 
-@typing_extensions.final
+@typing.final
 class Capability(google.protobuf.message.Message):
     """Capability contains the container capabilities to add or drop
     Dropping a capability will drop it from all sets.
@@ -2232,14 +2577,17 @@ class Capability(google.protobuf.message.Message):
     @property
     def add_capabilities(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
         """List of capabilities to add."""
+
     @property
     def drop_capabilities(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
         """List of capabilities to drop."""
+
     @property
     def add_ambient_capabilities(
         self,
     ) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
         """List of ambient capabilities to add."""
+
     def __init__(
         self,
         *,
@@ -2249,7 +2597,7 @@ class Capability(google.protobuf.message.Message):
     ) -> None: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "add_ambient_capabilities",
             b"add_ambient_capabilities",
             "add_capabilities",
@@ -2261,7 +2609,7 @@ class Capability(google.protobuf.message.Message):
 
 global___Capability = Capability
 
-@typing_extensions.final
+@typing.final
 class LinuxContainerSecurityContext(google.protobuf.message.Message):
     """LinuxContainerSecurityContext holds linux security configuration that will be applied to a container."""
 
@@ -2283,9 +2631,6 @@ class LinuxContainerSecurityContext(google.protobuf.message.Message):
     APPARMOR_FIELD_NUMBER: builtins.int
     APPARMOR_PROFILE_FIELD_NUMBER: builtins.int
     SECCOMP_PROFILE_PATH_FIELD_NUMBER: builtins.int
-    @property
-    def capabilities(self) -> global___Capability:
-        """Capabilities to add or drop."""
     privileged: builtins.bool
     """If set, run container in privileged mode.
     Privileged mode is incompatible with the following options. If
@@ -2305,25 +2650,6 @@ class LinuxContainerSecurityContext(google.protobuf.message.Message):
     7. All devices from the host's /dev are available within the container.
     8. SELinux restrictions are not applied (e.g. label=disabled).
     """
-    @property
-    def namespace_options(self) -> global___NamespaceOption:
-        """Configurations for the container's namespaces.
-        Only used if the container uses namespace for isolation.
-        """
-    @property
-    def selinux_options(self) -> global___SELinuxOption:
-        """SELinux context to be optionally applied."""
-    @property
-    def run_as_user(self) -> global___Int64Value:
-        """UID to run the container process as. Only one of run_as_user and
-        run_as_username can be specified at a time.
-        """
-    @property
-    def run_as_group(self) -> global___Int64Value:
-        """GID to run the container process as. run_as_group should only be specified
-        when run_as_user or run_as_username is specified; otherwise, the runtime
-        MUST error.
-        """
     run_as_username: builtins.str
     """User name to run the container process as. If specified, the user MUST
     exist in the container image (i.e. in the /etc/passwd inside the image),
@@ -2331,31 +2657,10 @@ class LinuxContainerSecurityContext(google.protobuf.message.Message):
     """
     readonly_rootfs: builtins.bool
     """If set, the root filesystem of the container is read-only."""
-    @property
-    def supplemental_groups(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.int]:
-        """List of groups applied to the first process run in the container, in
-        addition to the container's primary GID.
-        """
     no_new_privs: builtins.bool
     """no_new_privs defines if the flag for no_new_privs should be set on the
     container.
     """
-    @property
-    def masked_paths(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
-        """masked_paths is a slice of paths that should be masked by the container
-        runtime, this can be passed directly to the OCI spec.
-        """
-    @property
-    def readonly_paths(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
-        """readonly_paths is a slice of paths that should be set as readonly by the
-        container runtime, this can be passed directly to the OCI spec.
-        """
-    @property
-    def seccomp(self) -> global___SecurityProfile:
-        """Seccomp profile for the container."""
-    @property
-    def apparmor(self) -> global___SecurityProfile:
-        """AppArmor profile for the container."""
     apparmor_profile: builtins.str
     """AppArmor profile for the container, candidate values are:
     * runtime/default: equivalent to not specifying a profile.
@@ -2372,6 +2677,63 @@ class LinuxContainerSecurityContext(google.protobuf.message.Message):
       <full-path-to-profile> is the full path of the profile.
     Default: "", which is identical with unconfined.
     """
+    @property
+    def capabilities(self) -> global___Capability:
+        """Capabilities to add or drop."""
+
+    @property
+    def namespace_options(self) -> global___NamespaceOption:
+        """Configurations for the container's namespaces.
+        Only used if the container uses namespace for isolation.
+        """
+
+    @property
+    def selinux_options(self) -> global___SELinuxOption:
+        """SELinux context to be optionally applied."""
+
+    @property
+    def run_as_user(self) -> global___Int64Value:
+        """UID to run the container process as. Only one of run_as_user and
+        run_as_username can be specified at a time.
+        """
+
+    @property
+    def run_as_group(self) -> global___Int64Value:
+        """GID to run the container process as. run_as_group should only be specified
+        when run_as_user or run_as_username is specified; otherwise, the runtime
+        MUST error.
+        """
+
+    @property
+    def supplemental_groups(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.int]:
+        """List of groups applied to the first process run in the container, in
+        addition to the container's primary GID, and group memberships defined
+        in the container image for the container's primary UID of the container process.
+        If the list is empty, no additional groups are added to any container.
+        Note that group memberships defined in the container image for the container's primary UID
+        of the container process are still effective, even if they are not included in this list.
+        """
+
+    @property
+    def masked_paths(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
+        """masked_paths is a slice of paths that should be masked by the container
+        runtime, this can be passed directly to the OCI spec.
+        """
+
+    @property
+    def readonly_paths(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
+        """readonly_paths is a slice of paths that should be set as readonly by the
+        container runtime, this can be passed directly to the OCI spec.
+        """
+
+    @property
+    def seccomp(self) -> global___SecurityProfile:
+        """Seccomp profile for the container."""
+
+    @property
+    def apparmor(self) -> global___SecurityProfile:
+        """AppArmor profile for the container."""
+
     def __init__(
         self,
         *,
@@ -2394,7 +2756,7 @@ class LinuxContainerSecurityContext(google.protobuf.message.Message):
     ) -> None: ...
     def HasField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "apparmor",
             b"apparmor",
             "capabilities",
@@ -2413,7 +2775,7 @@ class LinuxContainerSecurityContext(google.protobuf.message.Message):
     ) -> builtins.bool: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "apparmor",
             b"apparmor",
             "apparmor_profile",
@@ -2451,7 +2813,7 @@ class LinuxContainerSecurityContext(google.protobuf.message.Message):
 
 global___LinuxContainerSecurityContext = LinuxContainerSecurityContext
 
-@typing_extensions.final
+@typing.final
 class LinuxContainerConfig(google.protobuf.message.Message):
     """LinuxContainerConfig contains platform-specific configuration for
     Linux-based containers.
@@ -2464,9 +2826,11 @@ class LinuxContainerConfig(google.protobuf.message.Message):
     @property
     def resources(self) -> global___LinuxContainerResources:
         """Resources specification for the container."""
+
     @property
     def security_context(self) -> global___LinuxContainerSecurityContext:
         """LinuxContainerSecurityContext configuration for the container."""
+
     def __init__(
         self,
         *,
@@ -2474,15 +2838,35 @@ class LinuxContainerConfig(google.protobuf.message.Message):
         security_context: global___LinuxContainerSecurityContext | None = ...,
     ) -> None: ...
     def HasField(
-        self, field_name: typing_extensions.Literal["resources", b"resources", "security_context", b"security_context"]
+        self, field_name: typing.Literal["resources", b"resources", "security_context", b"security_context"]
     ) -> builtins.bool: ...
     def ClearField(
-        self, field_name: typing_extensions.Literal["resources", b"resources", "security_context", b"security_context"]
+        self, field_name: typing.Literal["resources", b"resources", "security_context", b"security_context"]
     ) -> None: ...
 
 global___LinuxContainerConfig = LinuxContainerConfig
 
-@typing_extensions.final
+@typing.final
+class WindowsNamespaceOption(google.protobuf.message.Message):
+    """WindowsNamespaceOption provides options for Windows namespaces."""
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    NETWORK_FIELD_NUMBER: builtins.int
+    network: global___NamespaceMode.ValueType
+    """Network namespace for this container/sandbox.
+    Namespaces currently set by the kubelet: POD, NODE
+    """
+    def __init__(
+        self,
+        *,
+        network: global___NamespaceMode.ValueType = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing.Literal["network", b"network"]) -> None: ...
+
+global___WindowsNamespaceOption = WindowsNamespaceOption
+
+@typing.final
 class WindowsSandboxSecurityContext(google.protobuf.message.Message):
     """WindowsSandboxSecurityContext holds platform-specific configurations that will be
     applied to a sandbox.
@@ -2494,6 +2878,7 @@ class WindowsSandboxSecurityContext(google.protobuf.message.Message):
     RUN_AS_USERNAME_FIELD_NUMBER: builtins.int
     CREDENTIAL_SPEC_FIELD_NUMBER: builtins.int
     HOST_PROCESS_FIELD_NUMBER: builtins.int
+    NAMESPACE_OPTIONS_FIELD_NUMBER: builtins.int
     run_as_username: builtins.str
     """User name to run the container process as. If specified, the user MUST
     exist in the container image and be resolved there by the runtime;
@@ -2503,20 +2888,28 @@ class WindowsSandboxSecurityContext(google.protobuf.message.Message):
     """The contents of the GMSA credential spec to use to run this container."""
     host_process: builtins.bool
     """Indicates whether the container requested to run as a HostProcess container."""
+    @property
+    def namespace_options(self) -> global___WindowsNamespaceOption:
+        """Configuration for the sandbox's namespaces"""
+
     def __init__(
         self,
         *,
         run_as_username: builtins.str = ...,
         credential_spec: builtins.str = ...,
         host_process: builtins.bool = ...,
+        namespace_options: global___WindowsNamespaceOption | None = ...,
     ) -> None: ...
+    def HasField(self, field_name: typing.Literal["namespace_options", b"namespace_options"]) -> builtins.bool: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "credential_spec",
             b"credential_spec",
             "host_process",
             b"host_process",
+            "namespace_options",
+            b"namespace_options",
             "run_as_username",
             b"run_as_username",
         ],
@@ -2524,7 +2917,7 @@ class WindowsSandboxSecurityContext(google.protobuf.message.Message):
 
 global___WindowsSandboxSecurityContext = WindowsSandboxSecurityContext
 
-@typing_extensions.final
+@typing.final
 class WindowsPodSandboxConfig(google.protobuf.message.Message):
     """WindowsPodSandboxConfig holds platform-specific configurations for Windows
     host platforms and Windows-based containers.
@@ -2536,19 +2929,18 @@ class WindowsPodSandboxConfig(google.protobuf.message.Message):
     @property
     def security_context(self) -> global___WindowsSandboxSecurityContext:
         """WindowsSandboxSecurityContext holds sandbox security attributes."""
+
     def __init__(
         self,
         *,
         security_context: global___WindowsSandboxSecurityContext | None = ...,
     ) -> None: ...
-    def HasField(
-        self, field_name: typing_extensions.Literal["security_context", b"security_context"]
-    ) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["security_context", b"security_context"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["security_context", b"security_context"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["security_context", b"security_context"]) -> None: ...
 
 global___WindowsPodSandboxConfig = WindowsPodSandboxConfig
 
-@typing_extensions.final
+@typing.final
 class WindowsContainerSecurityContext(google.protobuf.message.Message):
     """WindowsContainerSecurityContext holds windows security configuration that will be applied to a container."""
 
@@ -2575,7 +2967,7 @@ class WindowsContainerSecurityContext(google.protobuf.message.Message):
     ) -> None: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "credential_spec",
             b"credential_spec",
             "host_process",
@@ -2587,7 +2979,7 @@ class WindowsContainerSecurityContext(google.protobuf.message.Message):
 
 global___WindowsContainerSecurityContext = WindowsContainerSecurityContext
 
-@typing_extensions.final
+@typing.final
 class WindowsContainerConfig(google.protobuf.message.Message):
     """WindowsContainerConfig contains platform-specific configuration for
     Windows-based containers.
@@ -2600,9 +2992,11 @@ class WindowsContainerConfig(google.protobuf.message.Message):
     @property
     def resources(self) -> global___WindowsContainerResources:
         """Resources specification for the container."""
+
     @property
     def security_context(self) -> global___WindowsContainerSecurityContext:
         """WindowsContainerSecurityContext configuration for the container."""
+
     def __init__(
         self,
         *,
@@ -2610,15 +3004,15 @@ class WindowsContainerConfig(google.protobuf.message.Message):
         security_context: global___WindowsContainerSecurityContext | None = ...,
     ) -> None: ...
     def HasField(
-        self, field_name: typing_extensions.Literal["resources", b"resources", "security_context", b"security_context"]
+        self, field_name: typing.Literal["resources", b"resources", "security_context", b"security_context"]
     ) -> builtins.bool: ...
     def ClearField(
-        self, field_name: typing_extensions.Literal["resources", b"resources", "security_context", b"security_context"]
+        self, field_name: typing.Literal["resources", b"resources", "security_context", b"security_context"]
     ) -> None: ...
 
 global___WindowsContainerConfig = WindowsContainerConfig
 
-@typing_extensions.final
+@typing.final
 class WindowsContainerResources(google.protobuf.message.Message):
     """WindowsContainerResources specifies Windows specific configuration for
     resources.
@@ -2652,7 +3046,7 @@ class WindowsContainerResources(google.protobuf.message.Message):
     ) -> None: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "cpu_count",
             b"cpu_count",
             "cpu_maximum",
@@ -2668,7 +3062,7 @@ class WindowsContainerResources(google.protobuf.message.Message):
 
 global___WindowsContainerResources = WindowsContainerResources
 
-@typing_extensions.final
+@typing.final
 class ContainerMetadata(google.protobuf.message.Message):
     """ContainerMetadata holds all necessary information for building the container
     name. The container runtime is encouraged to expose the metadata in its user
@@ -2691,11 +3085,11 @@ class ContainerMetadata(google.protobuf.message.Message):
         name: builtins.str = ...,
         attempt: builtins.int = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["attempt", b"attempt", "name", b"name"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["attempt", b"attempt", "name", b"name"]) -> None: ...
 
 global___ContainerMetadata = ContainerMetadata
 
-@typing_extensions.final
+@typing.final
 class Device(google.protobuf.message.Message):
     """Device specifies a host device to mount into a container."""
 
@@ -2723,14 +3117,36 @@ class Device(google.protobuf.message.Message):
     ) -> None: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "container_path", b"container_path", "host_path", b"host_path", "permissions", b"permissions"
         ],
     ) -> None: ...
 
 global___Device = Device
 
-@typing_extensions.final
+@typing.final
+class CDIDevice(google.protobuf.message.Message):
+    """CDIDevice specifies a CDI device information."""
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    NAME_FIELD_NUMBER: builtins.int
+    name: builtins.str
+    """Fully qualified CDI device name
+    for example: vendor.com/gpu=gpudevice1
+    see more details in the CDI specification:
+    https://github.com/container-orchestrated-devices/container-device-interface/blob/main/SPEC.md
+    """
+    def __init__(
+        self,
+        *,
+        name: builtins.str = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing.Literal["name", b"name"]) -> None: ...
+
+global___CDIDevice = CDIDevice
+
+@typing.final
 class ContainerConfig(google.protobuf.message.Message):
     """ContainerConfig holds all the required and optional fields for creating a
     container.
@@ -2738,7 +3154,7 @@ class ContainerConfig(google.protobuf.message.Message):
 
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
-    @typing_extensions.final
+    @typing.final
     class LabelsEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -2752,9 +3168,9 @@ class ContainerConfig(google.protobuf.message.Message):
             key: builtins.str = ...,
             value: builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
+        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
 
-    @typing_extensions.final
+    @typing.final
     class AnnotationsEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -2768,7 +3184,7 @@ class ContainerConfig(google.protobuf.message.Message):
             key: builtins.str = ...,
             value: builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
+        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     METADATA_FIELD_NUMBER: builtins.int
     IMAGE_FIELD_NUMBER: builtins.int
@@ -2786,6 +3202,22 @@ class ContainerConfig(google.protobuf.message.Message):
     TTY_FIELD_NUMBER: builtins.int
     LINUX_FIELD_NUMBER: builtins.int
     WINDOWS_FIELD_NUMBER: builtins.int
+    CDI_DEVICES_FIELD_NUMBER: builtins.int
+    working_dir: builtins.str
+    """Current working directory of the command."""
+    log_path: builtins.str
+    """Path relative to PodSandboxConfig.LogDirectory for container to store
+    the log (STDOUT and STDERR) on the host.
+    E.g.,
+        PodSandboxConfig.LogDirectory = `/var/log/pods/<NAMESPACE>_<NAME>_<UID>/`
+        ContainerConfig.LogPath = `containerName/Instance#.log`
+    """
+    stdin: builtins.bool
+    """Variables for interactive containers, these have very specialized
+    use-cases (e.g. debugging).
+    """
+    stdin_once: builtins.bool
+    tty: builtins.bool
     @property
     def metadata(self) -> global___ContainerMetadata:
         """Metadata of the container. This information will uniquely identify the
@@ -2793,26 +3225,31 @@ class ContainerConfig(google.protobuf.message.Message):
         operation. The runtime may also use this information to improve UX, such
         as by constructing a readable name.
         """
+
     @property
     def image(self) -> global___ImageSpec:
         """Image to use."""
+
     @property
     def command(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
         """Command to execute (i.e., entrypoint for docker)"""
+
     @property
     def args(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
         """Args for the Command (i.e., command for docker)"""
-    working_dir: builtins.str
-    """Current working directory of the command."""
+
     @property
     def envs(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___KeyValue]:
         """List of environment variable to set in the container."""
+
     @property
     def mounts(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___Mount]:
         """Mounts for the container."""
+
     @property
     def devices(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___Device]:
         """Devices for the container."""
+
     @property
     def labels(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
         """Key-value pairs that may be used to scope and select individual resources.
@@ -2822,6 +3259,7 @@ class ContainerConfig(google.protobuf.message.Message):
             prefix ::= DNS_SUBDOMAIN
             name ::= DNS_LABEL
         """
+
     @property
     def annotations(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
         """Unstructured key-value map that may be used by the kubelet to store and
@@ -2835,30 +3273,19 @@ class ContainerConfig(google.protobuf.message.Message):
         kubelet and the container runtime, annotations SHOULD NOT influence
         runtime behaviour.
         """
-    log_path: builtins.str
-    """Path relative to PodSandboxConfig.LogDirectory for container to store
-    the log (STDOUT and STDERR) on the host.
-    E.g.,
-        PodSandboxConfig.LogDirectory = `/var/log/pods/<podUID>/`
-        ContainerConfig.LogPath = `containerName/Instance#.log`
 
-    WARNING: Log management and how kubelet should interface with the
-    container logs are under active discussion in
-    https://issues.k8s.io/24677. There *may* be future change of direction
-    for logging as the discussion carries on.
-    """
-    stdin: builtins.bool
-    """Variables for interactive containers, these have very specialized
-    use-cases (e.g. debugging).
-    """
-    stdin_once: builtins.bool
-    tty: builtins.bool
     @property
     def linux(self) -> global___LinuxContainerConfig:
         """Configuration specific to Linux containers."""
+
     @property
     def windows(self) -> global___WindowsContainerConfig:
         """Configuration specific to Windows containers."""
+
+    @property
+    def CDI_devices(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___CDIDevice]:
+        """CDI devices for the container."""
+
     def __init__(
         self,
         *,
@@ -2878,16 +3305,19 @@ class ContainerConfig(google.protobuf.message.Message):
         tty: builtins.bool = ...,
         linux: global___LinuxContainerConfig | None = ...,
         windows: global___WindowsContainerConfig | None = ...,
+        CDI_devices: collections.abc.Iterable[global___CDIDevice] | None = ...,
     ) -> None: ...
     def HasField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "image", b"image", "linux", b"linux", "metadata", b"metadata", "windows", b"windows"
         ],
     ) -> builtins.bool: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
+            "CDI_devices",
+            b"CDI_devices",
             "annotations",
             b"annotations",
             "args",
@@ -2925,7 +3355,7 @@ class ContainerConfig(google.protobuf.message.Message):
 
 global___ContainerConfig = ContainerConfig
 
-@typing_extensions.final
+@typing.final
 class CreateContainerRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -2937,6 +3367,7 @@ class CreateContainerRequest(google.protobuf.message.Message):
     @property
     def config(self) -> global___ContainerConfig:
         """Config of the container."""
+
     @property
     def sandbox_config(self) -> global___PodSandboxConfig:
         """Config of the PodSandbox. This is the same config that was passed
@@ -2944,6 +3375,7 @@ class CreateContainerRequest(google.protobuf.message.Message):
         here just for easy reference. The PodSandboxConfig is immutable and
         remains the same throughout the lifetime of the pod.
         """
+
     def __init__(
         self,
         *,
@@ -2952,18 +3384,18 @@ class CreateContainerRequest(google.protobuf.message.Message):
         sandbox_config: global___PodSandboxConfig | None = ...,
     ) -> None: ...
     def HasField(
-        self, field_name: typing_extensions.Literal["config", b"config", "sandbox_config", b"sandbox_config"]
+        self, field_name: typing.Literal["config", b"config", "sandbox_config", b"sandbox_config"]
     ) -> builtins.bool: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "config", b"config", "pod_sandbox_id", b"pod_sandbox_id", "sandbox_config", b"sandbox_config"
         ],
     ) -> None: ...
 
 global___CreateContainerRequest = CreateContainerRequest
 
-@typing_extensions.final
+@typing.final
 class CreateContainerResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -2975,11 +3407,11 @@ class CreateContainerResponse(google.protobuf.message.Message):
         *,
         container_id: builtins.str = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["container_id", b"container_id"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["container_id", b"container_id"]) -> None: ...
 
 global___CreateContainerResponse = CreateContainerResponse
 
-@typing_extensions.final
+@typing.final
 class StartContainerRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -2991,11 +3423,11 @@ class StartContainerRequest(google.protobuf.message.Message):
         *,
         container_id: builtins.str = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["container_id", b"container_id"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["container_id", b"container_id"]) -> None: ...
 
 global___StartContainerRequest = StartContainerRequest
 
-@typing_extensions.final
+@typing.final
 class StartContainerResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -3005,7 +3437,7 @@ class StartContainerResponse(google.protobuf.message.Message):
 
 global___StartContainerResponse = StartContainerResponse
 
-@typing_extensions.final
+@typing.final
 class StopContainerRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -3024,12 +3456,12 @@ class StopContainerRequest(google.protobuf.message.Message):
         timeout: builtins.int = ...,
     ) -> None: ...
     def ClearField(
-        self, field_name: typing_extensions.Literal["container_id", b"container_id", "timeout", b"timeout"]
+        self, field_name: typing.Literal["container_id", b"container_id", "timeout", b"timeout"]
     ) -> None: ...
 
 global___StopContainerRequest = StopContainerRequest
 
-@typing_extensions.final
+@typing.final
 class StopContainerResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -3039,7 +3471,7 @@ class StopContainerResponse(google.protobuf.message.Message):
 
 global___StopContainerResponse = StopContainerResponse
 
-@typing_extensions.final
+@typing.final
 class RemoveContainerRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -3051,11 +3483,11 @@ class RemoveContainerRequest(google.protobuf.message.Message):
         *,
         container_id: builtins.str = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["container_id", b"container_id"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["container_id", b"container_id"]) -> None: ...
 
 global___RemoveContainerRequest = RemoveContainerRequest
 
-@typing_extensions.final
+@typing.final
 class RemoveContainerResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -3065,7 +3497,7 @@ class RemoveContainerResponse(google.protobuf.message.Message):
 
 global___RemoveContainerResponse = RemoveContainerResponse
 
-@typing_extensions.final
+@typing.final
 class ContainerStateValue(google.protobuf.message.Message):
     """ContainerStateValue is the wrapper of ContainerState."""
 
@@ -3079,11 +3511,11 @@ class ContainerStateValue(google.protobuf.message.Message):
         *,
         state: global___ContainerState.ValueType = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["state", b"state"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["state", b"state"]) -> None: ...
 
 global___ContainerStateValue = ContainerStateValue
 
-@typing_extensions.final
+@typing.final
 class ContainerFilter(google.protobuf.message.Message):
     """ContainerFilter is used to filter containers.
     All those fields are combined with 'AND'
@@ -3091,7 +3523,7 @@ class ContainerFilter(google.protobuf.message.Message):
 
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
-    @typing_extensions.final
+    @typing.final
     class LabelSelectorEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -3105,7 +3537,7 @@ class ContainerFilter(google.protobuf.message.Message):
             key: builtins.str = ...,
             value: builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
+        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     ID_FIELD_NUMBER: builtins.int
     STATE_FIELD_NUMBER: builtins.int
@@ -3113,17 +3545,19 @@ class ContainerFilter(google.protobuf.message.Message):
     LABEL_SELECTOR_FIELD_NUMBER: builtins.int
     id: builtins.str
     """ID of the container."""
+    pod_sandbox_id: builtins.str
+    """ID of the PodSandbox."""
     @property
     def state(self) -> global___ContainerStateValue:
         """State of the container."""
-    pod_sandbox_id: builtins.str
-    """ID of the PodSandbox."""
+
     @property
     def label_selector(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
         """LabelSelector to select matches.
         Only api.MatchLabels is supported for now and the requirements
         are ANDed. MatchExpressions is not supported yet.
         """
+
     def __init__(
         self,
         *,
@@ -3132,17 +3566,17 @@ class ContainerFilter(google.protobuf.message.Message):
         pod_sandbox_id: builtins.str = ...,
         label_selector: collections.abc.Mapping[builtins.str, builtins.str] | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["state", b"state"]) -> builtins.bool: ...
+    def HasField(self, field_name: typing.Literal["state", b"state"]) -> builtins.bool: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "id", b"id", "label_selector", b"label_selector", "pod_sandbox_id", b"pod_sandbox_id", "state", b"state"
         ],
     ) -> None: ...
 
 global___ContainerFilter = ContainerFilter
 
-@typing_extensions.final
+@typing.final
 class ListContainersRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -3154,12 +3588,12 @@ class ListContainersRequest(google.protobuf.message.Message):
         *,
         filter: global___ContainerFilter | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["filter", b"filter"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["filter", b"filter"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["filter", b"filter"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["filter", b"filter"]) -> None: ...
 
 global___ListContainersRequest = ListContainersRequest
 
-@typing_extensions.final
+@typing.final
 class Container(google.protobuf.message.Message):
     """Container provides the runtime information for a container, such as ID, hash,
     state of the container.
@@ -3167,7 +3601,7 @@ class Container(google.protobuf.message.Message):
 
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
-    @typing_extensions.final
+    @typing.final
     class LabelsEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -3181,9 +3615,9 @@ class Container(google.protobuf.message.Message):
             key: builtins.str = ...,
             value: builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
+        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
 
-    @typing_extensions.final
+    @typing.final
     class AnnotationsEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -3197,7 +3631,7 @@ class Container(google.protobuf.message.Message):
             key: builtins.str = ...,
             value: builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
+        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     ID_FIELD_NUMBER: builtins.int
     POD_SANDBOX_ID_FIELD_NUMBER: builtins.int
@@ -3208,29 +3642,42 @@ class Container(google.protobuf.message.Message):
     CREATED_AT_FIELD_NUMBER: builtins.int
     LABELS_FIELD_NUMBER: builtins.int
     ANNOTATIONS_FIELD_NUMBER: builtins.int
+    IMAGE_ID_FIELD_NUMBER: builtins.int
     id: builtins.str
     """ID of the container, used by the container runtime to identify
     a container.
     """
     pod_sandbox_id: builtins.str
     """ID of the sandbox to which this container belongs."""
-    @property
-    def metadata(self) -> global___ContainerMetadata:
-        """Metadata of the container."""
-    @property
-    def image(self) -> global___ImageSpec:
-        """Spec of the image."""
     image_ref: builtins.str
-    """Reference to the image in use. For most runtimes, this should be an
-    image ID.
-    """
+    """Digested reference to the image in use."""
     state: global___ContainerState.ValueType
     """State of the container."""
     created_at: builtins.int
     """Creation time of the container in nanoseconds."""
+    image_id: builtins.str
+    """Reference to the unique identifier of the image, on the node, as
+    returned in the image service apis.
+
+    Note: The image_ref above has been historically used by container
+    runtimes to reference images by digest. The image_ref has been also used
+    in the kubelet image garbage collection, which does not work with
+    digests at all. To separate and avoid possible misusage, we now
+    introduce the image_id field, which should always refer to a unique
+    image identifier on the node.
+    """
+    @property
+    def metadata(self) -> global___ContainerMetadata:
+        """Metadata of the container."""
+
+    @property
+    def image(self) -> global___ImageSpec:
+        """Spec of the image."""
+
     @property
     def labels(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
         """Key-value pairs that may be used to scope and select individual resources."""
+
     @property
     def annotations(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
         """Unstructured key-value map holding arbitrary metadata.
@@ -3238,6 +3685,7 @@ class Container(google.protobuf.message.Message):
         MUST be identical to that of the corresponding ContainerConfig used to
         instantiate this Container.
         """
+
     def __init__(
         self,
         *,
@@ -3250,13 +3698,12 @@ class Container(google.protobuf.message.Message):
         created_at: builtins.int = ...,
         labels: collections.abc.Mapping[builtins.str, builtins.str] | None = ...,
         annotations: collections.abc.Mapping[builtins.str, builtins.str] | None = ...,
+        image_id: builtins.str = ...,
     ) -> None: ...
-    def HasField(
-        self, field_name: typing_extensions.Literal["image", b"image", "metadata", b"metadata"]
-    ) -> builtins.bool: ...
+    def HasField(self, field_name: typing.Literal["image", b"image", "metadata", b"metadata"]) -> builtins.bool: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "annotations",
             b"annotations",
             "created_at",
@@ -3265,6 +3712,8 @@ class Container(google.protobuf.message.Message):
             b"id",
             "image",
             b"image",
+            "image_id",
+            b"image_id",
             "image_ref",
             b"image_ref",
             "labels",
@@ -3280,7 +3729,7 @@ class Container(google.protobuf.message.Message):
 
 global___Container = Container
 
-@typing_extensions.final
+@typing.final
 class ListContainersResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -3288,16 +3737,17 @@ class ListContainersResponse(google.protobuf.message.Message):
     @property
     def containers(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___Container]:
         """List of containers."""
+
     def __init__(
         self,
         *,
         containers: collections.abc.Iterable[global___Container] | None = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["containers", b"containers"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["containers", b"containers"]) -> None: ...
 
 global___ListContainersResponse = ListContainersResponse
 
-@typing_extensions.final
+@typing.final
 class ContainerStatusRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -3314,18 +3764,18 @@ class ContainerStatusRequest(google.protobuf.message.Message):
         verbose: builtins.bool = ...,
     ) -> None: ...
     def ClearField(
-        self, field_name: typing_extensions.Literal["container_id", b"container_id", "verbose", b"verbose"]
+        self, field_name: typing.Literal["container_id", b"container_id", "verbose", b"verbose"]
     ) -> None: ...
 
 global___ContainerStatusRequest = ContainerStatusRequest
 
-@typing_extensions.final
+@typing.final
 class ContainerStatus(google.protobuf.message.Message):
     """ContainerStatus represents the status of a container."""
 
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
-    @typing_extensions.final
+    @typing.final
     class LabelsEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -3339,9 +3789,9 @@ class ContainerStatus(google.protobuf.message.Message):
             key: builtins.str = ...,
             value: builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
+        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
 
-    @typing_extensions.final
+    @typing.final
     class AnnotationsEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -3355,7 +3805,7 @@ class ContainerStatus(google.protobuf.message.Message):
             key: builtins.str = ...,
             value: builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
+        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     ID_FIELD_NUMBER: builtins.int
     METADATA_FIELD_NUMBER: builtins.int
@@ -3373,11 +3823,9 @@ class ContainerStatus(google.protobuf.message.Message):
     MOUNTS_FIELD_NUMBER: builtins.int
     LOG_PATH_FIELD_NUMBER: builtins.int
     RESOURCES_FIELD_NUMBER: builtins.int
+    IMAGE_ID_FIELD_NUMBER: builtins.int
     id: builtins.str
     """ID of the container."""
-    @property
-    def metadata(self) -> global___ContainerMetadata:
-        """Metadata of the container."""
     state: global___ContainerState.ValueType
     """Status of the container."""
     created_at: builtins.int
@@ -3388,22 +3836,39 @@ class ContainerStatus(google.protobuf.message.Message):
     """Finish time of the container in nanoseconds. Default: 0 (not specified)."""
     exit_code: builtins.int
     """Exit code of the container. Only required when finished_at != 0. Default: 0."""
-    @property
-    def image(self) -> global___ImageSpec:
-        """Spec of the image."""
     image_ref: builtins.str
-    """Reference to the image in use. For most runtimes, this should be an
-    image ID
-    """
+    """Digested reference to the image in use."""
     reason: builtins.str
-    """Brief CamelCase string explaining why container is in its current state."""
+    """Brief CamelCase string explaining why container is in its current state.
+    Must be set to "OOMKilled" for containers terminated by cgroup-based Out-of-Memory killer.
+    """
     message: builtins.str
     """Human-readable message indicating details about why container is in its
     current state.
     """
+    log_path: builtins.str
+    """Log path of container."""
+    image_id: builtins.str
+    """Reference to the unique identifier of the image, on the node, as
+    returned in the image service apis.
+
+    Note: The image_ref above has been historically used by container
+    runtimes to reference images by digest. To separate and avoid possible
+    misusage, we now introduce the image_id field, which should always refer
+    to a unique image identifier on the node.
+    """
+    @property
+    def metadata(self) -> global___ContainerMetadata:
+        """Metadata of the container."""
+
+    @property
+    def image(self) -> global___ImageSpec:
+        """Spec of the image."""
+
     @property
     def labels(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
         """Key-value pairs that may be used to scope and select individual resources."""
+
     @property
     def annotations(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
         """Unstructured key-value map holding arbitrary metadata.
@@ -3411,14 +3876,15 @@ class ContainerStatus(google.protobuf.message.Message):
         MUST be identical to that of the corresponding ContainerConfig used to
         instantiate the Container this status represents.
         """
+
     @property
     def mounts(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___Mount]:
         """Mounts for the container."""
-    log_path: builtins.str
-    """Log path of container."""
+
     @property
     def resources(self) -> global___ContainerResources:
         """Resource limits configuration of the container."""
+
     def __init__(
         self,
         *,
@@ -3438,14 +3904,14 @@ class ContainerStatus(google.protobuf.message.Message):
         mounts: collections.abc.Iterable[global___Mount] | None = ...,
         log_path: builtins.str = ...,
         resources: global___ContainerResources | None = ...,
+        image_id: builtins.str = ...,
     ) -> None: ...
     def HasField(
-        self,
-        field_name: typing_extensions.Literal["image", b"image", "metadata", b"metadata", "resources", b"resources"],
+        self, field_name: typing.Literal["image", b"image", "metadata", b"metadata", "resources", b"resources"]
     ) -> builtins.bool: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "annotations",
             b"annotations",
             "created_at",
@@ -3458,6 +3924,8 @@ class ContainerStatus(google.protobuf.message.Message):
             b"id",
             "image",
             b"image",
+            "image_id",
+            b"image_id",
             "image_ref",
             b"image_ref",
             "labels",
@@ -3483,11 +3951,11 @@ class ContainerStatus(google.protobuf.message.Message):
 
 global___ContainerStatus = ContainerStatus
 
-@typing_extensions.final
+@typing.final
 class ContainerStatusResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
-    @typing_extensions.final
+    @typing.final
     class InfoEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -3501,13 +3969,14 @@ class ContainerStatusResponse(google.protobuf.message.Message):
             key: builtins.str = ...,
             value: builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
+        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     STATUS_FIELD_NUMBER: builtins.int
     INFO_FIELD_NUMBER: builtins.int
     @property
     def status(self) -> global___ContainerStatus:
         """Status of the container."""
+
     @property
     def info(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
         """Info is extra information of the Container. The key could be arbitrary string, and
@@ -3515,18 +3984,19 @@ class ContainerStatusResponse(google.protobuf.message.Message):
         debug, e.g. pid for linux container based container runtime.
         It should only be returned non-empty when Verbose is true.
         """
+
     def __init__(
         self,
         *,
         status: global___ContainerStatus | None = ...,
         info: collections.abc.Mapping[builtins.str, builtins.str] | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["status", b"status"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["info", b"info", "status", b"status"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["status", b"status"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["info", b"info", "status", b"status"]) -> None: ...
 
 global___ContainerStatusResponse = ContainerStatusResponse
 
-@typing_extensions.final
+@typing.final
 class ContainerResources(google.protobuf.message.Message):
     """ContainerResources holds resource limits configuration for a container."""
 
@@ -3537,27 +4007,27 @@ class ContainerResources(google.protobuf.message.Message):
     @property
     def linux(self) -> global___LinuxContainerResources:
         """Resource limits configuration specific to Linux container."""
+
     @property
     def windows(self) -> global___WindowsContainerResources:
         """Resource limits configuration specific to Windows container."""
+
     def __init__(
         self,
         *,
         linux: global___LinuxContainerResources | None = ...,
         windows: global___WindowsContainerResources | None = ...,
     ) -> None: ...
-    def HasField(
-        self, field_name: typing_extensions.Literal["linux", b"linux", "windows", b"windows"]
-    ) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["linux", b"linux", "windows", b"windows"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["linux", b"linux", "windows", b"windows"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["linux", b"linux", "windows", b"windows"]) -> None: ...
 
 global___ContainerResources = ContainerResources
 
-@typing_extensions.final
+@typing.final
 class UpdateContainerResourcesRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
-    @typing_extensions.final
+    @typing.final
     class AnnotationsEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -3571,7 +4041,7 @@ class UpdateContainerResourcesRequest(google.protobuf.message.Message):
             key: builtins.str = ...,
             value: builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
+        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     CONTAINER_ID_FIELD_NUMBER: builtins.int
     LINUX_FIELD_NUMBER: builtins.int
@@ -3582,15 +4052,18 @@ class UpdateContainerResourcesRequest(google.protobuf.message.Message):
     @property
     def linux(self) -> global___LinuxContainerResources:
         """Resource configuration specific to Linux containers."""
+
     @property
     def windows(self) -> global___WindowsContainerResources:
         """Resource configuration specific to Windows containers."""
+
     @property
     def annotations(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
         """Unstructured key-value map holding arbitrary additional information for
         container resources updating. This can be used for specifying experimental
         resources to update or other options to use when updating the container.
         """
+
     def __init__(
         self,
         *,
@@ -3599,19 +4072,17 @@ class UpdateContainerResourcesRequest(google.protobuf.message.Message):
         windows: global___WindowsContainerResources | None = ...,
         annotations: collections.abc.Mapping[builtins.str, builtins.str] | None = ...,
     ) -> None: ...
-    def HasField(
-        self, field_name: typing_extensions.Literal["linux", b"linux", "windows", b"windows"]
-    ) -> builtins.bool: ...
+    def HasField(self, field_name: typing.Literal["linux", b"linux", "windows", b"windows"]) -> builtins.bool: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "annotations", b"annotations", "container_id", b"container_id", "linux", b"linux", "windows", b"windows"
         ],
     ) -> None: ...
 
 global___UpdateContainerResourcesRequest = UpdateContainerResourcesRequest
 
-@typing_extensions.final
+@typing.final
 class UpdateContainerResourcesResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -3621,7 +4092,7 @@ class UpdateContainerResourcesResponse(google.protobuf.message.Message):
 
 global___UpdateContainerResourcesResponse = UpdateContainerResourcesResponse
 
-@typing_extensions.final
+@typing.final
 class ExecSyncRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -3630,11 +4101,12 @@ class ExecSyncRequest(google.protobuf.message.Message):
     TIMEOUT_FIELD_NUMBER: builtins.int
     container_id: builtins.str
     """ID of the container."""
+    timeout: builtins.int
+    """Timeout in seconds to stop the command. Default: 0 (run forever)."""
     @property
     def cmd(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
         """Command to execute."""
-    timeout: builtins.int
-    """Timeout in seconds to stop the command. Default: 0 (run forever)."""
+
     def __init__(
         self,
         *,
@@ -3643,13 +4115,12 @@ class ExecSyncRequest(google.protobuf.message.Message):
         timeout: builtins.int = ...,
     ) -> None: ...
     def ClearField(
-        self,
-        field_name: typing_extensions.Literal["cmd", b"cmd", "container_id", b"container_id", "timeout", b"timeout"],
+        self, field_name: typing.Literal["cmd", b"cmd", "container_id", b"container_id", "timeout", b"timeout"]
     ) -> None: ...
 
 global___ExecSyncRequest = ExecSyncRequest
 
-@typing_extensions.final
+@typing.final
 class ExecSyncResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -3657,9 +4128,19 @@ class ExecSyncResponse(google.protobuf.message.Message):
     STDERR_FIELD_NUMBER: builtins.int
     EXIT_CODE_FIELD_NUMBER: builtins.int
     stdout: builtins.bytes
-    """Captured command stdout output."""
+    """Captured command stdout output.
+    The runtime should cap the output of this response to 16MB.
+    If the stdout of the command produces more than 16MB, the remaining output
+    should be discarded, and the command should proceed with no error.
+    See CVE-2022-1708 and CVE-2022-31030 for more information.
+    """
     stderr: builtins.bytes
-    """Captured command stderr output."""
+    """Captured command stderr output.
+    The runtime should cap the output of this response to 16MB.
+    If the stderr of the command produces more than 16MB, the remaining output
+    should be discarded, and the command should proceed with no error.
+    See CVE-2022-1708 and CVE-2022-31030 for more information.
+    """
     exit_code: builtins.int
     """Exit code the command finished with. Default: 0 (success)."""
     def __init__(
@@ -3670,12 +4151,12 @@ class ExecSyncResponse(google.protobuf.message.Message):
         exit_code: builtins.int = ...,
     ) -> None: ...
     def ClearField(
-        self, field_name: typing_extensions.Literal["exit_code", b"exit_code", "stderr", b"stderr", "stdout", b"stdout"]
+        self, field_name: typing.Literal["exit_code", b"exit_code", "stderr", b"stderr", "stdout", b"stdout"]
     ) -> None: ...
 
 global___ExecSyncResponse = ExecSyncResponse
 
-@typing_extensions.final
+@typing.final
 class ExecRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -3687,9 +4168,6 @@ class ExecRequest(google.protobuf.message.Message):
     STDERR_FIELD_NUMBER: builtins.int
     container_id: builtins.str
     """ID of the container in which to execute the command."""
-    @property
-    def cmd(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
-        """Command to execute."""
     tty: builtins.bool
     """Whether to exec the command in a TTY."""
     stdin: builtins.bool
@@ -3707,6 +4185,10 @@ class ExecRequest(google.protobuf.message.Message):
     in this case. The output of stdout and stderr will be combined to a
     single stream.
     """
+    @property
+    def cmd(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
+        """Command to execute."""
+
     def __init__(
         self,
         *,
@@ -3719,7 +4201,7 @@ class ExecRequest(google.protobuf.message.Message):
     ) -> None: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "cmd",
             b"cmd",
             "container_id",
@@ -3737,7 +4219,7 @@ class ExecRequest(google.protobuf.message.Message):
 
 global___ExecRequest = ExecRequest
 
-@typing_extensions.final
+@typing.final
 class ExecResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -3749,11 +4231,11 @@ class ExecResponse(google.protobuf.message.Message):
         *,
         url: builtins.str = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["url", b"url"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["url", b"url"]) -> None: ...
 
 global___ExecResponse = ExecResponse
 
-@typing_extensions.final
+@typing.final
 class AttachRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -3794,14 +4276,14 @@ class AttachRequest(google.protobuf.message.Message):
     ) -> None: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "container_id", b"container_id", "stderr", b"stderr", "stdin", b"stdin", "stdout", b"stdout", "tty", b"tty"
         ],
     ) -> None: ...
 
 global___AttachRequest = AttachRequest
 
-@typing_extensions.final
+@typing.final
 class AttachResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -3813,11 +4295,11 @@ class AttachResponse(google.protobuf.message.Message):
         *,
         url: builtins.str = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["url", b"url"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["url", b"url"]) -> None: ...
 
 global___AttachResponse = AttachResponse
 
-@typing_extensions.final
+@typing.final
 class PortForwardRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -3828,19 +4310,18 @@ class PortForwardRequest(google.protobuf.message.Message):
     @property
     def port(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.int]:
         """Port to forward."""
+
     def __init__(
         self,
         *,
         pod_sandbox_id: builtins.str = ...,
         port: collections.abc.Iterable[builtins.int] | None = ...,
     ) -> None: ...
-    def ClearField(
-        self, field_name: typing_extensions.Literal["pod_sandbox_id", b"pod_sandbox_id", "port", b"port"]
-    ) -> None: ...
+    def ClearField(self, field_name: typing.Literal["pod_sandbox_id", b"pod_sandbox_id", "port", b"port"]) -> None: ...
 
 global___PortForwardRequest = PortForwardRequest
 
-@typing_extensions.final
+@typing.final
 class PortForwardResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -3852,11 +4333,11 @@ class PortForwardResponse(google.protobuf.message.Message):
         *,
         url: builtins.str = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["url", b"url"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["url", b"url"]) -> None: ...
 
 global___PortForwardResponse = PortForwardResponse
 
-@typing_extensions.final
+@typing.final
 class ImageFilter(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -3864,17 +4345,18 @@ class ImageFilter(google.protobuf.message.Message):
     @property
     def image(self) -> global___ImageSpec:
         """Spec of the image."""
+
     def __init__(
         self,
         *,
         image: global___ImageSpec | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["image", b"image"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["image", b"image"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["image", b"image"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["image", b"image"]) -> None: ...
 
 global___ImageFilter = ImageFilter
 
-@typing_extensions.final
+@typing.final
 class ListImagesRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -3882,17 +4364,18 @@ class ListImagesRequest(google.protobuf.message.Message):
     @property
     def filter(self) -> global___ImageFilter:
         """Filter to list images."""
+
     def __init__(
         self,
         *,
         filter: global___ImageFilter | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["filter", b"filter"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["filter", b"filter"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["filter", b"filter"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["filter", b"filter"]) -> None: ...
 
 global___ListImagesRequest = ListImagesRequest
 
-@typing_extensions.final
+@typing.final
 class Image(google.protobuf.message.Message):
     """Basic information about a container image."""
 
@@ -3908,32 +4391,36 @@ class Image(google.protobuf.message.Message):
     PINNED_FIELD_NUMBER: builtins.int
     id: builtins.str
     """ID of the image."""
+    size: builtins.int
+    """Size of the image in bytes. Must be > 0."""
+    username: builtins.str
+    """User name that will run the command(s). This is used if UID is not set
+    and no user is specified when creating container.
+    """
+    pinned: builtins.bool
+    """Recommendation on whether this image should be exempt from garbage collection.
+    It must only be treated as a recommendation -- the client can still request that the image be deleted,
+    and the runtime must oblige.
+    """
     @property
     def repo_tags(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
         """Other names by which this image is known."""
+
     @property
     def repo_digests(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
         """Digests by which this image is known."""
-    size: builtins.int
-    """Size of the image in bytes. Must be > 0."""
+
     @property
     def uid(self) -> global___Int64Value:
         """UID that will run the command(s). This is used as a default if no user is
         specified when creating the container. UID and the following user name
         are mutually exclusive.
         """
-    username: builtins.str
-    """User name that will run the command(s). This is used if UID is not set
-    and no user is specified when creating container.
-    """
+
     @property
     def spec(self) -> global___ImageSpec:
         """ImageSpec for image which includes annotations"""
-    pinned: builtins.bool
-    """Recommendation on whether this image should be exempt from garbage collection.
-    It must only be treated as a recommendation -- the client can still request that the image be deleted,
-    and the runtime must oblige.
-    """
+
     def __init__(
         self,
         *,
@@ -3946,10 +4433,10 @@ class Image(google.protobuf.message.Message):
         spec: global___ImageSpec | None = ...,
         pinned: builtins.bool = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["spec", b"spec", "uid", b"uid"]) -> builtins.bool: ...
+    def HasField(self, field_name: typing.Literal["spec", b"spec", "uid", b"uid"]) -> builtins.bool: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "id",
             b"id",
             "pinned",
@@ -3971,7 +4458,7 @@ class Image(google.protobuf.message.Message):
 
 global___Image = Image
 
-@typing_extensions.final
+@typing.final
 class ListImagesResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -3979,42 +4466,44 @@ class ListImagesResponse(google.protobuf.message.Message):
     @property
     def images(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___Image]:
         """List of images."""
+
     def __init__(
         self,
         *,
         images: collections.abc.Iterable[global___Image] | None = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["images", b"images"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["images", b"images"]) -> None: ...
 
 global___ListImagesResponse = ListImagesResponse
 
-@typing_extensions.final
+@typing.final
 class ImageStatusRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
     IMAGE_FIELD_NUMBER: builtins.int
     VERBOSE_FIELD_NUMBER: builtins.int
+    verbose: builtins.bool
+    """Verbose indicates whether to return extra information about the image."""
     @property
     def image(self) -> global___ImageSpec:
         """Spec of the image."""
-    verbose: builtins.bool
-    """Verbose indicates whether to return extra information about the image."""
+
     def __init__(
         self,
         *,
         image: global___ImageSpec | None = ...,
         verbose: builtins.bool = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["image", b"image"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["image", b"image", "verbose", b"verbose"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["image", b"image"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["image", b"image", "verbose", b"verbose"]) -> None: ...
 
 global___ImageStatusRequest = ImageStatusRequest
 
-@typing_extensions.final
+@typing.final
 class ImageStatusResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
-    @typing_extensions.final
+    @typing.final
     class InfoEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -4028,13 +4517,14 @@ class ImageStatusResponse(google.protobuf.message.Message):
             key: builtins.str = ...,
             value: builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
+        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     IMAGE_FIELD_NUMBER: builtins.int
     INFO_FIELD_NUMBER: builtins.int
     @property
     def image(self) -> global___Image:
         """Status of the image."""
+
     @property
     def info(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
         """Info is extra information of the Image. The key could be arbitrary string, and
@@ -4042,18 +4532,19 @@ class ImageStatusResponse(google.protobuf.message.Message):
         for debug, e.g. image config for oci image based container runtime.
         It should only be returned non-empty when Verbose is true.
         """
+
     def __init__(
         self,
         *,
         image: global___Image | None = ...,
         info: collections.abc.Mapping[builtins.str, builtins.str] | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["image", b"image"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["image", b"image", "info", b"info"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["image", b"image"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["image", b"image", "info", b"info"]) -> None: ...
 
 global___ImageStatusResponse = ImageStatusResponse
 
-@typing_extensions.final
+@typing.final
 class AuthConfig(google.protobuf.message.Message):
     """AuthConfig contains authorization information for connecting to a registry."""
 
@@ -4087,7 +4578,7 @@ class AuthConfig(google.protobuf.message.Message):
     ) -> None: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "auth",
             b"auth",
             "identity_token",
@@ -4105,7 +4596,7 @@ class AuthConfig(google.protobuf.message.Message):
 
 global___AuthConfig = AuthConfig
 
-@typing_extensions.final
+@typing.final
 class PullImageRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -4115,12 +4606,15 @@ class PullImageRequest(google.protobuf.message.Message):
     @property
     def image(self) -> global___ImageSpec:
         """Spec of the image."""
+
     @property
     def auth(self) -> global___AuthConfig:
         """Authentication configuration for pulling the image."""
+
     @property
     def sandbox_config(self) -> global___PodSandboxConfig:
         """Config of the PodSandbox, which is used to pull image in PodSandbox context."""
+
     def __init__(
         self,
         *,
@@ -4129,17 +4623,15 @@ class PullImageRequest(google.protobuf.message.Message):
         sandbox_config: global___PodSandboxConfig | None = ...,
     ) -> None: ...
     def HasField(
-        self,
-        field_name: typing_extensions.Literal["auth", b"auth", "image", b"image", "sandbox_config", b"sandbox_config"],
+        self, field_name: typing.Literal["auth", b"auth", "image", b"image", "sandbox_config", b"sandbox_config"]
     ) -> builtins.bool: ...
     def ClearField(
-        self,
-        field_name: typing_extensions.Literal["auth", b"auth", "image", b"image", "sandbox_config", b"sandbox_config"],
+        self, field_name: typing.Literal["auth", b"auth", "image", b"image", "sandbox_config", b"sandbox_config"]
     ) -> None: ...
 
 global___PullImageRequest = PullImageRequest
 
-@typing_extensions.final
+@typing.final
 class PullImageResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -4153,11 +4645,11 @@ class PullImageResponse(google.protobuf.message.Message):
         *,
         image_ref: builtins.str = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["image_ref", b"image_ref"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["image_ref", b"image_ref"]) -> None: ...
 
 global___PullImageResponse = PullImageResponse
 
-@typing_extensions.final
+@typing.final
 class RemoveImageRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -4165,17 +4657,18 @@ class RemoveImageRequest(google.protobuf.message.Message):
     @property
     def image(self) -> global___ImageSpec:
         """Spec of the image to remove."""
+
     def __init__(
         self,
         *,
         image: global___ImageSpec | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["image", b"image"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["image", b"image"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["image", b"image"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["image", b"image"]) -> None: ...
 
 global___RemoveImageRequest = RemoveImageRequest
 
-@typing_extensions.final
+@typing.final
 class RemoveImageResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -4185,7 +4678,7 @@ class RemoveImageResponse(google.protobuf.message.Message):
 
 global___RemoveImageResponse = RemoveImageResponse
 
-@typing_extensions.final
+@typing.final
 class NetworkConfig(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -4199,11 +4692,11 @@ class NetworkConfig(google.protobuf.message.Message):
         *,
         pod_cidr: builtins.str = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["pod_cidr", b"pod_cidr"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["pod_cidr", b"pod_cidr"]) -> None: ...
 
 global___NetworkConfig = NetworkConfig
 
-@typing_extensions.final
+@typing.final
 class RuntimeConfig(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -4215,12 +4708,12 @@ class RuntimeConfig(google.protobuf.message.Message):
         *,
         network_config: global___NetworkConfig | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["network_config", b"network_config"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["network_config", b"network_config"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["network_config", b"network_config"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["network_config", b"network_config"]) -> None: ...
 
 global___RuntimeConfig = RuntimeConfig
 
-@typing_extensions.final
+@typing.final
 class UpdateRuntimeConfigRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -4232,12 +4725,12 @@ class UpdateRuntimeConfigRequest(google.protobuf.message.Message):
         *,
         runtime_config: global___RuntimeConfig | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["runtime_config", b"runtime_config"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["runtime_config", b"runtime_config"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["runtime_config", b"runtime_config"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["runtime_config", b"runtime_config"]) -> None: ...
 
 global___UpdateRuntimeConfigRequest = UpdateRuntimeConfigRequest
 
-@typing_extensions.final
+@typing.final
 class UpdateRuntimeConfigResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -4247,7 +4740,7 @@ class UpdateRuntimeConfigResponse(google.protobuf.message.Message):
 
 global___UpdateRuntimeConfigResponse = UpdateRuntimeConfigResponse
 
-@typing_extensions.final
+@typing.final
 class RuntimeCondition(google.protobuf.message.Message):
     """RuntimeCondition contains condition information for the runtime.
     There are 2 kinds of runtime conditions:
@@ -4288,14 +4781,12 @@ class RuntimeCondition(google.protobuf.message.Message):
     ) -> None: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
-            "message", b"message", "reason", b"reason", "status", b"status", "type", b"type"
-        ],
+        field_name: typing.Literal["message", b"message", "reason", b"reason", "status", b"status", "type", b"type"],
     ) -> None: ...
 
 global___RuntimeCondition = RuntimeCondition
 
-@typing_extensions.final
+@typing.final
 class RuntimeStatus(google.protobuf.message.Message):
     """RuntimeStatus is information about the current status of the runtime."""
 
@@ -4307,16 +4798,17 @@ class RuntimeStatus(google.protobuf.message.Message):
         self,
     ) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___RuntimeCondition]:
         """List of current observed runtime conditions."""
+
     def __init__(
         self,
         *,
         conditions: collections.abc.Iterable[global___RuntimeCondition] | None = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["conditions", b"conditions"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["conditions", b"conditions"]) -> None: ...
 
 global___RuntimeStatus = RuntimeStatus
 
-@typing_extensions.final
+@typing.final
 class StatusRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -4328,15 +4820,71 @@ class StatusRequest(google.protobuf.message.Message):
         *,
         verbose: builtins.bool = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["verbose", b"verbose"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["verbose", b"verbose"]) -> None: ...
 
 global___StatusRequest = StatusRequest
 
-@typing_extensions.final
+@typing.final
+class RuntimeHandlerFeatures(google.protobuf.message.Message):
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    RECURSIVE_READ_ONLY_MOUNTS_FIELD_NUMBER: builtins.int
+    USER_NAMESPACES_FIELD_NUMBER: builtins.int
+    recursive_read_only_mounts: builtins.bool
+    """recursive_read_only_mounts is set to true if the runtime handler supports
+    recursive read-only mounts.
+    For runc-compatible runtimes, availability of this feature can be detected by checking whether
+    the Linux kernel version is >= 5.12, and,  `runc features | jq .mountOptions` contains "rro".
+    """
+    user_namespaces: builtins.bool
+    """user_namespaces is set to true if the runtime handler supports user namespaces as implemented
+    in Kubernetes. This means support for both, user namespaces and idmap mounts.
+    """
+    def __init__(
+        self,
+        *,
+        recursive_read_only_mounts: builtins.bool = ...,
+        user_namespaces: builtins.bool = ...,
+    ) -> None: ...
+    def ClearField(
+        self,
+        field_name: typing.Literal[
+            "recursive_read_only_mounts", b"recursive_read_only_mounts", "user_namespaces", b"user_namespaces"
+        ],
+    ) -> None: ...
+
+global___RuntimeHandlerFeatures = RuntimeHandlerFeatures
+
+@typing.final
+class RuntimeHandler(google.protobuf.message.Message):
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    NAME_FIELD_NUMBER: builtins.int
+    FEATURES_FIELD_NUMBER: builtins.int
+    name: builtins.str
+    """Name must be unique in StatusResponse.
+    An empty string denotes the default handler.
+    """
+    @property
+    def features(self) -> global___RuntimeHandlerFeatures:
+        """Supported features."""
+
+    def __init__(
+        self,
+        *,
+        name: builtins.str = ...,
+        features: global___RuntimeHandlerFeatures | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing.Literal["features", b"features"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["features", b"features", "name", b"name"]) -> None: ...
+
+global___RuntimeHandler = RuntimeHandler
+
+@typing.final
 class StatusResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
-    @typing_extensions.final
+    @typing.final
     class InfoEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -4350,13 +4898,15 @@ class StatusResponse(google.protobuf.message.Message):
             key: builtins.str = ...,
             value: builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
+        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     STATUS_FIELD_NUMBER: builtins.int
     INFO_FIELD_NUMBER: builtins.int
+    RUNTIME_HANDLERS_FIELD_NUMBER: builtins.int
     @property
     def status(self) -> global___RuntimeStatus:
         """Status of the Runtime."""
+
     @property
     def info(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
         """Info is extra information of the Runtime. The key could be arbitrary string, and
@@ -4364,18 +4914,28 @@ class StatusResponse(google.protobuf.message.Message):
         debug, e.g. plugins used by the container runtime.
         It should only be returned non-empty when Verbose is true.
         """
+
+    @property
+    def runtime_handlers(
+        self,
+    ) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___RuntimeHandler]:
+        """Runtime handlers."""
+
     def __init__(
         self,
         *,
         status: global___RuntimeStatus | None = ...,
         info: collections.abc.Mapping[builtins.str, builtins.str] | None = ...,
+        runtime_handlers: collections.abc.Iterable[global___RuntimeHandler] | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["status", b"status"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["info", b"info", "status", b"status"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["status", b"status"]) -> builtins.bool: ...
+    def ClearField(
+        self, field_name: typing.Literal["info", b"info", "runtime_handlers", b"runtime_handlers", "status", b"status"]
+    ) -> None: ...
 
 global___StatusResponse = StatusResponse
 
-@typing_extensions.final
+@typing.final
 class ImageFsInfoRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -4385,7 +4945,7 @@ class ImageFsInfoRequest(google.protobuf.message.Message):
 
 global___ImageFsInfoRequest = ImageFsInfoRequest
 
-@typing_extensions.final
+@typing.final
 class UInt64Value(google.protobuf.message.Message):
     """UInt64Value is the wrapper of uint64."""
 
@@ -4399,11 +4959,11 @@ class UInt64Value(google.protobuf.message.Message):
         *,
         value: builtins.int = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["value", b"value"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["value", b"value"]) -> None: ...
 
 global___UInt64Value = UInt64Value
 
-@typing_extensions.final
+@typing.final
 class FilesystemIdentifier(google.protobuf.message.Message):
     """FilesystemIdentifier uniquely identify the filesystem."""
 
@@ -4417,11 +4977,11 @@ class FilesystemIdentifier(google.protobuf.message.Message):
         *,
         mountpoint: builtins.str = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["mountpoint", b"mountpoint"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["mountpoint", b"mountpoint"]) -> None: ...
 
 global___FilesystemIdentifier = FilesystemIdentifier
 
-@typing_extensions.final
+@typing.final
 class FilesystemUsage(google.protobuf.message.Message):
     """FilesystemUsage provides the filesystem usage information."""
 
@@ -4436,18 +4996,21 @@ class FilesystemUsage(google.protobuf.message.Message):
     @property
     def fs_id(self) -> global___FilesystemIdentifier:
         """The unique identifier of the filesystem."""
+
     @property
     def used_bytes(self) -> global___UInt64Value:
         """UsedBytes represents the bytes used for images on the filesystem.
         This may differ from the total bytes used on the filesystem and may not
         equal CapacityBytes - AvailableBytes.
         """
+
     @property
     def inodes_used(self) -> global___UInt64Value:
         """InodesUsed represents the inodes used by the images.
         This may not equal InodesCapacity - InodesAvailable because the underlying
         filesystem may also be used for purposes other than storing images.
         """
+
     def __init__(
         self,
         *,
@@ -4457,40 +5020,91 @@ class FilesystemUsage(google.protobuf.message.Message):
         inodes_used: global___UInt64Value | None = ...,
     ) -> None: ...
     def HasField(
-        self,
-        field_name: typing_extensions.Literal[
-            "fs_id", b"fs_id", "inodes_used", b"inodes_used", "used_bytes", b"used_bytes"
-        ],
+        self, field_name: typing.Literal["fs_id", b"fs_id", "inodes_used", b"inodes_used", "used_bytes", b"used_bytes"]
     ) -> builtins.bool: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "fs_id", b"fs_id", "inodes_used", b"inodes_used", "timestamp", b"timestamp", "used_bytes", b"used_bytes"
         ],
     ) -> None: ...
 
 global___FilesystemUsage = FilesystemUsage
 
-@typing_extensions.final
+@typing.final
+class WindowsFilesystemUsage(google.protobuf.message.Message):
+    """WindowsFilesystemUsage provides the filesystem usage information specific to Windows."""
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    TIMESTAMP_FIELD_NUMBER: builtins.int
+    FS_ID_FIELD_NUMBER: builtins.int
+    USED_BYTES_FIELD_NUMBER: builtins.int
+    timestamp: builtins.int
+    """Timestamp in nanoseconds at which the information were collected. Must be > 0."""
+    @property
+    def fs_id(self) -> global___FilesystemIdentifier:
+        """The unique identifier of the filesystem."""
+
+    @property
+    def used_bytes(self) -> global___UInt64Value:
+        """UsedBytes represents the bytes used for images on the filesystem.
+        This may differ from the total bytes used on the filesystem and may not
+        equal CapacityBytes - AvailableBytes.
+        """
+
+    def __init__(
+        self,
+        *,
+        timestamp: builtins.int = ...,
+        fs_id: global___FilesystemIdentifier | None = ...,
+        used_bytes: global___UInt64Value | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing.Literal["fs_id", b"fs_id", "used_bytes", b"used_bytes"]) -> builtins.bool: ...
+    def ClearField(
+        self, field_name: typing.Literal["fs_id", b"fs_id", "timestamp", b"timestamp", "used_bytes", b"used_bytes"]
+    ) -> None: ...
+
+global___WindowsFilesystemUsage = WindowsFilesystemUsage
+
+@typing.final
 class ImageFsInfoResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
     IMAGE_FILESYSTEMS_FIELD_NUMBER: builtins.int
+    CONTAINER_FILESYSTEMS_FIELD_NUMBER: builtins.int
     @property
     def image_filesystems(
         self,
     ) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___FilesystemUsage]:
         """Information of image filesystem(s)."""
+
+    @property
+    def container_filesystems(
+        self,
+    ) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___FilesystemUsage]:
+        """Information of container filesystem(s).
+        This is an optional field, may be used for example if container and image
+        storage are separated.
+        Default will be to return this as empty.
+        """
+
     def __init__(
         self,
         *,
         image_filesystems: collections.abc.Iterable[global___FilesystemUsage] | None = ...,
+        container_filesystems: collections.abc.Iterable[global___FilesystemUsage] | None = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["image_filesystems", b"image_filesystems"]) -> None: ...
+    def ClearField(
+        self,
+        field_name: typing.Literal[
+            "container_filesystems", b"container_filesystems", "image_filesystems", b"image_filesystems"
+        ],
+    ) -> None: ...
 
 global___ImageFsInfoResponse = ImageFsInfoResponse
 
-@typing_extensions.final
+@typing.final
 class ContainerStatsRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -4502,11 +5116,11 @@ class ContainerStatsRequest(google.protobuf.message.Message):
         *,
         container_id: builtins.str = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["container_id", b"container_id"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["container_id", b"container_id"]) -> None: ...
 
 global___ContainerStatsRequest = ContainerStatsRequest
 
-@typing_extensions.final
+@typing.final
 class ContainerStatsResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -4514,17 +5128,18 @@ class ContainerStatsResponse(google.protobuf.message.Message):
     @property
     def stats(self) -> global___ContainerStats:
         """Stats of the container."""
+
     def __init__(
         self,
         *,
         stats: global___ContainerStats | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["stats", b"stats"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["stats", b"stats"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["stats", b"stats"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["stats", b"stats"]) -> None: ...
 
 global___ContainerStatsResponse = ContainerStatsResponse
 
-@typing_extensions.final
+@typing.final
 class ListContainerStatsRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -4532,17 +5147,18 @@ class ListContainerStatsRequest(google.protobuf.message.Message):
     @property
     def filter(self) -> global___ContainerStatsFilter:
         """Filter for the list request."""
+
     def __init__(
         self,
         *,
         filter: global___ContainerStatsFilter | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["filter", b"filter"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["filter", b"filter"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["filter", b"filter"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["filter", b"filter"]) -> None: ...
 
 global___ListContainerStatsRequest = ListContainerStatsRequest
 
-@typing_extensions.final
+@typing.final
 class ContainerStatsFilter(google.protobuf.message.Message):
     """ContainerStatsFilter is used to filter containers.
     All those fields are combined with 'AND'
@@ -4550,7 +5166,7 @@ class ContainerStatsFilter(google.protobuf.message.Message):
 
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
-    @typing_extensions.final
+    @typing.final
     class LabelSelectorEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -4564,7 +5180,7 @@ class ContainerStatsFilter(google.protobuf.message.Message):
             key: builtins.str = ...,
             value: builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
+        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     ID_FIELD_NUMBER: builtins.int
     POD_SANDBOX_ID_FIELD_NUMBER: builtins.int
@@ -4579,6 +5195,7 @@ class ContainerStatsFilter(google.protobuf.message.Message):
         Only api.MatchLabels is supported for now and the requirements
         are ANDed. MatchExpressions is not supported yet.
         """
+
     def __init__(
         self,
         *,
@@ -4588,14 +5205,14 @@ class ContainerStatsFilter(google.protobuf.message.Message):
     ) -> None: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "id", b"id", "label_selector", b"label_selector", "pod_sandbox_id", b"pod_sandbox_id"
         ],
     ) -> None: ...
 
 global___ContainerStatsFilter = ContainerStatsFilter
 
-@typing_extensions.final
+@typing.final
 class ListContainerStatsResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -4603,22 +5220,23 @@ class ListContainerStatsResponse(google.protobuf.message.Message):
     @property
     def stats(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___ContainerStats]:
         """Stats of the container."""
+
     def __init__(
         self,
         *,
         stats: collections.abc.Iterable[global___ContainerStats] | None = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["stats", b"stats"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["stats", b"stats"]) -> None: ...
 
 global___ListContainerStatsResponse = ListContainerStatsResponse
 
-@typing_extensions.final
+@typing.final
 class ContainerAttributes(google.protobuf.message.Message):
     """ContainerAttributes provides basic information of the container."""
 
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
-    @typing_extensions.final
+    @typing.final
     class LabelsEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -4632,9 +5250,9 @@ class ContainerAttributes(google.protobuf.message.Message):
             key: builtins.str = ...,
             value: builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
+        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
 
-    @typing_extensions.final
+    @typing.final
     class AnnotationsEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -4648,7 +5266,7 @@ class ContainerAttributes(google.protobuf.message.Message):
             key: builtins.str = ...,
             value: builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
+        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     ID_FIELD_NUMBER: builtins.int
     METADATA_FIELD_NUMBER: builtins.int
@@ -4659,9 +5277,11 @@ class ContainerAttributes(google.protobuf.message.Message):
     @property
     def metadata(self) -> global___ContainerMetadata:
         """Metadata of the container."""
+
     @property
     def labels(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
         """Key-value pairs that may be used to scope and select individual resources."""
+
     @property
     def annotations(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]:
         """Unstructured key-value map holding arbitrary metadata.
@@ -4669,6 +5289,7 @@ class ContainerAttributes(google.protobuf.message.Message):
         MUST be identical to that of the corresponding ContainerConfig used to
         instantiate the Container this status represents.
         """
+
     def __init__(
         self,
         *,
@@ -4677,19 +5298,92 @@ class ContainerAttributes(google.protobuf.message.Message):
         labels: collections.abc.Mapping[builtins.str, builtins.str] | None = ...,
         annotations: collections.abc.Mapping[builtins.str, builtins.str] | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["metadata", b"metadata"]) -> builtins.bool: ...
+    def HasField(self, field_name: typing.Literal["metadata", b"metadata"]) -> builtins.bool: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "annotations", b"annotations", "id", b"id", "labels", b"labels", "metadata", b"metadata"
         ],
     ) -> None: ...
 
 global___ContainerAttributes = ContainerAttributes
 
-@typing_extensions.final
+@typing.final
 class ContainerStats(google.protobuf.message.Message):
     """ContainerStats provides the resource usage statistics for a container."""
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    ATTRIBUTES_FIELD_NUMBER: builtins.int
+    CPU_FIELD_NUMBER: builtins.int
+    MEMORY_FIELD_NUMBER: builtins.int
+    WRITABLE_LAYER_FIELD_NUMBER: builtins.int
+    SWAP_FIELD_NUMBER: builtins.int
+    @property
+    def attributes(self) -> global___ContainerAttributes:
+        """Information of the container."""
+
+    @property
+    def cpu(self) -> global___CpuUsage:
+        """CPU usage gathered from the container."""
+
+    @property
+    def memory(self) -> global___MemoryUsage:
+        """Memory usage gathered from the container."""
+
+    @property
+    def writable_layer(self) -> global___FilesystemUsage:
+        """Usage of the writable layer."""
+
+    @property
+    def swap(self) -> global___SwapUsage:
+        """Swap usage gathered from the container."""
+
+    def __init__(
+        self,
+        *,
+        attributes: global___ContainerAttributes | None = ...,
+        cpu: global___CpuUsage | None = ...,
+        memory: global___MemoryUsage | None = ...,
+        writable_layer: global___FilesystemUsage | None = ...,
+        swap: global___SwapUsage | None = ...,
+    ) -> None: ...
+    def HasField(
+        self,
+        field_name: typing.Literal[
+            "attributes",
+            b"attributes",
+            "cpu",
+            b"cpu",
+            "memory",
+            b"memory",
+            "swap",
+            b"swap",
+            "writable_layer",
+            b"writable_layer",
+        ],
+    ) -> builtins.bool: ...
+    def ClearField(
+        self,
+        field_name: typing.Literal[
+            "attributes",
+            b"attributes",
+            "cpu",
+            b"cpu",
+            "memory",
+            b"memory",
+            "swap",
+            b"swap",
+            "writable_layer",
+            b"writable_layer",
+        ],
+    ) -> None: ...
+
+global___ContainerStats = ContainerStats
+
+@typing.final
+class WindowsContainerStats(google.protobuf.message.Message):
+    """WindowsContainerStats provides the resource usage statistics for a container specific for Windows"""
 
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -4700,39 +5394,43 @@ class ContainerStats(google.protobuf.message.Message):
     @property
     def attributes(self) -> global___ContainerAttributes:
         """Information of the container."""
+
     @property
-    def cpu(self) -> global___CpuUsage:
+    def cpu(self) -> global___WindowsCpuUsage:
         """CPU usage gathered from the container."""
+
     @property
-    def memory(self) -> global___MemoryUsage:
+    def memory(self) -> global___WindowsMemoryUsage:
         """Memory usage gathered from the container."""
+
     @property
-    def writable_layer(self) -> global___FilesystemUsage:
+    def writable_layer(self) -> global___WindowsFilesystemUsage:
         """Usage of the writable layer."""
+
     def __init__(
         self,
         *,
         attributes: global___ContainerAttributes | None = ...,
-        cpu: global___CpuUsage | None = ...,
-        memory: global___MemoryUsage | None = ...,
-        writable_layer: global___FilesystemUsage | None = ...,
+        cpu: global___WindowsCpuUsage | None = ...,
+        memory: global___WindowsMemoryUsage | None = ...,
+        writable_layer: global___WindowsFilesystemUsage | None = ...,
     ) -> None: ...
     def HasField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "attributes", b"attributes", "cpu", b"cpu", "memory", b"memory", "writable_layer", b"writable_layer"
         ],
     ) -> builtins.bool: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "attributes", b"attributes", "cpu", b"cpu", "memory", b"memory", "writable_layer", b"writable_layer"
         ],
     ) -> None: ...
 
-global___ContainerStats = ContainerStats
+global___WindowsContainerStats = WindowsContainerStats
 
-@typing_extensions.final
+@typing.final
 class CpuUsage(google.protobuf.message.Message):
     """CpuUsage provides the CPU usage information."""
 
@@ -4746,11 +5444,13 @@ class CpuUsage(google.protobuf.message.Message):
     @property
     def usage_core_nano_seconds(self) -> global___UInt64Value:
         """Cumulative CPU usage (sum across all cores) since object creation."""
+
     @property
     def usage_nano_cores(self) -> global___UInt64Value:
         """Total CPU usage (sum of all cores) averaged over the sample window.
         The "core" unit can be interpreted as CPU core-nanoseconds per second.
         """
+
     def __init__(
         self,
         *,
@@ -4760,13 +5460,13 @@ class CpuUsage(google.protobuf.message.Message):
     ) -> None: ...
     def HasField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "usage_core_nano_seconds", b"usage_core_nano_seconds", "usage_nano_cores", b"usage_nano_cores"
         ],
     ) -> builtins.bool: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "timestamp",
             b"timestamp",
             "usage_core_nano_seconds",
@@ -4778,7 +5478,55 @@ class CpuUsage(google.protobuf.message.Message):
 
 global___CpuUsage = CpuUsage
 
-@typing_extensions.final
+@typing.final
+class WindowsCpuUsage(google.protobuf.message.Message):
+    """WindowsCpuUsage provides the CPU usage information specific to Windows"""
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    TIMESTAMP_FIELD_NUMBER: builtins.int
+    USAGE_CORE_NANO_SECONDS_FIELD_NUMBER: builtins.int
+    USAGE_NANO_CORES_FIELD_NUMBER: builtins.int
+    timestamp: builtins.int
+    """Timestamp in nanoseconds at which the information were collected. Must be > 0."""
+    @property
+    def usage_core_nano_seconds(self) -> global___UInt64Value:
+        """Cumulative CPU usage (sum across all cores) since object creation."""
+
+    @property
+    def usage_nano_cores(self) -> global___UInt64Value:
+        """Total CPU usage (sum of all cores) averaged over the sample window.
+        The "core" unit can be interpreted as CPU core-nanoseconds per second.
+        """
+
+    def __init__(
+        self,
+        *,
+        timestamp: builtins.int = ...,
+        usage_core_nano_seconds: global___UInt64Value | None = ...,
+        usage_nano_cores: global___UInt64Value | None = ...,
+    ) -> None: ...
+    def HasField(
+        self,
+        field_name: typing.Literal[
+            "usage_core_nano_seconds", b"usage_core_nano_seconds", "usage_nano_cores", b"usage_nano_cores"
+        ],
+    ) -> builtins.bool: ...
+    def ClearField(
+        self,
+        field_name: typing.Literal[
+            "timestamp",
+            b"timestamp",
+            "usage_core_nano_seconds",
+            b"usage_core_nano_seconds",
+            "usage_nano_cores",
+            b"usage_nano_cores",
+        ],
+    ) -> None: ...
+
+global___WindowsCpuUsage = WindowsCpuUsage
+
+@typing.final
 class MemoryUsage(google.protobuf.message.Message):
     """MemoryUsage provides the memory usage information."""
 
@@ -4796,21 +5544,27 @@ class MemoryUsage(google.protobuf.message.Message):
     @property
     def working_set_bytes(self) -> global___UInt64Value:
         """The amount of working set memory in bytes."""
+
     @property
     def available_bytes(self) -> global___UInt64Value:
         """Available memory for use. This is defined as the memory limit - workingSetBytes."""
+
     @property
     def usage_bytes(self) -> global___UInt64Value:
         """Total memory in use. This includes all memory regardless of when it was accessed."""
+
     @property
     def rss_bytes(self) -> global___UInt64Value:
         """The amount of anonymous and swap cache memory (includes transparent hugepages)."""
+
     @property
     def page_faults(self) -> global___UInt64Value:
         """Cumulative number of minor page faults."""
+
     @property
     def major_page_faults(self) -> global___UInt64Value:
         """Cumulative number of major page faults."""
+
     def __init__(
         self,
         *,
@@ -4824,7 +5578,7 @@ class MemoryUsage(google.protobuf.message.Message):
     ) -> None: ...
     def HasField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "available_bytes",
             b"available_bytes",
             "major_page_faults",
@@ -4841,7 +5595,7 @@ class MemoryUsage(google.protobuf.message.Message):
     ) -> builtins.bool: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "available_bytes",
             b"available_bytes",
             "major_page_faults",
@@ -4861,7 +5615,120 @@ class MemoryUsage(google.protobuf.message.Message):
 
 global___MemoryUsage = MemoryUsage
 
-@typing_extensions.final
+@typing.final
+class SwapUsage(google.protobuf.message.Message):
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    TIMESTAMP_FIELD_NUMBER: builtins.int
+    SWAP_AVAILABLE_BYTES_FIELD_NUMBER: builtins.int
+    SWAP_USAGE_BYTES_FIELD_NUMBER: builtins.int
+    timestamp: builtins.int
+    """Timestamp in nanoseconds at which the information were collected. Must be > 0."""
+    @property
+    def swap_available_bytes(self) -> global___UInt64Value:
+        """Available swap for use. This is defined as the swap limit - swapUsageBytes."""
+
+    @property
+    def swap_usage_bytes(self) -> global___UInt64Value:
+        """Total memory in use. This includes all memory regardless of when it was accessed."""
+
+    def __init__(
+        self,
+        *,
+        timestamp: builtins.int = ...,
+        swap_available_bytes: global___UInt64Value | None = ...,
+        swap_usage_bytes: global___UInt64Value | None = ...,
+    ) -> None: ...
+    def HasField(
+        self,
+        field_name: typing.Literal[
+            "swap_available_bytes", b"swap_available_bytes", "swap_usage_bytes", b"swap_usage_bytes"
+        ],
+    ) -> builtins.bool: ...
+    def ClearField(
+        self,
+        field_name: typing.Literal[
+            "swap_available_bytes",
+            b"swap_available_bytes",
+            "swap_usage_bytes",
+            b"swap_usage_bytes",
+            "timestamp",
+            b"timestamp",
+        ],
+    ) -> None: ...
+
+global___SwapUsage = SwapUsage
+
+@typing.final
+class WindowsMemoryUsage(google.protobuf.message.Message):
+    """WindowsMemoryUsage provides the memory usage information specific to Windows"""
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    TIMESTAMP_FIELD_NUMBER: builtins.int
+    WORKING_SET_BYTES_FIELD_NUMBER: builtins.int
+    AVAILABLE_BYTES_FIELD_NUMBER: builtins.int
+    PAGE_FAULTS_FIELD_NUMBER: builtins.int
+    COMMIT_MEMORY_BYTES_FIELD_NUMBER: builtins.int
+    timestamp: builtins.int
+    """Timestamp in nanoseconds at which the information were collected. Must be > 0."""
+    @property
+    def working_set_bytes(self) -> global___UInt64Value:
+        """The amount of working set memory in bytes."""
+
+    @property
+    def available_bytes(self) -> global___UInt64Value:
+        """Available memory for use. This is defined as the memory limit - commit_memory_bytes."""
+
+    @property
+    def page_faults(self) -> global___UInt64Value:
+        """Cumulative number of page faults."""
+
+    @property
+    def commit_memory_bytes(self) -> global___UInt64Value:
+        """Total commit memory in use. Commit memory is total of physical and virtual memory in use."""
+
+    def __init__(
+        self,
+        *,
+        timestamp: builtins.int = ...,
+        working_set_bytes: global___UInt64Value | None = ...,
+        available_bytes: global___UInt64Value | None = ...,
+        page_faults: global___UInt64Value | None = ...,
+        commit_memory_bytes: global___UInt64Value | None = ...,
+    ) -> None: ...
+    def HasField(
+        self,
+        field_name: typing.Literal[
+            "available_bytes",
+            b"available_bytes",
+            "commit_memory_bytes",
+            b"commit_memory_bytes",
+            "page_faults",
+            b"page_faults",
+            "working_set_bytes",
+            b"working_set_bytes",
+        ],
+    ) -> builtins.bool: ...
+    def ClearField(
+        self,
+        field_name: typing.Literal[
+            "available_bytes",
+            b"available_bytes",
+            "commit_memory_bytes",
+            b"commit_memory_bytes",
+            "page_faults",
+            b"page_faults",
+            "timestamp",
+            b"timestamp",
+            "working_set_bytes",
+            b"working_set_bytes",
+        ],
+    ) -> None: ...
+
+global___WindowsMemoryUsage = WindowsMemoryUsage
+
+@typing.final
 class ReopenContainerLogRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -4873,11 +5740,11 @@ class ReopenContainerLogRequest(google.protobuf.message.Message):
         *,
         container_id: builtins.str = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["container_id", b"container_id"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["container_id", b"container_id"]) -> None: ...
 
 global___ReopenContainerLogRequest = ReopenContainerLogRequest
 
-@typing_extensions.final
+@typing.final
 class ReopenContainerLogResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -4887,7 +5754,7 @@ class ReopenContainerLogResponse(google.protobuf.message.Message):
 
 global___ReopenContainerLogResponse = ReopenContainerLogResponse
 
-@typing_extensions.final
+@typing.final
 class CheckpointContainerRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -4912,14 +5779,12 @@ class CheckpointContainerRequest(google.protobuf.message.Message):
     ) -> None: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
-            "container_id", b"container_id", "location", b"location", "timeout", b"timeout"
-        ],
+        field_name: typing.Literal["container_id", b"container_id", "location", b"location", "timeout", b"timeout"],
     ) -> None: ...
 
 global___CheckpointContainerRequest = CheckpointContainerRequest
 
-@typing_extensions.final
+@typing.final
 class CheckpointContainerResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -4929,7 +5794,7 @@ class CheckpointContainerResponse(google.protobuf.message.Message):
 
 global___CheckpointContainerResponse = CheckpointContainerResponse
 
-@typing_extensions.final
+@typing.final
 class GetEventsRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -4939,14 +5804,15 @@ class GetEventsRequest(google.protobuf.message.Message):
 
 global___GetEventsRequest = GetEventsRequest
 
-@typing_extensions.final
+@typing.final
 class ContainerEventResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
     CONTAINER_ID_FIELD_NUMBER: builtins.int
     CONTAINER_EVENT_TYPE_FIELD_NUMBER: builtins.int
     CREATED_AT_FIELD_NUMBER: builtins.int
-    POD_SANDBOX_METADATA_FIELD_NUMBER: builtins.int
+    POD_SANDBOX_STATUS_FIELD_NUMBER: builtins.int
+    CONTAINERS_STATUSES_FIELD_NUMBER: builtins.int
     container_id: builtins.str
     """ID of the container"""
     container_event_type: global___ContainerEventType.ValueType
@@ -4954,31 +5820,289 @@ class ContainerEventResponse(google.protobuf.message.Message):
     created_at: builtins.int
     """Creation timestamp of this event"""
     @property
-    def pod_sandbox_metadata(self) -> global___PodSandboxMetadata:
-        """ID of the sandbox container"""
+    def pod_sandbox_status(self) -> global___PodSandboxStatus:
+        """Sandbox status"""
+
+    @property
+    def containers_statuses(
+        self,
+    ) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___ContainerStatus]:
+        """Container statuses"""
+
     def __init__(
         self,
         *,
         container_id: builtins.str = ...,
         container_event_type: global___ContainerEventType.ValueType = ...,
         created_at: builtins.int = ...,
-        pod_sandbox_metadata: global___PodSandboxMetadata | None = ...,
+        pod_sandbox_status: global___PodSandboxStatus | None = ...,
+        containers_statuses: collections.abc.Iterable[global___ContainerStatus] | None = ...,
     ) -> None: ...
-    def HasField(
-        self, field_name: typing_extensions.Literal["pod_sandbox_metadata", b"pod_sandbox_metadata"]
-    ) -> builtins.bool: ...
+    def HasField(self, field_name: typing.Literal["pod_sandbox_status", b"pod_sandbox_status"]) -> builtins.bool: ...
     def ClearField(
         self,
-        field_name: typing_extensions.Literal[
+        field_name: typing.Literal[
             "container_event_type",
             b"container_event_type",
             "container_id",
             b"container_id",
+            "containers_statuses",
+            b"containers_statuses",
             "created_at",
             b"created_at",
-            "pod_sandbox_metadata",
-            b"pod_sandbox_metadata",
+            "pod_sandbox_status",
+            b"pod_sandbox_status",
         ],
     ) -> None: ...
 
 global___ContainerEventResponse = ContainerEventResponse
+
+@typing.final
+class ListMetricDescriptorsRequest(google.protobuf.message.Message):
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    def __init__(
+        self,
+    ) -> None: ...
+
+global___ListMetricDescriptorsRequest = ListMetricDescriptorsRequest
+
+@typing.final
+class ListMetricDescriptorsResponse(google.protobuf.message.Message):
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    DESCRIPTORS_FIELD_NUMBER: builtins.int
+    @property
+    def descriptors(
+        self,
+    ) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___MetricDescriptor]: ...
+    def __init__(
+        self,
+        *,
+        descriptors: collections.abc.Iterable[global___MetricDescriptor] | None = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing.Literal["descriptors", b"descriptors"]) -> None: ...
+
+global___ListMetricDescriptorsResponse = ListMetricDescriptorsResponse
+
+@typing.final
+class MetricDescriptor(google.protobuf.message.Message):
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    NAME_FIELD_NUMBER: builtins.int
+    HELP_FIELD_NUMBER: builtins.int
+    LABEL_KEYS_FIELD_NUMBER: builtins.int
+    name: builtins.str
+    """The name field will be used as a unique identifier of this MetricDescriptor,
+    and be used in conjunction with the Metric structure to populate the full Metric.
+    """
+    help: builtins.str
+    @property
+    def label_keys(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
+        """When a metric uses this metric descriptor, it should only define
+        labels that have previously been declared in label_keys.
+        It is the responsibility of the runtime to correctly keep sorted the keys and values.
+        If the two slices have different length, the behavior is undefined.
+        """
+
+    def __init__(
+        self,
+        *,
+        name: builtins.str = ...,
+        help: builtins.str = ...,
+        label_keys: collections.abc.Iterable[builtins.str] | None = ...,
+    ) -> None: ...
+    def ClearField(
+        self, field_name: typing.Literal["help", b"help", "label_keys", b"label_keys", "name", b"name"]
+    ) -> None: ...
+
+global___MetricDescriptor = MetricDescriptor
+
+@typing.final
+class ListPodSandboxMetricsRequest(google.protobuf.message.Message):
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    def __init__(
+        self,
+    ) -> None: ...
+
+global___ListPodSandboxMetricsRequest = ListPodSandboxMetricsRequest
+
+@typing.final
+class ListPodSandboxMetricsResponse(google.protobuf.message.Message):
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    POD_METRICS_FIELD_NUMBER: builtins.int
+    @property
+    def pod_metrics(
+        self,
+    ) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___PodSandboxMetrics]: ...
+    def __init__(
+        self,
+        *,
+        pod_metrics: collections.abc.Iterable[global___PodSandboxMetrics] | None = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing.Literal["pod_metrics", b"pod_metrics"]) -> None: ...
+
+global___ListPodSandboxMetricsResponse = ListPodSandboxMetricsResponse
+
+@typing.final
+class PodSandboxMetrics(google.protobuf.message.Message):
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    POD_SANDBOX_ID_FIELD_NUMBER: builtins.int
+    METRICS_FIELD_NUMBER: builtins.int
+    CONTAINER_METRICS_FIELD_NUMBER: builtins.int
+    pod_sandbox_id: builtins.str
+    @property
+    def metrics(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___Metric]: ...
+    @property
+    def container_metrics(
+        self,
+    ) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___ContainerMetrics]: ...
+    def __init__(
+        self,
+        *,
+        pod_sandbox_id: builtins.str = ...,
+        metrics: collections.abc.Iterable[global___Metric] | None = ...,
+        container_metrics: collections.abc.Iterable[global___ContainerMetrics] | None = ...,
+    ) -> None: ...
+    def ClearField(
+        self,
+        field_name: typing.Literal[
+            "container_metrics", b"container_metrics", "metrics", b"metrics", "pod_sandbox_id", b"pod_sandbox_id"
+        ],
+    ) -> None: ...
+
+global___PodSandboxMetrics = PodSandboxMetrics
+
+@typing.final
+class ContainerMetrics(google.protobuf.message.Message):
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    CONTAINER_ID_FIELD_NUMBER: builtins.int
+    METRICS_FIELD_NUMBER: builtins.int
+    container_id: builtins.str
+    @property
+    def metrics(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___Metric]: ...
+    def __init__(
+        self,
+        *,
+        container_id: builtins.str = ...,
+        metrics: collections.abc.Iterable[global___Metric] | None = ...,
+    ) -> None: ...
+    def ClearField(
+        self, field_name: typing.Literal["container_id", b"container_id", "metrics", b"metrics"]
+    ) -> None: ...
+
+global___ContainerMetrics = ContainerMetrics
+
+@typing.final
+class Metric(google.protobuf.message.Message):
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    NAME_FIELD_NUMBER: builtins.int
+    TIMESTAMP_FIELD_NUMBER: builtins.int
+    METRIC_TYPE_FIELD_NUMBER: builtins.int
+    LABEL_VALUES_FIELD_NUMBER: builtins.int
+    VALUE_FIELD_NUMBER: builtins.int
+    name: builtins.str
+    """Name must match a name previously returned in a MetricDescriptors call,
+    otherwise, it will be ignored.
+    """
+    timestamp: builtins.int
+    """Timestamp should be 0 if the metric was gathered live.
+    If it was cached, the Timestamp should reflect the time it was collected.
+    """
+    metric_type: global___MetricType.ValueType
+    @property
+    def label_values(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
+        """The corresponding LabelValues to the LabelKeys defined in the MetricDescriptor.
+        It is the responsibility of the runtime to correctly keep sorted the keys and values.
+        If the two slices have different length, the behavior is undefined.
+        """
+
+    @property
+    def value(self) -> global___UInt64Value: ...
+    def __init__(
+        self,
+        *,
+        name: builtins.str = ...,
+        timestamp: builtins.int = ...,
+        metric_type: global___MetricType.ValueType = ...,
+        label_values: collections.abc.Iterable[builtins.str] | None = ...,
+        value: global___UInt64Value | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing.Literal["value", b"value"]) -> builtins.bool: ...
+    def ClearField(
+        self,
+        field_name: typing.Literal[
+            "label_values",
+            b"label_values",
+            "metric_type",
+            b"metric_type",
+            "name",
+            b"name",
+            "timestamp",
+            b"timestamp",
+            "value",
+            b"value",
+        ],
+    ) -> None: ...
+
+global___Metric = Metric
+
+@typing.final
+class RuntimeConfigRequest(google.protobuf.message.Message):
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    def __init__(
+        self,
+    ) -> None: ...
+
+global___RuntimeConfigRequest = RuntimeConfigRequest
+
+@typing.final
+class RuntimeConfigResponse(google.protobuf.message.Message):
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    LINUX_FIELD_NUMBER: builtins.int
+    @property
+    def linux(self) -> global___LinuxRuntimeConfiguration:
+        """Configuration information for Linux-based runtimes. This field contains
+        global runtime configuration options that are not specific to runtime
+        handlers.
+        """
+
+    def __init__(
+        self,
+        *,
+        linux: global___LinuxRuntimeConfiguration | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing.Literal["linux", b"linux"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["linux", b"linux"]) -> None: ...
+
+global___RuntimeConfigResponse = RuntimeConfigResponse
+
+@typing.final
+class LinuxRuntimeConfiguration(google.protobuf.message.Message):
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    CGROUP_DRIVER_FIELD_NUMBER: builtins.int
+    cgroup_driver: global___CgroupDriver.ValueType
+    """Cgroup driver to use
+    Note: this field should not change for the lifecycle of the Kubelet,
+    or while there are running containers.
+    The Kubelet will not re-request this after startup, and will construct the cgroup
+    hierarchy assuming it is static.
+    If the runtime wishes to change this value, it must be accompanied by removal of
+    all pods, and a restart of the Kubelet. The easiest way to do this is with a full node reboot.
+    """
+    def __init__(
+        self,
+        *,
+        cgroup_driver: global___CgroupDriver.ValueType = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing.Literal["cgroup_driver", b"cgroup_driver"]) -> None: ...
+
+global___LinuxRuntimeConfiguration = LinuxRuntimeConfiguration

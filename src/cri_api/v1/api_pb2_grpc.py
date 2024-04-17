@@ -144,6 +144,21 @@ class RuntimeServiceStub(object):
             request_serializer=v1_dot_api__pb2.GetEventsRequest.SerializeToString,
             response_deserializer=v1_dot_api__pb2.ContainerEventResponse.FromString,
         )
+        self.ListMetricDescriptors = channel.unary_unary(
+            "/runtime.v1.RuntimeService/ListMetricDescriptors",
+            request_serializer=v1_dot_api__pb2.ListMetricDescriptorsRequest.SerializeToString,
+            response_deserializer=v1_dot_api__pb2.ListMetricDescriptorsResponse.FromString,
+        )
+        self.ListPodSandboxMetrics = channel.unary_unary(
+            "/runtime.v1.RuntimeService/ListPodSandboxMetrics",
+            request_serializer=v1_dot_api__pb2.ListPodSandboxMetricsRequest.SerializeToString,
+            response_deserializer=v1_dot_api__pb2.ListPodSandboxMetricsResponse.FromString,
+        )
+        self.RuntimeConfig = channel.unary_unary(
+            "/runtime.v1.RuntimeService/RuntimeConfig",
+            request_serializer=v1_dot_api__pb2.RuntimeConfigRequest.SerializeToString,
+            response_deserializer=v1_dot_api__pb2.RuntimeConfigResponse.FromString,
+        )
 
 
 class RuntimeServiceServicer(object):
@@ -344,6 +359,36 @@ class RuntimeServiceServicer(object):
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
 
+    def ListMetricDescriptors(self, request, context):
+        """ListMetricDescriptors gets the descriptors for the metrics that will be returned in ListPodSandboxMetrics.
+        This list should be static at startup: either the client and server restart together when
+        adding or removing metrics descriptors, or they should not change.
+        Put differently, if ListPodSandboxMetrics references a name that is not described in the initial
+        ListMetricDescriptors call, then the metric will not be broadcasted.
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
+
+    def ListPodSandboxMetrics(self, request, context):
+        """ListPodSandboxMetrics gets pod sandbox metrics from CRI Runtime"""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
+
+    def RuntimeConfig(self, request, context):
+        """RuntimeConfig returns configuration information of the runtime.
+        A couple of notes:
+        - The RuntimeConfigRequest object is not to be confused with the contents of UpdateRuntimeConfigRequest.
+        The former is for having runtime tell Kubelet what to do, the latter vice versa.
+        - It is the expectation of the Kubelet that these fields are static for the lifecycle of the Kubelet.
+        The Kubelet will not re-request the RuntimeConfiguration after startup, and CRI implementations should
+        avoid updating them without a full node reboot.
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
+
 
 def add_RuntimeServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -476,6 +521,21 @@ def add_RuntimeServiceServicer_to_server(servicer, server):
             servicer.GetContainerEvents,
             request_deserializer=v1_dot_api__pb2.GetEventsRequest.FromString,
             response_serializer=v1_dot_api__pb2.ContainerEventResponse.SerializeToString,
+        ),
+        "ListMetricDescriptors": grpc.unary_unary_rpc_method_handler(
+            servicer.ListMetricDescriptors,
+            request_deserializer=v1_dot_api__pb2.ListMetricDescriptorsRequest.FromString,
+            response_serializer=v1_dot_api__pb2.ListMetricDescriptorsResponse.SerializeToString,
+        ),
+        "ListPodSandboxMetrics": grpc.unary_unary_rpc_method_handler(
+            servicer.ListPodSandboxMetrics,
+            request_deserializer=v1_dot_api__pb2.ListPodSandboxMetricsRequest.FromString,
+            response_serializer=v1_dot_api__pb2.ListPodSandboxMetricsResponse.SerializeToString,
+        ),
+        "RuntimeConfig": grpc.unary_unary_rpc_method_handler(
+            servicer.RuntimeConfig,
+            request_deserializer=v1_dot_api__pb2.RuntimeConfigRequest.FromString,
+            response_serializer=v1_dot_api__pb2.RuntimeConfigResponse.SerializeToString,
         ),
     }
     generic_handler = grpc.method_handlers_generic_handler("runtime.v1.RuntimeService", rpc_method_handlers)
@@ -1230,6 +1290,93 @@ class RuntimeService(object):
             "/runtime.v1.RuntimeService/GetContainerEvents",
             v1_dot_api__pb2.GetEventsRequest.SerializeToString,
             v1_dot_api__pb2.ContainerEventResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
+
+    @staticmethod
+    def ListMetricDescriptors(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            "/runtime.v1.RuntimeService/ListMetricDescriptors",
+            v1_dot_api__pb2.ListMetricDescriptorsRequest.SerializeToString,
+            v1_dot_api__pb2.ListMetricDescriptorsResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
+
+    @staticmethod
+    def ListPodSandboxMetrics(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            "/runtime.v1.RuntimeService/ListPodSandboxMetrics",
+            v1_dot_api__pb2.ListPodSandboxMetricsRequest.SerializeToString,
+            v1_dot_api__pb2.ListPodSandboxMetricsResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
+
+    @staticmethod
+    def RuntimeConfig(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            "/runtime.v1.RuntimeService/RuntimeConfig",
+            v1_dot_api__pb2.RuntimeConfigRequest.SerializeToString,
+            v1_dot_api__pb2.RuntimeConfigResponse.FromString,
             options,
             channel_credentials,
             insecure,
