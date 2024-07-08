@@ -7,17 +7,13 @@ verify_ssl = true
 container-runtime-interface-api = {editable = true, path = "."}
 
 [dev-packages]
-black = "*"
+build = "*"
 exceptiongroup = "*" # Required for Python versions < 3.11
-flake8 = "*"
 grpcio-tools = "~=1.47"
-importlib_metadata = "*" # Required for Python versions < 3.8
-isort = "*"
 mypy = "*"
 mypy-protobuf = "*"
-pre-commit = "*"
 pytest = "*"
-secretstorage = "*"
+ruff = "*"
+tomli = "*" # Required for Python versions < 3.12
 twine = "*"
 types-protobuf = "*"
-typing-extensions = "*" # Required for Python versions < 3.8

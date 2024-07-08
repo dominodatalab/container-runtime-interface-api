@@ -1,10 +1,11 @@
 from unittest import TestCase
 from unittest.mock import MagicMock, Mock
 
+from grpc import RpcError, StatusCode
+
 from cri_api.channel import V1, Channel
 from cri_api.images import Images, ImageServiceException
 from cri_api.v1.api_pb2 import Image, ListImagesRequest, ListImagesResponse
-from grpc import RpcError, StatusCode
 
 
 class TestImages(TestCase):
@@ -22,7 +23,9 @@ class TestImages(TestCase):
         self.images.stub.ListImages.assert_called_with(ListImagesRequest())
 
     def test_list_images(self):
-        self.images.stub.ListImages.return_value = ListImagesResponse(images=[Image(id="testing")])
+        self.images.stub.ListImages.return_value = ListImagesResponse(
+            images=[Image(id="testing")]
+        )
         self.assertEqual([{"id": "testing"}], self.images.list_images())
         self.images.stub.ListImages.assert_called_with(ListImagesRequest())
 

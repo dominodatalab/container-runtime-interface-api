@@ -32,8 +32,10 @@ class Containers:
 
     def list_containers(self, filter: Optional[dict] = None) -> List[dict]:
         if self.channel.version == V1:
-            request: Union[ListContainersRequest, V1Alpha2ListContainersRequest] = ListContainersRequest(
-                filter=ParseDict(filter, ContainerFilter()) if filter else None
+            request: Union[ListContainersRequest, V1Alpha2ListContainersRequest] = (
+                ListContainersRequest(
+                    filter=ParseDict(filter, ContainerFilter()) if filter else None
+                )
             )
         else:
             request = V1Alpha2ListContainersRequest(

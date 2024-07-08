@@ -3,6 +3,7 @@ from unittest import TestCase
 from unittest.mock import patch
 
 import grpc._channel
+
 from cri_api.channel import Channel
 from cri_api.exceptions import ServiceException
 

@@ -31,15 +31,24 @@ class TestContainers(TestCase):
 
     def test_list_containers_filter(self):
         self.containers.stub.ListContainers.return_value = ListContainersResponse()
-        self.assertEqual([], self.containers.list_containers(filter={"state": {"state": "CONTAINER_EXITED"}}))
+        self.assertEqual(
+            [],
+            self.containers.list_containers(
+                filter={"state": {"state": "CONTAINER_EXITED"}}
+            ),
+        )
         self.containers.stub.ListContainers.assert_called_with(
             ListContainersRequest(
-                filter=ContainerFilter(state=ContainerStateValue(state=ContainerState.CONTAINER_EXITED))
+                filter=ContainerFilter(
+                    state=ContainerStateValue(state=ContainerState.CONTAINER_EXITED)
+                )
             )
         )
 
     def test_list_containers(self):
-        self.containers.stub.ListContainers.return_value = ListContainersResponse(containers=[Container(id="testing")])
+        self.containers.stub.ListContainers.return_value = ListContainersResponse(
+            containers=[Container(id="testing")]
+        )
         self.assertEqual([{"id": "testing"}], self.containers.list_containers())
         self.containers.stub.ListContainers.assert_called_with(ListContainersRequest())
 
@@ -48,7 +57,9 @@ class TestContainers(TestCase):
         err.code = MagicMock(return_value=StatusCode.UNKNOWN)
         err.details = MagicMock(return_value="these are error details")
 
-        with self.assertRaisesRegex(ContainerServiceException, "these are error details"):
+        with self.assertRaisesRegex(
+            ContainerServiceException, "these are error details"
+        ):
             self.containers.list_containers()
 
         self.containers.stub.ListContainers.assert_called_with(ListContainersRequest())
