@@ -22,7 +22,7 @@ orbs:
           - checkout
           - run:
               name: Install pip dependencies
-              command: pipenv install --dev --deploy --python=$(which python)
+              command: pipenv install --dev --python=$(which python)
           - run:
               name: Ensure code is correctly formatted
               command: pipenv run ruff check .
@@ -38,7 +38,7 @@ orbs:
           - checkout
           - run:
               name: Install pip dependencies
-              command: pipenv install --dev --deploy --python=$(which python)
+              command: pipenv install --dev --python=$(which python)
           - run:
               name: Run unit tests
               command: pipenv run pytest --junitxml=./tests/reports/junit-test-report.xml
@@ -53,7 +53,7 @@ orbs:
           - checkout
           - run:
               name: Install pip dependencies
-              command: pipenv install --dev --deploy --python=$(which python)
+              command: pipenv install --dev --python=$(which python)
           - run:
               name: Create distributions
               command: |
@@ -74,7 +74,7 @@ orbs:
               name: Install pip dependencies
               command: |
                 pip3 install pipenv
-                pipenv install --dev --deploy --python=$(which python3)
+                pipenv install --dev --python=$(which python3)
           - run:
               name: Setup system prereqs
               command: |
