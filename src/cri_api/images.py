@@ -29,14 +29,18 @@ class Images:
     def __init__(self, channel: Channel) -> None:
         self.channel = channel
         self.stub: Union[ImageServiceStub, V1Alpha2ImageServiceStub] = (
-            ImageServiceStub(channel.channel) if channel.version == V1 else V1Alpha2ImageServiceStub(channel.channel)
+            ImageServiceStub(channel.channel)
+            if channel.version == V1
+            else V1Alpha2ImageServiceStub(channel.channel)
         )
 
     # TODO filter?
     def list_images(self) -> List[dict]:
         try:
             response = self.stub.ListImages(
-                ListImagesRequest() if self.channel.version == V1 else V1Alpha2ListImagesRequest()
+                ListImagesRequest()
+                if self.channel.version == V1
+                else V1Alpha2ListImagesRequest()
             )
             return MessageToDict(response).get("images", [])
         except RpcError as e:
@@ -44,11 +48,13 @@ class Images:
 
     def get_image(self, image_ref: str) -> Optional[dict]:
         if self.channel.version == V1:
-            request: Union[ImageStatusRequest, V1Alpha2ImageStatusRequest] = ImageStatusRequest(
-                image=ImageSpec(image=image_ref)
+            request: Union[ImageStatusRequest, V1Alpha2ImageStatusRequest] = (
+                ImageStatusRequest(image=ImageSpec(image=image_ref))
             )
         else:
-            request = V1Alpha2ImageStatusRequest(image=V1Alpha2ImageSpec(image=image_ref))
+            request = V1Alpha2ImageStatusRequest(
+                image=V1Alpha2ImageSpec(image=image_ref)
+            )
 
         try:
             response = self.stub.ImageStatus(request)
@@ -58,13 +64,18 @@ class Images:
 
     def pull_image(self, image_ref: str, auth_config: Optional[dict] = None) -> None:
         if self.channel.version == V1:
-            request: Union[PullImageRequest, V1Alpha2PullImageRequest] = PullImageRequest(
-                image=ImageSpec(image=image_ref), auth=ParseDict(auth_config, AuthConfig()) if auth_config else None
+            request: Union[PullImageRequest, V1Alpha2PullImageRequest] = (
+                PullImageRequest(
+                    image=ImageSpec(image=image_ref),
+                    auth=ParseDict(auth_config, AuthConfig()) if auth_config else None,
+                )
             )
         else:
             request = V1Alpha2PullImageRequest(
                 image=V1Alpha2ImageSpec(image=image_ref),
-                auth=ParseDict(auth_config, V1Alpha2AuthConfig()) if auth_config else None,
+                auth=ParseDict(auth_config, V1Alpha2AuthConfig())
+                if auth_config
+                else None,
             )
 
         try:
@@ -74,11 +85,13 @@ class Images:
 
     def remove_image(self, image_ref: str) -> None:
         if self.channel.version == V1:
-            request: Union[RemoveImageRequest, V1Alpha2RemoveImageRequest] = RemoveImageRequest(
-                image=ImageSpec(image=image_ref)
+            request: Union[RemoveImageRequest, V1Alpha2RemoveImageRequest] = (
+                RemoveImageRequest(image=ImageSpec(image=image_ref))
             )
         else:
-            request = V1Alpha2RemoveImageRequest(image=V1Alpha2ImageSpec(image=image_ref))
+            request = V1Alpha2RemoveImageRequest(
+                image=V1Alpha2ImageSpec(image=image_ref)
+            )
 
         try:
             self.stub.RemoveImage(request)

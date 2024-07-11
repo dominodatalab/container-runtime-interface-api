@@ -20,15 +20,9 @@ repos:
         args: [-b master]
       - id: requirements-txt-fixer
       - id: trailing-whitespace
-  - repo: https://github.com/psf/black
-    rev: 21.8b0
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: 'v0.5.1'
     hooks:
-      - id: black
-        language_version: python3.9
-        exclude: *exclude
-  - repo: https://gitlab.com/pycqa/flake8
-    rev: 3.9.2
-    hooks:
-      - id: flake8
-        language_version: python3.9
-        exclude: *exclude
+      - id: ruff
+        args: [ --fix ]
+      - id: ruff-format

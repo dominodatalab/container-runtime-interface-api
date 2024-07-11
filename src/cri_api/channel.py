@@ -31,7 +31,9 @@ class Channel:
         from .v1.api_pb2 import VersionRequest as VersionRequestV1
         from .v1.api_pb2_grpc import RuntimeServiceStub as RuntimeServiceStubV1
         from .v1alpha2.api_pb2 import VersionRequest as VersionRequestV1Alpha2
-        from .v1alpha2.api_pb2_grpc import RuntimeServiceStub as RuntimeServiceStubV1Alpha2
+        from .v1alpha2.api_pb2_grpc import (
+            RuntimeServiceStub as RuntimeServiceStubV1Alpha2,
+        )
 
         try:
             RuntimeServiceStubV1(self.channel).Version(VersionRequestV1())

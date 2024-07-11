@@ -3,15 +3,15 @@ version: 2.1
 orbs:
   cri-api:
     executors:
+      python_3_12:
+        docker:
+          - image: cimg/python:3.12
+      python_3_11:
+        docker:
+          - image: cimg/python:3.11
       python_3_10:
         docker:
           - image: cimg/python:3.10
-      python_3_9:
-        docker:
-          - image: cimg/python:3.9
-      python_3_8:
-        docker:
-          - image: cimg/python:3.8
     jobs:
       lint:
         parameters:
@@ -22,10 +22,10 @@ orbs:
           - checkout
           - run:
               name: Install pip dependencies
-              command: pipenv install --dev --deploy --python=$(which python)
+              command: pipenv install --dev --python=$(which python)
           - run:
               name: Ensure code is correctly formatted
-              command: pipenv run black --check .
+              command: pipenv run ruff check .
           - run:
               name: Ensure code is correctly typed
               command: pipenv run mypy .
@@ -38,7 +38,7 @@ orbs:
           - checkout
           - run:
               name: Install pip dependencies
-              command: pipenv install --dev --deploy --python=$(which python)
+              command: pipenv install --dev --python=$(which python)
           - run:
               name: Run unit tests
               command: pipenv run pytest --junitxml=./tests/reports/junit-test-report.xml
@@ -53,37 +53,35 @@ orbs:
           - checkout
           - run:
               name: Install pip dependencies
-              command: pipenv install --dev --deploy --python=$(which python)
+              command: pipenv install --dev --python=$(which python)
           - run:
               name: Create distributions
               command: |
-                pipenv run python setup.py sdist
-                pipenv run python setup.py bdist_wheel
+                pipenv run python -m build
           - run:
               name: Publish distributions
               command: |
                 pipenv run twine upload dist/*
       integration-tests:
         machine:
-          image: ubuntu-2004:2022.10.1
+          image: ubuntu-2204:2024.05.1
         environment:
-          K8S_VERSION: v1.25.5
-          CRI_DOCKERD_VERSION: 0.2.6
-          CRICTL_VERSION: v1.25.0
+          CRI_DOCKERD_VERSION: 0.3.14
+          CRICTL_VERSION: v1.30.0
         steps:
           - checkout
           - run:
               name: Install pip dependencies
               command: |
                 pip3 install pipenv
-                pipenv install --dev --deploy --python=$(which python3)
+                pipenv install --dev --python=$(which python3)
           - run:
               name: Setup system prereqs
               command: |
                 curl -sSfL https://github.com/kubernetes-sigs/cri-tools/releases/download/$CRICTL_VERSION/crictl-$CRICTL_VERSION-linux-amd64.tar.gz | sudo tar -C /usr/bin -xz
                 chmod +x /usr/bin/crictl
 
-                curl -sSfL -O https://github.com/Mirantis/cri-dockerd/releases/download/v$CRI_DOCKERD_VERSION/cri-dockerd_$CRI_DOCKERD_VERSION.3-0.ubuntu-focal_amd64.deb
+                curl -sSfL -O https://github.com/Mirantis/cri-dockerd/releases/download/v$CRI_DOCKERD_VERSION/cri-dockerd_$CRI_DOCKERD_VERSION.3-0.ubuntu-jammy_amd64.deb
                 sudo dpkg -i cri*
           - run:
               name: Run tests against cri-dockerd
@@ -125,12 +123,12 @@ workflows:
       - cri-api/unit-tests:
           matrix:
             parameters:
-              python-version: ["3_8", "3_9", "3_10"]
+              python-version: ["3_10", "3_11", "3_12"]
           filters:
             tags:
               only: /.*/
       - cri-api/lint:
-          python-version: &default_python "3_9"
+          python-version: &default_python "3_10"
           filters:
             tags:
               only: /.*/

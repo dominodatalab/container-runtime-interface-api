@@ -1,28 +1,18 @@
-[tool.black]
-line-length = 120
-target-version = ['py37', 'py38', 'py39']
-include = '\.pyi?$'
-exclude = '''
-/(
-    \.eggs
-  | \.git
-  | \.hg
-  | \.mypy_cache
-  | \.tox
-  | \.venv
-  | _build
-  | buck-out
-  | build
-  | dist
-  | src/cri_api/v1alpha2
-  | src/cri_api/github
-  | src/cri_api/github\.com
-  | vendor
-)/
-'''
-
-[tool.isort]
-profile = "black"
+[tool.ruff]
+lint.select = ["E", "F", "I"]
+lint.ignore = ["E501"] # line length
+src = ["src"]
+exclude = [
+  "**/__pycache__",
+  ".venv",
+  ".git",
+  "build",
+  "dist",
+  "src/cri_api/v1alpha2",
+  "src/cri_api/v1",
+  "src/cri_api/github",
+  "src/cri_api/github.com"
+]
 
 [tool.pytest.ini_options]
 junit_family = 'xunit2'
