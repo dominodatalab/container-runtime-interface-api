@@ -7,8 +7,9 @@ setuptools.setup(
     name="container-runtime-interface-api",
     packages=setuptools.find_namespace_packages(where="src"),
     package_dir={"": "src"},
+    include_package_data=True,
     install_requires=["grpcio~=1.39", "protobuf~=4.2"],
-    version="1.0.0",
+    version="2.0.0",
     author="Domino Data Lab",
     author_email="steven.davidovitz@dominodatalab.com",
     description="Python library for interaction with the Kubernetes container runtime interface API.",  # noqa
