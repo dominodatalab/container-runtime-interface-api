@@ -9,7 +9,7 @@ container-runtime-interface-api = {editable = true, path = "."}
 [dev-packages]
 build = "*"
 exceptiongroup = "*" # Required for Python versions < 3.11
-grpcio-tools = "~=1.47"
+grpcio-tools = "~=1.66"
 mypy = "*"
 mypy-protobuf = "*"
 pytest = "*"
