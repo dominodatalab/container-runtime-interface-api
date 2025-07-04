@@ -48,9 +48,9 @@ class Images:
 
     def get_image(self, image_ref: str) -> Optional[dict]:
         if self.channel.version == V1:
-            request: Union[ImageStatusRequest, V1Alpha2ImageStatusRequest] = (
-                ImageStatusRequest(image=ImageSpec(image=image_ref))
-            )
+            request: Union[
+                ImageStatusRequest, V1Alpha2ImageStatusRequest
+            ] = ImageStatusRequest(image=ImageSpec(image=image_ref))
         else:
             request = V1Alpha2ImageStatusRequest(
                 image=V1Alpha2ImageSpec(image=image_ref)
@@ -64,11 +64,11 @@ class Images:
 
     def pull_image(self, image_ref: str, auth_config: Optional[dict] = None) -> None:
         if self.channel.version == V1:
-            request: Union[PullImageRequest, V1Alpha2PullImageRequest] = (
-                PullImageRequest(
-                    image=ImageSpec(image=image_ref),
-                    auth=ParseDict(auth_config, AuthConfig()) if auth_config else None,
-                )
+            request: Union[
+                PullImageRequest, V1Alpha2PullImageRequest
+            ] = PullImageRequest(
+                image=ImageSpec(image=image_ref),
+                auth=ParseDict(auth_config, AuthConfig()) if auth_config else None,
             )
         else:
             request = V1Alpha2PullImageRequest(
@@ -85,9 +85,9 @@ class Images:
 
     def remove_image(self, image_ref: str) -> None:
         if self.channel.version == V1:
-            request: Union[RemoveImageRequest, V1Alpha2RemoveImageRequest] = (
-                RemoveImageRequest(image=ImageSpec(image=image_ref))
-            )
+            request: Union[
+                RemoveImageRequest, V1Alpha2RemoveImageRequest
+            ] = RemoveImageRequest(image=ImageSpec(image=image_ref))
         else:
             request = V1Alpha2RemoveImageRequest(
                 image=V1Alpha2ImageSpec(image=image_ref)
