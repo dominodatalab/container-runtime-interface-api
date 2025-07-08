@@ -9,6 +9,7 @@ from .channel import V1, Channel
 from .exceptions import ImageServiceException
 from .v1.api_pb2 import (
     AuthConfig,
+    ImageFilter,
     ImageSpec,
     ImageStatusRequest,
     ListImagesRequest,
@@ -17,6 +18,7 @@ from .v1.api_pb2 import (
 )
 from .v1.api_pb2_grpc import ImageServiceStub
 from .v1alpha2.api_pb2 import AuthConfig as V1Alpha2AuthConfig
+from .v1alpha2.api_pb2 import ImageFilter as V1Alpha2ImageFilter
 from .v1alpha2.api_pb2 import ImageSpec as V1Alpha2ImageSpec
 from .v1alpha2.api_pb2 import ImageStatusRequest as V1Alpha2ImageStatusRequest
 from .v1alpha2.api_pb2 import ListImagesRequest as V1Alpha2ListImagesRequest
@@ -34,14 +36,35 @@ class Images:
             else V1Alpha2ImageServiceStub(channel.channel)
         )
 
-    # TODO filter?
-    def list_images(self) -> List[dict]:
+    def list_images(
+        self, image_filter: Optional[Union[ImageFilter, V1Alpha2ImageFilter]] = None
+    ) -> List[dict]:
         try:
-            response = self.stub.ListImages(
-                ListImagesRequest()
-                if self.channel.version == V1
-                else V1Alpha2ListImagesRequest()
-            )
+            request: Union[ListImagesRequest, V1Alpha2ListImagesRequest]
+            if self.channel.version == V1:
+                # Only pass if it's the right type
+                if image_filter is not None and not isinstance(
+                    image_filter, ImageFilter
+                ):
+                    raise TypeError("For V1, image_filter must be of type ImageFilter")
+                request = (
+                    ListImagesRequest(filter=image_filter)
+                    if image_filter
+                    else ListImagesRequest()
+                )
+            else:
+                if image_filter is not None and not isinstance(
+                    image_filter, V1Alpha2ImageFilter
+                ):
+                    raise TypeError(
+                        "For V1Alpha2, image_filter must be of type V1Alpha2ImageFilter"
+                    )
+                request = (
+                    V1Alpha2ListImagesRequest(filter=image_filter)
+                    if image_filter
+                    else V1Alpha2ListImagesRequest()
+                )
+            response = self.stub.ListImages(request)
             return MessageToDict(response).get("images", [])
         except RpcError as e:
             raise ImageServiceException(e.code(), e.details()) from e
@@ -73,9 +96,11 @@ class Images:
         else:
             request = V1Alpha2PullImageRequest(
                 image=V1Alpha2ImageSpec(image=image_ref),
-                auth=ParseDict(auth_config, V1Alpha2AuthConfig())
-                if auth_config
-                else None,
+                auth=(
+                    ParseDict(auth_config, V1Alpha2AuthConfig())
+                    if auth_config
+                    else None
+                ),
             )
 
         try:
