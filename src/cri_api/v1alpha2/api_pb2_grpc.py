@@ -6,8 +6,7 @@ from cri_api.v1alpha2 import api_pb2 as v1alpha2_dot_api__pb2
 
 
 class RuntimeServiceStub(object):
-    """Runtime service defines the public APIs for remote container runtimes
-    """
+    """Runtime service defines the public APIs for remote container runtimes"""
 
     def __init__(self, channel):
         """Constructor.
@@ -16,145 +15,143 @@ class RuntimeServiceStub(object):
             channel: A grpc.Channel.
         """
         self.Version = channel.unary_unary(
-                '/runtime.v1alpha2.RuntimeService/Version',
-                request_serializer=v1alpha2_dot_api__pb2.VersionRequest.SerializeToString,
-                response_deserializer=v1alpha2_dot_api__pb2.VersionResponse.FromString,
-                )
+            "/runtime.v1alpha2.RuntimeService/Version",
+            request_serializer=v1alpha2_dot_api__pb2.VersionRequest.SerializeToString,
+            response_deserializer=v1alpha2_dot_api__pb2.VersionResponse.FromString,
+        )
         self.RunPodSandbox = channel.unary_unary(
-                '/runtime.v1alpha2.RuntimeService/RunPodSandbox',
-                request_serializer=v1alpha2_dot_api__pb2.RunPodSandboxRequest.SerializeToString,
-                response_deserializer=v1alpha2_dot_api__pb2.RunPodSandboxResponse.FromString,
-                )
+            "/runtime.v1alpha2.RuntimeService/RunPodSandbox",
+            request_serializer=v1alpha2_dot_api__pb2.RunPodSandboxRequest.SerializeToString,
+            response_deserializer=v1alpha2_dot_api__pb2.RunPodSandboxResponse.FromString,
+        )
         self.StopPodSandbox = channel.unary_unary(
-                '/runtime.v1alpha2.RuntimeService/StopPodSandbox',
-                request_serializer=v1alpha2_dot_api__pb2.StopPodSandboxRequest.SerializeToString,
-                response_deserializer=v1alpha2_dot_api__pb2.StopPodSandboxResponse.FromString,
-                )
+            "/runtime.v1alpha2.RuntimeService/StopPodSandbox",
+            request_serializer=v1alpha2_dot_api__pb2.StopPodSandboxRequest.SerializeToString,
+            response_deserializer=v1alpha2_dot_api__pb2.StopPodSandboxResponse.FromString,
+        )
         self.RemovePodSandbox = channel.unary_unary(
-                '/runtime.v1alpha2.RuntimeService/RemovePodSandbox',
-                request_serializer=v1alpha2_dot_api__pb2.RemovePodSandboxRequest.SerializeToString,
-                response_deserializer=v1alpha2_dot_api__pb2.RemovePodSandboxResponse.FromString,
-                )
+            "/runtime.v1alpha2.RuntimeService/RemovePodSandbox",
+            request_serializer=v1alpha2_dot_api__pb2.RemovePodSandboxRequest.SerializeToString,
+            response_deserializer=v1alpha2_dot_api__pb2.RemovePodSandboxResponse.FromString,
+        )
         self.PodSandboxStatus = channel.unary_unary(
-                '/runtime.v1alpha2.RuntimeService/PodSandboxStatus',
-                request_serializer=v1alpha2_dot_api__pb2.PodSandboxStatusRequest.SerializeToString,
-                response_deserializer=v1alpha2_dot_api__pb2.PodSandboxStatusResponse.FromString,
-                )
+            "/runtime.v1alpha2.RuntimeService/PodSandboxStatus",
+            request_serializer=v1alpha2_dot_api__pb2.PodSandboxStatusRequest.SerializeToString,
+            response_deserializer=v1alpha2_dot_api__pb2.PodSandboxStatusResponse.FromString,
+        )
         self.ListPodSandbox = channel.unary_unary(
-                '/runtime.v1alpha2.RuntimeService/ListPodSandbox',
-                request_serializer=v1alpha2_dot_api__pb2.ListPodSandboxRequest.SerializeToString,
-                response_deserializer=v1alpha2_dot_api__pb2.ListPodSandboxResponse.FromString,
-                )
+            "/runtime.v1alpha2.RuntimeService/ListPodSandbox",
+            request_serializer=v1alpha2_dot_api__pb2.ListPodSandboxRequest.SerializeToString,
+            response_deserializer=v1alpha2_dot_api__pb2.ListPodSandboxResponse.FromString,
+        )
         self.CreateContainer = channel.unary_unary(
-                '/runtime.v1alpha2.RuntimeService/CreateContainer',
-                request_serializer=v1alpha2_dot_api__pb2.CreateContainerRequest.SerializeToString,
-                response_deserializer=v1alpha2_dot_api__pb2.CreateContainerResponse.FromString,
-                )
+            "/runtime.v1alpha2.RuntimeService/CreateContainer",
+            request_serializer=v1alpha2_dot_api__pb2.CreateContainerRequest.SerializeToString,
+            response_deserializer=v1alpha2_dot_api__pb2.CreateContainerResponse.FromString,
+        )
         self.StartContainer = channel.unary_unary(
-                '/runtime.v1alpha2.RuntimeService/StartContainer',
-                request_serializer=v1alpha2_dot_api__pb2.StartContainerRequest.SerializeToString,
-                response_deserializer=v1alpha2_dot_api__pb2.StartContainerResponse.FromString,
-                )
+            "/runtime.v1alpha2.RuntimeService/StartContainer",
+            request_serializer=v1alpha2_dot_api__pb2.StartContainerRequest.SerializeToString,
+            response_deserializer=v1alpha2_dot_api__pb2.StartContainerResponse.FromString,
+        )
         self.StopContainer = channel.unary_unary(
-                '/runtime.v1alpha2.RuntimeService/StopContainer',
-                request_serializer=v1alpha2_dot_api__pb2.StopContainerRequest.SerializeToString,
-                response_deserializer=v1alpha2_dot_api__pb2.StopContainerResponse.FromString,
-                )
+            "/runtime.v1alpha2.RuntimeService/StopContainer",
+            request_serializer=v1alpha2_dot_api__pb2.StopContainerRequest.SerializeToString,
+            response_deserializer=v1alpha2_dot_api__pb2.StopContainerResponse.FromString,
+        )
         self.RemoveContainer = channel.unary_unary(
-                '/runtime.v1alpha2.RuntimeService/RemoveContainer',
-                request_serializer=v1alpha2_dot_api__pb2.RemoveContainerRequest.SerializeToString,
-                response_deserializer=v1alpha2_dot_api__pb2.RemoveContainerResponse.FromString,
-                )
+            "/runtime.v1alpha2.RuntimeService/RemoveContainer",
+            request_serializer=v1alpha2_dot_api__pb2.RemoveContainerRequest.SerializeToString,
+            response_deserializer=v1alpha2_dot_api__pb2.RemoveContainerResponse.FromString,
+        )
         self.ListContainers = channel.unary_unary(
-                '/runtime.v1alpha2.RuntimeService/ListContainers',
-                request_serializer=v1alpha2_dot_api__pb2.ListContainersRequest.SerializeToString,
-                response_deserializer=v1alpha2_dot_api__pb2.ListContainersResponse.FromString,
-                )
+            "/runtime.v1alpha2.RuntimeService/ListContainers",
+            request_serializer=v1alpha2_dot_api__pb2.ListContainersRequest.SerializeToString,
+            response_deserializer=v1alpha2_dot_api__pb2.ListContainersResponse.FromString,
+        )
         self.ContainerStatus = channel.unary_unary(
-                '/runtime.v1alpha2.RuntimeService/ContainerStatus',
-                request_serializer=v1alpha2_dot_api__pb2.ContainerStatusRequest.SerializeToString,
-                response_deserializer=v1alpha2_dot_api__pb2.ContainerStatusResponse.FromString,
-                )
+            "/runtime.v1alpha2.RuntimeService/ContainerStatus",
+            request_serializer=v1alpha2_dot_api__pb2.ContainerStatusRequest.SerializeToString,
+            response_deserializer=v1alpha2_dot_api__pb2.ContainerStatusResponse.FromString,
+        )
         self.UpdateContainerResources = channel.unary_unary(
-                '/runtime.v1alpha2.RuntimeService/UpdateContainerResources',
-                request_serializer=v1alpha2_dot_api__pb2.UpdateContainerResourcesRequest.SerializeToString,
-                response_deserializer=v1alpha2_dot_api__pb2.UpdateContainerResourcesResponse.FromString,
-                )
+            "/runtime.v1alpha2.RuntimeService/UpdateContainerResources",
+            request_serializer=v1alpha2_dot_api__pb2.UpdateContainerResourcesRequest.SerializeToString,
+            response_deserializer=v1alpha2_dot_api__pb2.UpdateContainerResourcesResponse.FromString,
+        )
         self.ReopenContainerLog = channel.unary_unary(
-                '/runtime.v1alpha2.RuntimeService/ReopenContainerLog',
-                request_serializer=v1alpha2_dot_api__pb2.ReopenContainerLogRequest.SerializeToString,
-                response_deserializer=v1alpha2_dot_api__pb2.ReopenContainerLogResponse.FromString,
-                )
+            "/runtime.v1alpha2.RuntimeService/ReopenContainerLog",
+            request_serializer=v1alpha2_dot_api__pb2.ReopenContainerLogRequest.SerializeToString,
+            response_deserializer=v1alpha2_dot_api__pb2.ReopenContainerLogResponse.FromString,
+        )
         self.ExecSync = channel.unary_unary(
-                '/runtime.v1alpha2.RuntimeService/ExecSync',
-                request_serializer=v1alpha2_dot_api__pb2.ExecSyncRequest.SerializeToString,
-                response_deserializer=v1alpha2_dot_api__pb2.ExecSyncResponse.FromString,
-                )
+            "/runtime.v1alpha2.RuntimeService/ExecSync",
+            request_serializer=v1alpha2_dot_api__pb2.ExecSyncRequest.SerializeToString,
+            response_deserializer=v1alpha2_dot_api__pb2.ExecSyncResponse.FromString,
+        )
         self.Exec = channel.unary_unary(
-                '/runtime.v1alpha2.RuntimeService/Exec',
-                request_serializer=v1alpha2_dot_api__pb2.ExecRequest.SerializeToString,
-                response_deserializer=v1alpha2_dot_api__pb2.ExecResponse.FromString,
-                )
+            "/runtime.v1alpha2.RuntimeService/Exec",
+            request_serializer=v1alpha2_dot_api__pb2.ExecRequest.SerializeToString,
+            response_deserializer=v1alpha2_dot_api__pb2.ExecResponse.FromString,
+        )
         self.Attach = channel.unary_unary(
-                '/runtime.v1alpha2.RuntimeService/Attach',
-                request_serializer=v1alpha2_dot_api__pb2.AttachRequest.SerializeToString,
-                response_deserializer=v1alpha2_dot_api__pb2.AttachResponse.FromString,
-                )
+            "/runtime.v1alpha2.RuntimeService/Attach",
+            request_serializer=v1alpha2_dot_api__pb2.AttachRequest.SerializeToString,
+            response_deserializer=v1alpha2_dot_api__pb2.AttachResponse.FromString,
+        )
         self.PortForward = channel.unary_unary(
-                '/runtime.v1alpha2.RuntimeService/PortForward',
-                request_serializer=v1alpha2_dot_api__pb2.PortForwardRequest.SerializeToString,
-                response_deserializer=v1alpha2_dot_api__pb2.PortForwardResponse.FromString,
-                )
+            "/runtime.v1alpha2.RuntimeService/PortForward",
+            request_serializer=v1alpha2_dot_api__pb2.PortForwardRequest.SerializeToString,
+            response_deserializer=v1alpha2_dot_api__pb2.PortForwardResponse.FromString,
+        )
         self.ContainerStats = channel.unary_unary(
-                '/runtime.v1alpha2.RuntimeService/ContainerStats',
-                request_serializer=v1alpha2_dot_api__pb2.ContainerStatsRequest.SerializeToString,
-                response_deserializer=v1alpha2_dot_api__pb2.ContainerStatsResponse.FromString,
-                )
+            "/runtime.v1alpha2.RuntimeService/ContainerStats",
+            request_serializer=v1alpha2_dot_api__pb2.ContainerStatsRequest.SerializeToString,
+            response_deserializer=v1alpha2_dot_api__pb2.ContainerStatsResponse.FromString,
+        )
         self.ListContainerStats = channel.unary_unary(
-                '/runtime.v1alpha2.RuntimeService/ListContainerStats',
-                request_serializer=v1alpha2_dot_api__pb2.ListContainerStatsRequest.SerializeToString,
-                response_deserializer=v1alpha2_dot_api__pb2.ListContainerStatsResponse.FromString,
-                )
+            "/runtime.v1alpha2.RuntimeService/ListContainerStats",
+            request_serializer=v1alpha2_dot_api__pb2.ListContainerStatsRequest.SerializeToString,
+            response_deserializer=v1alpha2_dot_api__pb2.ListContainerStatsResponse.FromString,
+        )
         self.PodSandboxStats = channel.unary_unary(
-                '/runtime.v1alpha2.RuntimeService/PodSandboxStats',
-                request_serializer=v1alpha2_dot_api__pb2.PodSandboxStatsRequest.SerializeToString,
-                response_deserializer=v1alpha2_dot_api__pb2.PodSandboxStatsResponse.FromString,
-                )
+            "/runtime.v1alpha2.RuntimeService/PodSandboxStats",
+            request_serializer=v1alpha2_dot_api__pb2.PodSandboxStatsRequest.SerializeToString,
+            response_deserializer=v1alpha2_dot_api__pb2.PodSandboxStatsResponse.FromString,
+        )
         self.ListPodSandboxStats = channel.unary_unary(
-                '/runtime.v1alpha2.RuntimeService/ListPodSandboxStats',
-                request_serializer=v1alpha2_dot_api__pb2.ListPodSandboxStatsRequest.SerializeToString,
-                response_deserializer=v1alpha2_dot_api__pb2.ListPodSandboxStatsResponse.FromString,
-                )
+            "/runtime.v1alpha2.RuntimeService/ListPodSandboxStats",
+            request_serializer=v1alpha2_dot_api__pb2.ListPodSandboxStatsRequest.SerializeToString,
+            response_deserializer=v1alpha2_dot_api__pb2.ListPodSandboxStatsResponse.FromString,
+        )
         self.UpdateRuntimeConfig = channel.unary_unary(
-                '/runtime.v1alpha2.RuntimeService/UpdateRuntimeConfig',
-                request_serializer=v1alpha2_dot_api__pb2.UpdateRuntimeConfigRequest.SerializeToString,
-                response_deserializer=v1alpha2_dot_api__pb2.UpdateRuntimeConfigResponse.FromString,
-                )
+            "/runtime.v1alpha2.RuntimeService/UpdateRuntimeConfig",
+            request_serializer=v1alpha2_dot_api__pb2.UpdateRuntimeConfigRequest.SerializeToString,
+            response_deserializer=v1alpha2_dot_api__pb2.UpdateRuntimeConfigResponse.FromString,
+        )
         self.Status = channel.unary_unary(
-                '/runtime.v1alpha2.RuntimeService/Status',
-                request_serializer=v1alpha2_dot_api__pb2.StatusRequest.SerializeToString,
-                response_deserializer=v1alpha2_dot_api__pb2.StatusResponse.FromString,
-                )
+            "/runtime.v1alpha2.RuntimeService/Status",
+            request_serializer=v1alpha2_dot_api__pb2.StatusRequest.SerializeToString,
+            response_deserializer=v1alpha2_dot_api__pb2.StatusResponse.FromString,
+        )
 
 
 class RuntimeServiceServicer(object):
-    """Runtime service defines the public APIs for remote container runtimes
-    """
+    """Runtime service defines the public APIs for remote container runtimes"""
 
     def Version(self, request, context):
-        """Version returns the runtime name, runtime version, and runtime API version.
-        """
+        """Version returns the runtime name, runtime version, and runtime API version."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def RunPodSandbox(self, request, context):
         """RunPodSandbox creates and starts a pod-level sandbox. Runtimes must ensure
         the sandbox is in the ready state on success.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def StopPodSandbox(self, request, context):
         """StopPodSandbox stops any running process that is part of the sandbox and
@@ -168,8 +165,8 @@ class RuntimeServiceServicer(object):
         multiple StopPodSandbox calls are expected.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def RemovePodSandbox(self, request, context):
         """RemovePodSandbox removes the sandbox. If there are any running containers
@@ -178,37 +175,34 @@ class RuntimeServiceServicer(object):
         already been removed.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def PodSandboxStatus(self, request, context):
         """PodSandboxStatus returns the status of the PodSandbox. If the PodSandbox is not
         present, returns an error.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def ListPodSandbox(self, request, context):
-        """ListPodSandbox returns a list of PodSandboxes.
-        """
+        """ListPodSandbox returns a list of PodSandboxes."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def CreateContainer(self, request, context):
-        """CreateContainer creates a new container in specified PodSandbox
-        """
+        """CreateContainer creates a new container in specified PodSandbox"""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def StartContainer(self, request, context):
-        """StartContainer starts the container.
-        """
+        """StartContainer starts the container."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def StopContainer(self, request, context):
         """StopContainer stops a running container with a grace period (i.e., timeout).
@@ -218,8 +212,8 @@ class RuntimeServiceServicer(object):
         reached.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def RemoveContainer(self, request, context):
         """RemoveContainer removes the container. If the container is running, the
@@ -228,31 +222,30 @@ class RuntimeServiceServicer(object):
         already been removed.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def ListContainers(self, request, context):
-        """ListContainers lists all containers by filters.
-        """
+        """ListContainers lists all containers by filters."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def ContainerStatus(self, request, context):
         """ContainerStatus returns status of the container. If the container is not
         present, returns an error.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def UpdateContainerResources(self, request, context):
         """UpdateContainerResources updates ContainerConfig of the container synchronously.
         If runtime fails to transactionally update the requested resources, an error is returned.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def ReopenContainerLog(self, request, context):
         """ReopenContainerLog asks runtime to reopen the stdout/stderr log file
@@ -262,627 +255,906 @@ class RuntimeServiceServicer(object):
         Once it returns error, new container log file MUST NOT be created.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def ExecSync(self, request, context):
-        """ExecSync runs a command in a container synchronously.
-        """
+        """ExecSync runs a command in a container synchronously."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def Exec(self, request, context):
-        """Exec prepares a streaming endpoint to execute a command in the container.
-        """
+        """Exec prepares a streaming endpoint to execute a command in the container."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def Attach(self, request, context):
-        """Attach prepares a streaming endpoint to attach to a running container.
-        """
+        """Attach prepares a streaming endpoint to attach to a running container."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def PortForward(self, request, context):
-        """PortForward prepares a streaming endpoint to forward ports from a PodSandbox.
-        """
+        """PortForward prepares a streaming endpoint to forward ports from a PodSandbox."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def ContainerStats(self, request, context):
         """ContainerStats returns stats of the container. If the container does not
         exist, the call returns an error.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def ListContainerStats(self, request, context):
-        """ListContainerStats returns stats of all running containers.
-        """
+        """ListContainerStats returns stats of all running containers."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def PodSandboxStats(self, request, context):
         """PodSandboxStats returns stats of the pod sandbox. If the pod sandbox does not
         exist, the call returns an error.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def ListPodSandboxStats(self, request, context):
-        """ListPodSandboxStats returns stats of the pod sandboxes matching a filter.
-        """
+        """ListPodSandboxStats returns stats of the pod sandboxes matching a filter."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def UpdateRuntimeConfig(self, request, context):
-        """UpdateRuntimeConfig updates the runtime configuration based on the given request.
-        """
+        """UpdateRuntimeConfig updates the runtime configuration based on the given request."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def Status(self, request, context):
-        """Status returns the status of the runtime.
-        """
+        """Status returns the status of the runtime."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
 
 def add_RuntimeServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'Version': grpc.unary_unary_rpc_method_handler(
-                    servicer.Version,
-                    request_deserializer=v1alpha2_dot_api__pb2.VersionRequest.FromString,
-                    response_serializer=v1alpha2_dot_api__pb2.VersionResponse.SerializeToString,
-            ),
-            'RunPodSandbox': grpc.unary_unary_rpc_method_handler(
-                    servicer.RunPodSandbox,
-                    request_deserializer=v1alpha2_dot_api__pb2.RunPodSandboxRequest.FromString,
-                    response_serializer=v1alpha2_dot_api__pb2.RunPodSandboxResponse.SerializeToString,
-            ),
-            'StopPodSandbox': grpc.unary_unary_rpc_method_handler(
-                    servicer.StopPodSandbox,
-                    request_deserializer=v1alpha2_dot_api__pb2.StopPodSandboxRequest.FromString,
-                    response_serializer=v1alpha2_dot_api__pb2.StopPodSandboxResponse.SerializeToString,
-            ),
-            'RemovePodSandbox': grpc.unary_unary_rpc_method_handler(
-                    servicer.RemovePodSandbox,
-                    request_deserializer=v1alpha2_dot_api__pb2.RemovePodSandboxRequest.FromString,
-                    response_serializer=v1alpha2_dot_api__pb2.RemovePodSandboxResponse.SerializeToString,
-            ),
-            'PodSandboxStatus': grpc.unary_unary_rpc_method_handler(
-                    servicer.PodSandboxStatus,
-                    request_deserializer=v1alpha2_dot_api__pb2.PodSandboxStatusRequest.FromString,
-                    response_serializer=v1alpha2_dot_api__pb2.PodSandboxStatusResponse.SerializeToString,
-            ),
-            'ListPodSandbox': grpc.unary_unary_rpc_method_handler(
-                    servicer.ListPodSandbox,
-                    request_deserializer=v1alpha2_dot_api__pb2.ListPodSandboxRequest.FromString,
-                    response_serializer=v1alpha2_dot_api__pb2.ListPodSandboxResponse.SerializeToString,
-            ),
-            'CreateContainer': grpc.unary_unary_rpc_method_handler(
-                    servicer.CreateContainer,
-                    request_deserializer=v1alpha2_dot_api__pb2.CreateContainerRequest.FromString,
-                    response_serializer=v1alpha2_dot_api__pb2.CreateContainerResponse.SerializeToString,
-            ),
-            'StartContainer': grpc.unary_unary_rpc_method_handler(
-                    servicer.StartContainer,
-                    request_deserializer=v1alpha2_dot_api__pb2.StartContainerRequest.FromString,
-                    response_serializer=v1alpha2_dot_api__pb2.StartContainerResponse.SerializeToString,
-            ),
-            'StopContainer': grpc.unary_unary_rpc_method_handler(
-                    servicer.StopContainer,
-                    request_deserializer=v1alpha2_dot_api__pb2.StopContainerRequest.FromString,
-                    response_serializer=v1alpha2_dot_api__pb2.StopContainerResponse.SerializeToString,
-            ),
-            'RemoveContainer': grpc.unary_unary_rpc_method_handler(
-                    servicer.RemoveContainer,
-                    request_deserializer=v1alpha2_dot_api__pb2.RemoveContainerRequest.FromString,
-                    response_serializer=v1alpha2_dot_api__pb2.RemoveContainerResponse.SerializeToString,
-            ),
-            'ListContainers': grpc.unary_unary_rpc_method_handler(
-                    servicer.ListContainers,
-                    request_deserializer=v1alpha2_dot_api__pb2.ListContainersRequest.FromString,
-                    response_serializer=v1alpha2_dot_api__pb2.ListContainersResponse.SerializeToString,
-            ),
-            'ContainerStatus': grpc.unary_unary_rpc_method_handler(
-                    servicer.ContainerStatus,
-                    request_deserializer=v1alpha2_dot_api__pb2.ContainerStatusRequest.FromString,
-                    response_serializer=v1alpha2_dot_api__pb2.ContainerStatusResponse.SerializeToString,
-            ),
-            'UpdateContainerResources': grpc.unary_unary_rpc_method_handler(
-                    servicer.UpdateContainerResources,
-                    request_deserializer=v1alpha2_dot_api__pb2.UpdateContainerResourcesRequest.FromString,
-                    response_serializer=v1alpha2_dot_api__pb2.UpdateContainerResourcesResponse.SerializeToString,
-            ),
-            'ReopenContainerLog': grpc.unary_unary_rpc_method_handler(
-                    servicer.ReopenContainerLog,
-                    request_deserializer=v1alpha2_dot_api__pb2.ReopenContainerLogRequest.FromString,
-                    response_serializer=v1alpha2_dot_api__pb2.ReopenContainerLogResponse.SerializeToString,
-            ),
-            'ExecSync': grpc.unary_unary_rpc_method_handler(
-                    servicer.ExecSync,
-                    request_deserializer=v1alpha2_dot_api__pb2.ExecSyncRequest.FromString,
-                    response_serializer=v1alpha2_dot_api__pb2.ExecSyncResponse.SerializeToString,
-            ),
-            'Exec': grpc.unary_unary_rpc_method_handler(
-                    servicer.Exec,
-                    request_deserializer=v1alpha2_dot_api__pb2.ExecRequest.FromString,
-                    response_serializer=v1alpha2_dot_api__pb2.ExecResponse.SerializeToString,
-            ),
-            'Attach': grpc.unary_unary_rpc_method_handler(
-                    servicer.Attach,
-                    request_deserializer=v1alpha2_dot_api__pb2.AttachRequest.FromString,
-                    response_serializer=v1alpha2_dot_api__pb2.AttachResponse.SerializeToString,
-            ),
-            'PortForward': grpc.unary_unary_rpc_method_handler(
-                    servicer.PortForward,
-                    request_deserializer=v1alpha2_dot_api__pb2.PortForwardRequest.FromString,
-                    response_serializer=v1alpha2_dot_api__pb2.PortForwardResponse.SerializeToString,
-            ),
-            'ContainerStats': grpc.unary_unary_rpc_method_handler(
-                    servicer.ContainerStats,
-                    request_deserializer=v1alpha2_dot_api__pb2.ContainerStatsRequest.FromString,
-                    response_serializer=v1alpha2_dot_api__pb2.ContainerStatsResponse.SerializeToString,
-            ),
-            'ListContainerStats': grpc.unary_unary_rpc_method_handler(
-                    servicer.ListContainerStats,
-                    request_deserializer=v1alpha2_dot_api__pb2.ListContainerStatsRequest.FromString,
-                    response_serializer=v1alpha2_dot_api__pb2.ListContainerStatsResponse.SerializeToString,
-            ),
-            'PodSandboxStats': grpc.unary_unary_rpc_method_handler(
-                    servicer.PodSandboxStats,
-                    request_deserializer=v1alpha2_dot_api__pb2.PodSandboxStatsRequest.FromString,
-                    response_serializer=v1alpha2_dot_api__pb2.PodSandboxStatsResponse.SerializeToString,
-            ),
-            'ListPodSandboxStats': grpc.unary_unary_rpc_method_handler(
-                    servicer.ListPodSandboxStats,
-                    request_deserializer=v1alpha2_dot_api__pb2.ListPodSandboxStatsRequest.FromString,
-                    response_serializer=v1alpha2_dot_api__pb2.ListPodSandboxStatsResponse.SerializeToString,
-            ),
-            'UpdateRuntimeConfig': grpc.unary_unary_rpc_method_handler(
-                    servicer.UpdateRuntimeConfig,
-                    request_deserializer=v1alpha2_dot_api__pb2.UpdateRuntimeConfigRequest.FromString,
-                    response_serializer=v1alpha2_dot_api__pb2.UpdateRuntimeConfigResponse.SerializeToString,
-            ),
-            'Status': grpc.unary_unary_rpc_method_handler(
-                    servicer.Status,
-                    request_deserializer=v1alpha2_dot_api__pb2.StatusRequest.FromString,
-                    response_serializer=v1alpha2_dot_api__pb2.StatusResponse.SerializeToString,
-            ),
+        "Version": grpc.unary_unary_rpc_method_handler(
+            servicer.Version,
+            request_deserializer=v1alpha2_dot_api__pb2.VersionRequest.FromString,
+            response_serializer=v1alpha2_dot_api__pb2.VersionResponse.SerializeToString,
+        ),
+        "RunPodSandbox": grpc.unary_unary_rpc_method_handler(
+            servicer.RunPodSandbox,
+            request_deserializer=v1alpha2_dot_api__pb2.RunPodSandboxRequest.FromString,
+            response_serializer=v1alpha2_dot_api__pb2.RunPodSandboxResponse.SerializeToString,
+        ),
+        "StopPodSandbox": grpc.unary_unary_rpc_method_handler(
+            servicer.StopPodSandbox,
+            request_deserializer=v1alpha2_dot_api__pb2.StopPodSandboxRequest.FromString,
+            response_serializer=v1alpha2_dot_api__pb2.StopPodSandboxResponse.SerializeToString,
+        ),
+        "RemovePodSandbox": grpc.unary_unary_rpc_method_handler(
+            servicer.RemovePodSandbox,
+            request_deserializer=v1alpha2_dot_api__pb2.RemovePodSandboxRequest.FromString,
+            response_serializer=v1alpha2_dot_api__pb2.RemovePodSandboxResponse.SerializeToString,
+        ),
+        "PodSandboxStatus": grpc.unary_unary_rpc_method_handler(
+            servicer.PodSandboxStatus,
+            request_deserializer=v1alpha2_dot_api__pb2.PodSandboxStatusRequest.FromString,
+            response_serializer=v1alpha2_dot_api__pb2.PodSandboxStatusResponse.SerializeToString,
+        ),
+        "ListPodSandbox": grpc.unary_unary_rpc_method_handler(
+            servicer.ListPodSandbox,
+            request_deserializer=v1alpha2_dot_api__pb2.ListPodSandboxRequest.FromString,
+            response_serializer=v1alpha2_dot_api__pb2.ListPodSandboxResponse.SerializeToString,
+        ),
+        "CreateContainer": grpc.unary_unary_rpc_method_handler(
+            servicer.CreateContainer,
+            request_deserializer=v1alpha2_dot_api__pb2.CreateContainerRequest.FromString,
+            response_serializer=v1alpha2_dot_api__pb2.CreateContainerResponse.SerializeToString,
+        ),
+        "StartContainer": grpc.unary_unary_rpc_method_handler(
+            servicer.StartContainer,
+            request_deserializer=v1alpha2_dot_api__pb2.StartContainerRequest.FromString,
+            response_serializer=v1alpha2_dot_api__pb2.StartContainerResponse.SerializeToString,
+        ),
+        "StopContainer": grpc.unary_unary_rpc_method_handler(
+            servicer.StopContainer,
+            request_deserializer=v1alpha2_dot_api__pb2.StopContainerRequest.FromString,
+            response_serializer=v1alpha2_dot_api__pb2.StopContainerResponse.SerializeToString,
+        ),
+        "RemoveContainer": grpc.unary_unary_rpc_method_handler(
+            servicer.RemoveContainer,
+            request_deserializer=v1alpha2_dot_api__pb2.RemoveContainerRequest.FromString,
+            response_serializer=v1alpha2_dot_api__pb2.RemoveContainerResponse.SerializeToString,
+        ),
+        "ListContainers": grpc.unary_unary_rpc_method_handler(
+            servicer.ListContainers,
+            request_deserializer=v1alpha2_dot_api__pb2.ListContainersRequest.FromString,
+            response_serializer=v1alpha2_dot_api__pb2.ListContainersResponse.SerializeToString,
+        ),
+        "ContainerStatus": grpc.unary_unary_rpc_method_handler(
+            servicer.ContainerStatus,
+            request_deserializer=v1alpha2_dot_api__pb2.ContainerStatusRequest.FromString,
+            response_serializer=v1alpha2_dot_api__pb2.ContainerStatusResponse.SerializeToString,
+        ),
+        "UpdateContainerResources": grpc.unary_unary_rpc_method_handler(
+            servicer.UpdateContainerResources,
+            request_deserializer=v1alpha2_dot_api__pb2.UpdateContainerResourcesRequest.FromString,
+            response_serializer=v1alpha2_dot_api__pb2.UpdateContainerResourcesResponse.SerializeToString,
+        ),
+        "ReopenContainerLog": grpc.unary_unary_rpc_method_handler(
+            servicer.ReopenContainerLog,
+            request_deserializer=v1alpha2_dot_api__pb2.ReopenContainerLogRequest.FromString,
+            response_serializer=v1alpha2_dot_api__pb2.ReopenContainerLogResponse.SerializeToString,
+        ),
+        "ExecSync": grpc.unary_unary_rpc_method_handler(
+            servicer.ExecSync,
+            request_deserializer=v1alpha2_dot_api__pb2.ExecSyncRequest.FromString,
+            response_serializer=v1alpha2_dot_api__pb2.ExecSyncResponse.SerializeToString,
+        ),
+        "Exec": grpc.unary_unary_rpc_method_handler(
+            servicer.Exec,
+            request_deserializer=v1alpha2_dot_api__pb2.ExecRequest.FromString,
+            response_serializer=v1alpha2_dot_api__pb2.ExecResponse.SerializeToString,
+        ),
+        "Attach": grpc.unary_unary_rpc_method_handler(
+            servicer.Attach,
+            request_deserializer=v1alpha2_dot_api__pb2.AttachRequest.FromString,
+            response_serializer=v1alpha2_dot_api__pb2.AttachResponse.SerializeToString,
+        ),
+        "PortForward": grpc.unary_unary_rpc_method_handler(
+            servicer.PortForward,
+            request_deserializer=v1alpha2_dot_api__pb2.PortForwardRequest.FromString,
+            response_serializer=v1alpha2_dot_api__pb2.PortForwardResponse.SerializeToString,
+        ),
+        "ContainerStats": grpc.unary_unary_rpc_method_handler(
+            servicer.ContainerStats,
+            request_deserializer=v1alpha2_dot_api__pb2.ContainerStatsRequest.FromString,
+            response_serializer=v1alpha2_dot_api__pb2.ContainerStatsResponse.SerializeToString,
+        ),
+        "ListContainerStats": grpc.unary_unary_rpc_method_handler(
+            servicer.ListContainerStats,
+            request_deserializer=v1alpha2_dot_api__pb2.ListContainerStatsRequest.FromString,
+            response_serializer=v1alpha2_dot_api__pb2.ListContainerStatsResponse.SerializeToString,
+        ),
+        "PodSandboxStats": grpc.unary_unary_rpc_method_handler(
+            servicer.PodSandboxStats,
+            request_deserializer=v1alpha2_dot_api__pb2.PodSandboxStatsRequest.FromString,
+            response_serializer=v1alpha2_dot_api__pb2.PodSandboxStatsResponse.SerializeToString,
+        ),
+        "ListPodSandboxStats": grpc.unary_unary_rpc_method_handler(
+            servicer.ListPodSandboxStats,
+            request_deserializer=v1alpha2_dot_api__pb2.ListPodSandboxStatsRequest.FromString,
+            response_serializer=v1alpha2_dot_api__pb2.ListPodSandboxStatsResponse.SerializeToString,
+        ),
+        "UpdateRuntimeConfig": grpc.unary_unary_rpc_method_handler(
+            servicer.UpdateRuntimeConfig,
+            request_deserializer=v1alpha2_dot_api__pb2.UpdateRuntimeConfigRequest.FromString,
+            response_serializer=v1alpha2_dot_api__pb2.UpdateRuntimeConfigResponse.SerializeToString,
+        ),
+        "Status": grpc.unary_unary_rpc_method_handler(
+            servicer.Status,
+            request_deserializer=v1alpha2_dot_api__pb2.StatusRequest.FromString,
+            response_serializer=v1alpha2_dot_api__pb2.StatusResponse.SerializeToString,
+        ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'runtime.v1alpha2.RuntimeService', rpc_method_handlers)
+        "runtime.v1alpha2.RuntimeService", rpc_method_handlers
+    )
     server.add_generic_rpc_handlers((generic_handler,))
 
 
- # This class is part of an EXPERIMENTAL API.
+# This class is part of an EXPERIMENTAL API.
 class RuntimeService(object):
-    """Runtime service defines the public APIs for remote container runtimes
-    """
+    """Runtime service defines the public APIs for remote container runtimes"""
 
     @staticmethod
-    def Version(request,
+    def Version(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/runtime.v1alpha2.RuntimeService/Version',
+            "/runtime.v1alpha2.RuntimeService/Version",
             v1alpha2_dot_api__pb2.VersionRequest.SerializeToString,
             v1alpha2_dot_api__pb2.VersionResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def RunPodSandbox(request,
+    def RunPodSandbox(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/runtime.v1alpha2.RuntimeService/RunPodSandbox',
+            "/runtime.v1alpha2.RuntimeService/RunPodSandbox",
             v1alpha2_dot_api__pb2.RunPodSandboxRequest.SerializeToString,
             v1alpha2_dot_api__pb2.RunPodSandboxResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def StopPodSandbox(request,
+    def StopPodSandbox(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/runtime.v1alpha2.RuntimeService/StopPodSandbox',
+            "/runtime.v1alpha2.RuntimeService/StopPodSandbox",
             v1alpha2_dot_api__pb2.StopPodSandboxRequest.SerializeToString,
             v1alpha2_dot_api__pb2.StopPodSandboxResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def RemovePodSandbox(request,
+    def RemovePodSandbox(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/runtime.v1alpha2.RuntimeService/RemovePodSandbox',
+            "/runtime.v1alpha2.RuntimeService/RemovePodSandbox",
             v1alpha2_dot_api__pb2.RemovePodSandboxRequest.SerializeToString,
             v1alpha2_dot_api__pb2.RemovePodSandboxResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def PodSandboxStatus(request,
+    def PodSandboxStatus(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/runtime.v1alpha2.RuntimeService/PodSandboxStatus',
+            "/runtime.v1alpha2.RuntimeService/PodSandboxStatus",
             v1alpha2_dot_api__pb2.PodSandboxStatusRequest.SerializeToString,
             v1alpha2_dot_api__pb2.PodSandboxStatusResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def ListPodSandbox(request,
+    def ListPodSandbox(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/runtime.v1alpha2.RuntimeService/ListPodSandbox',
+            "/runtime.v1alpha2.RuntimeService/ListPodSandbox",
             v1alpha2_dot_api__pb2.ListPodSandboxRequest.SerializeToString,
             v1alpha2_dot_api__pb2.ListPodSandboxResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def CreateContainer(request,
+    def CreateContainer(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/runtime.v1alpha2.RuntimeService/CreateContainer',
+            "/runtime.v1alpha2.RuntimeService/CreateContainer",
             v1alpha2_dot_api__pb2.CreateContainerRequest.SerializeToString,
             v1alpha2_dot_api__pb2.CreateContainerResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def StartContainer(request,
+    def StartContainer(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/runtime.v1alpha2.RuntimeService/StartContainer',
+            "/runtime.v1alpha2.RuntimeService/StartContainer",
             v1alpha2_dot_api__pb2.StartContainerRequest.SerializeToString,
             v1alpha2_dot_api__pb2.StartContainerResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def StopContainer(request,
+    def StopContainer(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/runtime.v1alpha2.RuntimeService/StopContainer',
+            "/runtime.v1alpha2.RuntimeService/StopContainer",
             v1alpha2_dot_api__pb2.StopContainerRequest.SerializeToString,
             v1alpha2_dot_api__pb2.StopContainerResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def RemoveContainer(request,
+    def RemoveContainer(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/runtime.v1alpha2.RuntimeService/RemoveContainer',
+            "/runtime.v1alpha2.RuntimeService/RemoveContainer",
             v1alpha2_dot_api__pb2.RemoveContainerRequest.SerializeToString,
             v1alpha2_dot_api__pb2.RemoveContainerResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def ListContainers(request,
+    def ListContainers(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/runtime.v1alpha2.RuntimeService/ListContainers',
+            "/runtime.v1alpha2.RuntimeService/ListContainers",
             v1alpha2_dot_api__pb2.ListContainersRequest.SerializeToString,
             v1alpha2_dot_api__pb2.ListContainersResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def ContainerStatus(request,
+    def ContainerStatus(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/runtime.v1alpha2.RuntimeService/ContainerStatus',
+            "/runtime.v1alpha2.RuntimeService/ContainerStatus",
             v1alpha2_dot_api__pb2.ContainerStatusRequest.SerializeToString,
             v1alpha2_dot_api__pb2.ContainerStatusResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def UpdateContainerResources(request,
+    def UpdateContainerResources(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/runtime.v1alpha2.RuntimeService/UpdateContainerResources',
+            "/runtime.v1alpha2.RuntimeService/UpdateContainerResources",
             v1alpha2_dot_api__pb2.UpdateContainerResourcesRequest.SerializeToString,
             v1alpha2_dot_api__pb2.UpdateContainerResourcesResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def ReopenContainerLog(request,
+    def ReopenContainerLog(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/runtime.v1alpha2.RuntimeService/ReopenContainerLog',
+            "/runtime.v1alpha2.RuntimeService/ReopenContainerLog",
             v1alpha2_dot_api__pb2.ReopenContainerLogRequest.SerializeToString,
             v1alpha2_dot_api__pb2.ReopenContainerLogResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def ExecSync(request,
+    def ExecSync(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/runtime.v1alpha2.RuntimeService/ExecSync',
+            "/runtime.v1alpha2.RuntimeService/ExecSync",
             v1alpha2_dot_api__pb2.ExecSyncRequest.SerializeToString,
             v1alpha2_dot_api__pb2.ExecSyncResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def Exec(request,
+    def Exec(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/runtime.v1alpha2.RuntimeService/Exec',
+            "/runtime.v1alpha2.RuntimeService/Exec",
             v1alpha2_dot_api__pb2.ExecRequest.SerializeToString,
             v1alpha2_dot_api__pb2.ExecResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def Attach(request,
+    def Attach(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/runtime.v1alpha2.RuntimeService/Attach',
+            "/runtime.v1alpha2.RuntimeService/Attach",
             v1alpha2_dot_api__pb2.AttachRequest.SerializeToString,
             v1alpha2_dot_api__pb2.AttachResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def PortForward(request,
+    def PortForward(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/runtime.v1alpha2.RuntimeService/PortForward',
+            "/runtime.v1alpha2.RuntimeService/PortForward",
             v1alpha2_dot_api__pb2.PortForwardRequest.SerializeToString,
             v1alpha2_dot_api__pb2.PortForwardResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def ContainerStats(request,
+    def ContainerStats(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/runtime.v1alpha2.RuntimeService/ContainerStats',
+            "/runtime.v1alpha2.RuntimeService/ContainerStats",
             v1alpha2_dot_api__pb2.ContainerStatsRequest.SerializeToString,
             v1alpha2_dot_api__pb2.ContainerStatsResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def ListContainerStats(request,
+    def ListContainerStats(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/runtime.v1alpha2.RuntimeService/ListContainerStats',
+            "/runtime.v1alpha2.RuntimeService/ListContainerStats",
             v1alpha2_dot_api__pb2.ListContainerStatsRequest.SerializeToString,
             v1alpha2_dot_api__pb2.ListContainerStatsResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def PodSandboxStats(request,
+    def PodSandboxStats(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/runtime.v1alpha2.RuntimeService/PodSandboxStats',
+            "/runtime.v1alpha2.RuntimeService/PodSandboxStats",
             v1alpha2_dot_api__pb2.PodSandboxStatsRequest.SerializeToString,
             v1alpha2_dot_api__pb2.PodSandboxStatsResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def ListPodSandboxStats(request,
+    def ListPodSandboxStats(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/runtime.v1alpha2.RuntimeService/ListPodSandboxStats',
+            "/runtime.v1alpha2.RuntimeService/ListPodSandboxStats",
             v1alpha2_dot_api__pb2.ListPodSandboxStatsRequest.SerializeToString,
             v1alpha2_dot_api__pb2.ListPodSandboxStatsResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def UpdateRuntimeConfig(request,
+    def UpdateRuntimeConfig(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/runtime.v1alpha2.RuntimeService/UpdateRuntimeConfig',
+            "/runtime.v1alpha2.RuntimeService/UpdateRuntimeConfig",
             v1alpha2_dot_api__pb2.UpdateRuntimeConfigRequest.SerializeToString,
             v1alpha2_dot_api__pb2.UpdateRuntimeConfigResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def Status(request,
+    def Status(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/runtime.v1alpha2.RuntimeService/Status',
+            "/runtime.v1alpha2.RuntimeService/Status",
             v1alpha2_dot_api__pb2.StatusRequest.SerializeToString,
             v1alpha2_dot_api__pb2.StatusResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
 
 class ImageServiceStub(object):
-    """ImageService defines the public APIs for managing images.
-    """
+    """ImageService defines the public APIs for managing images."""
 
     def __init__(self, channel):
         """Constructor.
@@ -891,42 +1163,40 @@ class ImageServiceStub(object):
             channel: A grpc.Channel.
         """
         self.ListImages = channel.unary_unary(
-                '/runtime.v1alpha2.ImageService/ListImages',
-                request_serializer=v1alpha2_dot_api__pb2.ListImagesRequest.SerializeToString,
-                response_deserializer=v1alpha2_dot_api__pb2.ListImagesResponse.FromString,
-                )
+            "/runtime.v1alpha2.ImageService/ListImages",
+            request_serializer=v1alpha2_dot_api__pb2.ListImagesRequest.SerializeToString,
+            response_deserializer=v1alpha2_dot_api__pb2.ListImagesResponse.FromString,
+        )
         self.ImageStatus = channel.unary_unary(
-                '/runtime.v1alpha2.ImageService/ImageStatus',
-                request_serializer=v1alpha2_dot_api__pb2.ImageStatusRequest.SerializeToString,
-                response_deserializer=v1alpha2_dot_api__pb2.ImageStatusResponse.FromString,
-                )
+            "/runtime.v1alpha2.ImageService/ImageStatus",
+            request_serializer=v1alpha2_dot_api__pb2.ImageStatusRequest.SerializeToString,
+            response_deserializer=v1alpha2_dot_api__pb2.ImageStatusResponse.FromString,
+        )
         self.PullImage = channel.unary_unary(
-                '/runtime.v1alpha2.ImageService/PullImage',
-                request_serializer=v1alpha2_dot_api__pb2.PullImageRequest.SerializeToString,
-                response_deserializer=v1alpha2_dot_api__pb2.PullImageResponse.FromString,
-                )
+            "/runtime.v1alpha2.ImageService/PullImage",
+            request_serializer=v1alpha2_dot_api__pb2.PullImageRequest.SerializeToString,
+            response_deserializer=v1alpha2_dot_api__pb2.PullImageResponse.FromString,
+        )
         self.RemoveImage = channel.unary_unary(
-                '/runtime.v1alpha2.ImageService/RemoveImage',
-                request_serializer=v1alpha2_dot_api__pb2.RemoveImageRequest.SerializeToString,
-                response_deserializer=v1alpha2_dot_api__pb2.RemoveImageResponse.FromString,
-                )
+            "/runtime.v1alpha2.ImageService/RemoveImage",
+            request_serializer=v1alpha2_dot_api__pb2.RemoveImageRequest.SerializeToString,
+            response_deserializer=v1alpha2_dot_api__pb2.RemoveImageResponse.FromString,
+        )
         self.ImageFsInfo = channel.unary_unary(
-                '/runtime.v1alpha2.ImageService/ImageFsInfo',
-                request_serializer=v1alpha2_dot_api__pb2.ImageFsInfoRequest.SerializeToString,
-                response_deserializer=v1alpha2_dot_api__pb2.ImageFsInfoResponse.FromString,
-                )
+            "/runtime.v1alpha2.ImageService/ImageFsInfo",
+            request_serializer=v1alpha2_dot_api__pb2.ImageFsInfoRequest.SerializeToString,
+            response_deserializer=v1alpha2_dot_api__pb2.ImageFsInfoResponse.FromString,
+        )
 
 
 class ImageServiceServicer(object):
-    """ImageService defines the public APIs for managing images.
-    """
+    """ImageService defines the public APIs for managing images."""
 
     def ListImages(self, request, context):
-        """ListImages lists existing images.
-        """
+        """ListImages lists existing images."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def ImageStatus(self, request, context):
         """ImageStatus returns the status of the image. If the image is not
@@ -934,15 +1204,14 @@ class ImageServiceServicer(object):
         nil.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def PullImage(self, request, context):
-        """PullImage pulls an image with authentication config.
-        """
+        """PullImage pulls an image with authentication config."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def RemoveImage(self, request, context):
         """RemoveImage removes the image.
@@ -950,136 +1219,195 @@ class ImageServiceServicer(object):
         already been removed.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def ImageFsInfo(self, request, context):
-        """ImageFSInfo returns information of the filesystem that is used to store images.
-        """
+        """ImageFSInfo returns information of the filesystem that is used to store images."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
 
 def add_ImageServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'ListImages': grpc.unary_unary_rpc_method_handler(
-                    servicer.ListImages,
-                    request_deserializer=v1alpha2_dot_api__pb2.ListImagesRequest.FromString,
-                    response_serializer=v1alpha2_dot_api__pb2.ListImagesResponse.SerializeToString,
-            ),
-            'ImageStatus': grpc.unary_unary_rpc_method_handler(
-                    servicer.ImageStatus,
-                    request_deserializer=v1alpha2_dot_api__pb2.ImageStatusRequest.FromString,
-                    response_serializer=v1alpha2_dot_api__pb2.ImageStatusResponse.SerializeToString,
-            ),
-            'PullImage': grpc.unary_unary_rpc_method_handler(
-                    servicer.PullImage,
-                    request_deserializer=v1alpha2_dot_api__pb2.PullImageRequest.FromString,
-                    response_serializer=v1alpha2_dot_api__pb2.PullImageResponse.SerializeToString,
-            ),
-            'RemoveImage': grpc.unary_unary_rpc_method_handler(
-                    servicer.RemoveImage,
-                    request_deserializer=v1alpha2_dot_api__pb2.RemoveImageRequest.FromString,
-                    response_serializer=v1alpha2_dot_api__pb2.RemoveImageResponse.SerializeToString,
-            ),
-            'ImageFsInfo': grpc.unary_unary_rpc_method_handler(
-                    servicer.ImageFsInfo,
-                    request_deserializer=v1alpha2_dot_api__pb2.ImageFsInfoRequest.FromString,
-                    response_serializer=v1alpha2_dot_api__pb2.ImageFsInfoResponse.SerializeToString,
-            ),
+        "ListImages": grpc.unary_unary_rpc_method_handler(
+            servicer.ListImages,
+            request_deserializer=v1alpha2_dot_api__pb2.ListImagesRequest.FromString,
+            response_serializer=v1alpha2_dot_api__pb2.ListImagesResponse.SerializeToString,
+        ),
+        "ImageStatus": grpc.unary_unary_rpc_method_handler(
+            servicer.ImageStatus,
+            request_deserializer=v1alpha2_dot_api__pb2.ImageStatusRequest.FromString,
+            response_serializer=v1alpha2_dot_api__pb2.ImageStatusResponse.SerializeToString,
+        ),
+        "PullImage": grpc.unary_unary_rpc_method_handler(
+            servicer.PullImage,
+            request_deserializer=v1alpha2_dot_api__pb2.PullImageRequest.FromString,
+            response_serializer=v1alpha2_dot_api__pb2.PullImageResponse.SerializeToString,
+        ),
+        "RemoveImage": grpc.unary_unary_rpc_method_handler(
+            servicer.RemoveImage,
+            request_deserializer=v1alpha2_dot_api__pb2.RemoveImageRequest.FromString,
+            response_serializer=v1alpha2_dot_api__pb2.RemoveImageResponse.SerializeToString,
+        ),
+        "ImageFsInfo": grpc.unary_unary_rpc_method_handler(
+            servicer.ImageFsInfo,
+            request_deserializer=v1alpha2_dot_api__pb2.ImageFsInfoRequest.FromString,
+            response_serializer=v1alpha2_dot_api__pb2.ImageFsInfoResponse.SerializeToString,
+        ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'runtime.v1alpha2.ImageService', rpc_method_handlers)
+        "runtime.v1alpha2.ImageService", rpc_method_handlers
+    )
     server.add_generic_rpc_handlers((generic_handler,))
 
 
- # This class is part of an EXPERIMENTAL API.
+# This class is part of an EXPERIMENTAL API.
 class ImageService(object):
-    """ImageService defines the public APIs for managing images.
-    """
+    """ImageService defines the public APIs for managing images."""
 
     @staticmethod
-    def ListImages(request,
+    def ListImages(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/runtime.v1alpha2.ImageService/ListImages',
+            "/runtime.v1alpha2.ImageService/ListImages",
             v1alpha2_dot_api__pb2.ListImagesRequest.SerializeToString,
             v1alpha2_dot_api__pb2.ListImagesResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def ImageStatus(request,
+    def ImageStatus(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/runtime.v1alpha2.ImageService/ImageStatus',
+            "/runtime.v1alpha2.ImageService/ImageStatus",
             v1alpha2_dot_api__pb2.ImageStatusRequest.SerializeToString,
             v1alpha2_dot_api__pb2.ImageStatusResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def PullImage(request,
+    def PullImage(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/runtime.v1alpha2.ImageService/PullImage',
+            "/runtime.v1alpha2.ImageService/PullImage",
             v1alpha2_dot_api__pb2.PullImageRequest.SerializeToString,
             v1alpha2_dot_api__pb2.PullImageResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def RemoveImage(request,
+    def RemoveImage(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/runtime.v1alpha2.ImageService/RemoveImage',
+            "/runtime.v1alpha2.ImageService/RemoveImage",
             v1alpha2_dot_api__pb2.RemoveImageRequest.SerializeToString,
             v1alpha2_dot_api__pb2.RemoveImageResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def ImageFsInfo(request,
+    def ImageFsInfo(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/runtime.v1alpha2.ImageService/ImageFsInfo',
+            "/runtime.v1alpha2.ImageService/ImageFsInfo",
             v1alpha2_dot_api__pb2.ImageFsInfoRequest.SerializeToString,
             v1alpha2_dot_api__pb2.ImageFsInfoResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
