@@ -47,11 +47,11 @@ busybox_images = [i["id"] for i in images.list_images() if any("busybox" in r fo
 The `Containers` class is a thin wrapper around the existing RuntimeService API:
 
 ```python
-from cri_api.images import Images
+from cri_api.containers import Containers
 from cri_api import ContainerFilter, ContainerState, ContainerStateValue
 
 channel = Channel.from_env()
-images = Containers(channel)
+containers = Containers(channel)
 
 containers.list_containers()
 containers.list_containers(ContainerFilter(state=ContainerStateValue(state=ContainerState.CONTAINER_EXITED)))
