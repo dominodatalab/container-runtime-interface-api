@@ -8,7 +8,7 @@ setuptools.setup(
     packages=setuptools.find_namespace_packages(where="src"),
     package_dir={"": "src"},
     include_package_data=True,
-    install_requires=["grpcio~=1.73", "protobuf~=6.31"],
+    install_requires=["grpcio~=1.73", "protobuf~=7.34"],
     version="2.0.1",
     author="Domino Data Lab",
     author_email="steven.davidovitz@dominodatalab.com",
